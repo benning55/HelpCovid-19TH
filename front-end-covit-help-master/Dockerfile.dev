@@ -1,0 +1,8 @@
+FROM node:13.7.0
+MAINTAINER Benning
+
+WORKDIR /frontend
+COPY ./package.json .
+RUN npm install
+COPY . .
+RUN npm install

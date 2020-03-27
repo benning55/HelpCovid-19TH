@@ -36,33 +36,33 @@ services:
     volumes:
       - ./docker_volumes/pg_data:/var/lib/postgresql/data
 
-#  frontend:
-#    container_name: quering-frontend
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile.dev
-#    ports:
-#      - "8080:8080"
-#    volumes:
-#      - ./frontend:/frontend:Z
-#    command: >
-#      sh -c "tail -f /dev/null"
-#
-#  nginx:
-#    container_name: quering-nginx
-#    build:
-#      context: ./nginx
-#      dockerfile: Dockerfile
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    volumes:
-#      - static_volume:/vol/web/static
-#      - media_volume:/vol/web/media
-#    depends_on:
-#      - frontend
-#      - app
-#
+  frontend:
+    container_name: quering-frontend-covid
+    build:
+      context: ./front-end-covit-help-master
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./front-end-covit-help-master:/frontend:Z
+    command: >
+      sh -c "tail -f /dev/null"
+
+  nginx:
+    container_name: quering-nginx-covid
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
+    depends_on:
+      - frontend
+      - django
+
 volumes:
   media_volume:
   static_volume:
