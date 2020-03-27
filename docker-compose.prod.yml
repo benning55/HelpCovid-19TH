@@ -1,0 +1,82 @@
+version: "3.7"
+
+services:
+  app:
+    container_name: quering-app
+    user: $UID:$GID
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app:Z
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
+    command: >
+      sh -c "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && python manage.py initdb && gunicorn app.wsgi:application --timeout 800 --bind 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=asiamarket
+      - DB_USER=adminmarket
+      - DB_PASS=postgres15
+      - SECRET_KEY=3bh=u&qqo2mn&n0*8h$$@kw&k(j#$$al&jc@wr$$^%qxb_=^hgqq-
+      - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - EMAIL_HOST=smtp.sendgrid.net
+      - EMAIL_HOST_USER=thaimarketexpress
+      - EMAIL_HOST_PASSWORD=thaimarketexpress55
+      - EMAIL_PORT=587
+      - EMAIL_USE_TLS=True
+      - DEBUG=False
+    depends_on:
+      - db
+
+  db:
+    container_name: quering-db
+    image: postgres:11-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=asiamarket
+      - POSTGRES_USER=adminmarket
+      - POSTGRES_PASSWORD=postgres15
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./docker_volumes/pg_data:/var/lib/postgresql/data
+
+  frontend:
+    container_name: quering-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  nginx-ssl:
+    image: valian/docker-nginx-auto-ssl
+    restart: on-failure
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ssl_data:/etc/resty-auto-ssl
+    environment:
+      ALLOWED_DOMAINS: 'thaimarket.express'
+      SITES: 'thaimarket.express=nginx:80'
+
+  nginx:
+    container_name: quering-nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
+    depends_on:
+      - frontend
+      - app
+
+volumes:
+  media_volume:
+  static_volume:
+  ssl_data:

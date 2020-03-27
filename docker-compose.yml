@@ -1,0 +1,68 @@
+version: "3.7"
+
+services:
+  django:
+    container_name: quering-django
+    user: $UID:$GID
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app:Z
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
+    command: >
+      sh -c "pip install -r requirements.txt && tail -f /dev/null"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=covid19th
+      - DB_USER=covid19
+      - DB_PASS=postgres2562
+    depends_on:
+      - db
+
+  db:
+    container_name: quering-db-covid
+    image: postgres:11-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=covid19th
+      - POSTGRES_USER=covid19
+      - POSTGRES_PASSWORD=postgres2562
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./docker_volumes/pg_data:/var/lib/postgresql/data
+
+#  frontend:
+#    container_name: quering-frontend
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile.dev
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./frontend:/frontend:Z
+#    command: >
+#      sh -c "tail -f /dev/null"
+#
+#  nginx:
+#    container_name: quering-nginx
+#    build:
+#      context: ./nginx
+#      dockerfile: Dockerfile
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - static_volume:/vol/web/static
+#      - media_volume:/vol/web/media
+#    depends_on:
+#      - frontend
+#      - app
+#
+volumes:
+  media_volume:
+  static_volume:
