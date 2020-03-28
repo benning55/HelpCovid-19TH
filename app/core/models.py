@@ -88,6 +88,9 @@ class Hospital(models.Model):
     address = models.TextField()
     tel = models.CharField(max_length=10)
     donated_money = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    bank_account_number = models.CharField(max_length=20)
+    back_account_name = models.CharField(max_length=255)
+    bank_name = models.CharField(max_length=255)
     approve = models.BooleanField(default=False)
 
     def __str__(self):

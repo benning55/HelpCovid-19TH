@@ -49,20 +49,42 @@ def register(request, format=None):
     """
     if request.method == 'POST':
         data = request.data
-        hospital = {
-            'name': data['name'],
-            'picture': request.FILES['picture'],
-            'address': data['address'],
-            'tel': data['hospital_tel'],
-        }
-        user = {
-            'username': data['username'],
-            'email': data['email'],
-            'password': data['password'],
-            'first_name': data['first_name'],
-            'last_name': data['last_name'],
-            'tel': data['user_tel']
-        }
+        try:
+            hospital = {
+                'name': data['name'],
+                'picture': request.FILES['picture'],
+                'address': data['address'],
+                'tel': data['hospital_tel'],
+                'bank_account_number': data['bank_account_number'],
+                'back_account_name': data['back_account_name'],
+                'bank_name': data['bank_name']
+            }
+            user = {
+                'username': data['username'],
+                'email': data['email'],
+                'password': data['password'],
+                'first_name': data['first_name'],
+                'last_name': data['last_name'],
+                'tel': data['user_tel']
+            }
+        except:
+            hospital = {
+                'name': data['name'],
+                'picture': None,
+                'address': data['address'],
+                'tel': data['hospital_tel'],
+                'bank_account_number': data['bank_account_number'],
+                'back_account_name': data['back_account_name'],
+                'bank_name': data['bank_name']
+            }
+            user = {
+                'username': data['username'],
+                'email': data['email'],
+                'password': data['password'],
+                'first_name': data['first_name'],
+                'last_name': data['last_name'],
+                'tel': data['user_tel']
+            }
         timeline = {
             'hospital': hospital,
             'user': user
@@ -73,7 +95,10 @@ def register(request, format=None):
                 name=hospital['name'],
                 picture=hospital['picture'],
                 address=hospital['address'],
-                tel=hospital['tel']
+                tel=hospital['tel'],
+                bank_account_number=hospital['bank_account_number'],
+                back_account_name=hospital['back_account_name'],
+                bank_name=hospital['bank_name']
             )
             new_user = User.objects.create(
                 hospital_id=new_hospital.id,
@@ -110,4 +135,3 @@ class HospitalApiView(APIView):
             user = User.objects.all().filter(hospital_id=hospital.id)
             serializer = serializers.UserSerializer(user, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
-
