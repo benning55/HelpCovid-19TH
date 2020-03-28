@@ -28,6 +28,14 @@ def get_all_need(request, *args, **kwargs):
             serializer = serializers.NeedSerializer(queryset, many=True)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
+    elif request.method == "POST":
+        data = request.data
+        hospital = data['hospital_id']
+        queryset = Need.objects.all().filter(hospital_id=hospital)
+        serializer = serializers.NeedSerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
 
 @api_view(['POST', 'PUT', ])
 @permission_classes([IsAuthenticated, ])
