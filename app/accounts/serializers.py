@@ -4,6 +4,24 @@ from rest_framework import serializers
 from core.models import User, Hospital
 
 
+class HospitalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Hospital
+        fields = ('id', 'name', 'picture', 'address', 'donated_money', 'tel')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    hospital = HospitalSerializer(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'hospital', 'email', 'first_name', 'last_name', 'tel')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+
 class HospitalRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -38,8 +56,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate(self, data):
         user = User(**data)
 
+        tel = data.get('tel')
         password = data.get('password')
         errors = dict()
+
+        if len(tel) < 9 or len(tel) > 10:
+            errors['tel'] = 'The tel number must be 10 number'
 
         try:
             validators.validate_password(password=password, user=User)

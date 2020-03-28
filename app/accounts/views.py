@@ -1,18 +1,43 @@
 from collections import namedtuple
 
-from django.shortcuts import render
+from django.core.mail import send_mail
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
+from django.template.loader import render_to_string
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
 from rest_framework.permissions import AllowAny
-from core.models import User, Hospital
+from rest_framework.views import APIView
+
+from core.models import User, Hospital, EmailStaff
 
 from accounts import serializers
 
 Timeline = namedtuple('Timeline', ('hospital', 'user'))
+
+
+def new_hospital_notify(hospital):
+    """
+    Send an notify email to admin everytime that have order
+    """
+    admin_email = []
+    emails = EmailStaff.objects.all()
+    for email in emails:
+        admin_email.append(email.email)
+    message = render_to_string('new_hospital.html', {
+        'hospital': hospital,
+    })
+    send_mail(
+        'มีความช่วยเหลือต้องการ!',
+        message,
+        'no-reply@covid19th.org',
+        admin_email,
+        html_message=message,
+        fail_silently=False
+    )
 
 
 @api_view(['POST', ])
@@ -60,5 +85,29 @@ def register(request, format=None):
             )
             new_user.set_password(user['password'])
             new_user.save()
+            # new_hospital_notify(new_hospital)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class HospitalApiView(APIView):
+    """
+    Show all hospital in system
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        """
+        Get all hospital
+        """
+        pk = self.kwargs.get('pk')
+        queryset = Hospital.objects.all().filter(approve=True)
+        if pk is None:
+            serializer = serializers.HospitalSerializer(queryset, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        else:
+            hospital = get_object_or_404(queryset, pk=pk)
+            user = User.objects.all().filter(hospital_id=hospital.id)
+            serializer = serializers.UserSerializer(user, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+

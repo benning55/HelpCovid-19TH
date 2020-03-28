@@ -1,8 +1,30 @@
 import os
 import datetime
 import uuid
+
+from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.template.loader import render_to_string
+
+
+def mail_to_hospital(user):
+    """ Send email that hospital staff is activate"""
+    email = []
+    user_email = user.email
+    email.append(user_email)
+    message = render_to_string('mail_hospital.html', {
+        'status': 'activate',
+        'user': user
+    })
+    send_mail(
+        'Your covid19-help request ',
+        message,
+        'no-reply@covid19th.org',
+        email,
+        html_message=message,
+        fail_silently=False
+    )
 
 
 def hospital_image(instance, filename):
@@ -70,6 +92,23 @@ class Hospital(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        """ Cahnge approve state """
+        queryset = Hospital.objects.all().filter(name=self.name)
+        if queryset.count() < 1:
+            super(Hospital, self).save(*args, **kwargs)
+        else:
+            if self.approve:
+                user = User.objects.all().filter(hospital__name=self.name)[0]
+                user.is_active = True
+                user.save()
+                # mail_to_hospital(user)
+            else:
+                user = User.objects.all().filter(hospital__name=self.name)[0]
+                user.is_active = False
+                user.save()
+            super(Hospital, self).save(*args, **kwargs)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -148,3 +187,11 @@ class MoneyDonate(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class EmailStaff(models.Model):
+    """ Email that send to staff """
+    email = models.EmailField(max_length=255)
+
+    def __str__(self):
+        return self.email
