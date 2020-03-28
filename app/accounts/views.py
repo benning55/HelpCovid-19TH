@@ -126,7 +126,7 @@ class HospitalApiView(APIView):
         Get all hospital
         """
         pk = self.kwargs.get('pk')
-        queryset = Hospital.objects.all().filter(approve=True)
+        queryset = Hospital.objects.all().filter(approve=True).order_by('-id')
         if pk is None:
             serializer = serializers.HospitalSerializer(queryset, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)

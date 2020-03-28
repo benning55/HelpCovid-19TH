@@ -17,7 +17,7 @@ from posts import serializers
 def get_all_need(request, *args, **kwargs):
     """Get all the need"""
     if request.method == "GET":
-        queryset = Need.objects.all()
+        queryset = Need.objects.all().order_by('-id')
         # print(queryset)
         pk = kwargs.get('pk')
         if pk is None:
