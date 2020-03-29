@@ -33,7 +33,7 @@ services:
 
   db:
     container_name: quering-db-covid-prod
-    image: postgres:11
+    image: postgres:10-alpine
     ports:
       - 5433:5432
     environment:
