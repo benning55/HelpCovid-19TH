@@ -37,9 +37,9 @@ services:
     ports:
       - 5433:5432
     environment:
-      - POSTGRES_DB=asiamarket
-      - POSTGRES_USER=adminmarket
-      - POSTGRES_PASSWORD=postgres15
+      - POSTGRES_DB=covid19th
+      - POSTGRES_USER=covid19
+      - POSTGRES_PASSWORD=postgres2562
       - PGDATA=/var/lib/postgresql/data
     volumes:
       - ./docker_volumes/pg_data:/var/lib/postgresql/data
@@ -61,8 +61,8 @@ services:
     volumes:
       - ssl_data:/etc/resty-auto-ssl
     environment:
-      ALLOWED_DOMAINS: 'localhost'
-      SITES: 'localhost=nginx:80'
+      ALLOWED_DOMAINS: 'covid19th.org'
+      SITES: 'covid19th.org=nginx:80'
 
   nginx:
     container_name: quering-nginx-covid-prod
