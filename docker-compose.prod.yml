@@ -30,8 +30,6 @@ services:
       - TYPE=prod
     depends_on:
       - db
-    links:
-      - db:db
 
   db:
     container_name: quering-db-covid-prod
