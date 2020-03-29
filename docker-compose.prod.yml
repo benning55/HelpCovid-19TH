@@ -30,6 +30,10 @@ services:
       - TYPE=prod
     depends_on:
       - db
+    links:
+      - db:db
+    networks:
+      some_network:
 
   db:
     container_name: quering-db-covid-prod
@@ -41,6 +45,8 @@ services:
       - POSTGRES_USER=covid19
       - POSTGRES_PASSWORD=postgres2562
       - PGDATA=/var/lib/postgresql/data
+    networks:
+      some_network:
     volumes:
       - ./docker_volumes/pg_data:/var/lib/postgresql/data
 
@@ -80,3 +86,6 @@ volumes:
   media_volume:
   static_volume:
   ssl_data:
+
+networks:
+  some_network:
