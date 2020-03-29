@@ -98,11 +98,18 @@ def add_need(request, *args, **kwargs):
 def donate_need(request, *args, **kwargs):
     """ Donate for hospital need """
     if request.method == "GET":
-        """ Get all donate record """
-        queryset = Donator.objects.all().filter(approve_status=True)
-        serialzer = serializers.DonatorSerializer(queryset, many=True)
-        return Response({'data': serialzer.data}, status=status.HTTP_200_OK)
+        """ Get all donate record or by hospital id"""
+        pk = kwargs.get('pk')
+        if pk is None:
+            queryset = Donator.objects.all().filter(approve_status=True)
+            serializer = serializers.DonatorSerializer(queryset, many=True)
+            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            queryset = Donator.objects.all().filter(need__hospital_id=pk, approve_status=True)
+            serializer = serializers.DonatorSerializer(queryset, many=True)
+            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
     elif request.method == "POST":
+        """Create new donation"""
         data = request.data
         payload = {
             'need_id': data['need_id'],
