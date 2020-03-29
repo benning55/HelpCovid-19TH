@@ -93,11 +93,16 @@ def add_need(request, *args, **kwargs):
                 return Response({"error": "cannot update"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST', 'PUT', ])
+@api_view(['GET', 'POST', 'PUT', ])
 @permission_classes([AllowAny, ])
 def donate_need(request, *args, **kwargs):
     """ Donate for hospital need """
-    if request.method == "POST":
+    if request.method == "GET":
+        """ Get all donate record """
+        queryset = Donator.objects.all().filter(approve_status=True)
+        serialzer = serializers.DonatorSerializer(queryset, many=True)
+        return Response({'data': serialzer.data}, status=status.HTTP_200_OK)
+    elif request.method == "POST":
         data = request.data
         payload = {
             'need_id': data['need_id'],
