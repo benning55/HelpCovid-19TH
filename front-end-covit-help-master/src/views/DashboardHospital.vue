@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="container">
-            <div class=" shadow-lg rounded mt-4">
+            <div class="rounded mt-4">
                 <div class="row">
 <!--                    {{$store.state.authUser}}-->
                     <hr>
@@ -18,6 +18,7 @@
                                 <div>
                                     <p class="card-title">{{dataHospital.hospital.name}}</p>
                                     <p><i class="fas fa-map-marker-alt mr-2"></i>{{dataHospital.hospital.address}}</p>
+                                    <p><i class="fas fa-phone-alt mr-2"></i>{{dataHospital.hospital.tel}}</p>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +27,7 @@
                         <div class=" h-full">
                             <div class="card-body">
                                 <small class="text-gray">ช่องทางการติดต่อ</small>
-                                <h5 class="card-title"><i class="fas fa-user mr-2"></i>{{dataHospital.first_name}}
+                                <h5 class="card-title mt-3"><i class="fas fa-user mr-2"></i>{{dataHospital.first_name}}
                                     {{dataHospital.last_name}}</h5>
                                 <h5 class="card-title"><i class="fas fa-envelope mr-2"></i>{{dataHospital.email}}</h5>
                                 <h5 class="card-title"><i class="fas fa-phone-alt mr-2"></i>{{dataHospital.hospital.tel}}
@@ -59,7 +60,7 @@
                         <tr>
                             <th scope="col">ชื่อ</th>
                             <th scope="col">นามสกุล</th>
-                            <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
+                            <th scope="col" style="width: 110px">จำนวน(บาท)</th>
                         </tr>
                         </thead>
                         <tbody>

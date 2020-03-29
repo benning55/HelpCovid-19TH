@@ -61,7 +61,7 @@
             </div>
         </form>
 
-        <el-dialog title="ลงทะเบียน" :visible.sync="confirmDialog" @closed="closeModal">
+        <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
             <section>
                 <!--                        show when complete-->
                 <div v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
@@ -143,6 +143,13 @@
 
         },
         methods: {
+            closeModal() {
+                if (this.sentStatus == 'complete') {
+                    this.$router.go(-1)
+                } else if (this.sentStatus == 'error') {
+                    this.sentStatus = 'none'
+                }
+            },
             validate() {
                 this.$validate(["fname", "lname", "email", "tel", "amount"]);
                 if (
