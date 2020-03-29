@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
 from core.models import User, Hospital, EmailStaff
@@ -135,3 +135,13 @@ class HospitalApiView(APIView):
             user = User.objects.all().filter(hospital_id=hospital.id)
             serializer = serializers.UserSerializer(user, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([IsAuthenticated, ])
+def get_user(request):
+    """Get admin basic information"""
+    user = request.user
+    queryset = User.objects.all().filter(pk=user.id)
+    serializer = serializers.UserSerializer(queryset, many=True)
+    return Response({'data': serializer.data}, status=status.HTTP_200_OK)
