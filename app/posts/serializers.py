@@ -1,16 +1,17 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from core.models import Need, Donator
+from core.models import Need, Donator, User
 from accounts.serializers import HospitalSerializer
 
 
 class NeedSerializer(serializers.ModelSerializer):
     hospital_id = serializers.IntegerField(write_only=True)
     hospital = HospitalSerializer(required=False)
-
+    user = serializers.SerializerMethodField(read_only=True, required=False)
     class Meta:
         model = Need
-        fields = ('id', 'hospital_id', 'hospital', 'title', 'description', 'picture', 'amount', 'status', 'created')
+        fields = ('id', 'hospital_id', 'hospital', 'title', 'description', 'picture', 'amount', 'status', 'created', 'user')
         extra_kwargs = {
             'id': {'read_only': True},
             'status': {'read_only': True},
@@ -28,6 +29,18 @@ class NeedSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def get_user(self, obj):
+        hospital_id = obj.hospital_id
+        users = User.objects.all().filter(hospital_id=hospital_id)
+        pick = users.first()
+        payload = {
+            'first_name': pick.first_name,
+            'last_name': pick.last_name,
+            'tel': pick.tel,
+            'email': pick.email
+        }
+
+        return payload
 
 class DonatorSerializer(serializers.ModelSerializer):
     need_id = serializers.IntegerField(write_only=True)
