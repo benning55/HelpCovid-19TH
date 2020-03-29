@@ -227,7 +227,7 @@
                 </form>
             </div>
         </div>
-        <el-dialog title="ลงทะเบียน" :visible.sync="confirmDialog" @close="closeModal">
+        <el-dialog title="ลงทะเบียน" :visible.sync="confirmDialog" @closed="closeModal">
             <section>
                 <!--                        show when complete-->
                 <div v-if="registerStatus == 'complete'" class="h-full flex flex-wrap">
@@ -240,13 +240,16 @@
                     </span>
                 </div>
 
-                <div v-else-if="registerStatus == 'error'" class="h-full flex flex-wrap">
+                <div v-else-if="registerStatus == 'error'" class="h-full ">
                     <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
                         <i class="far fa-times-circle"></i></div>
-                    <p class="pb-5">การลงทะเบียนไม่สำเร็จ</p>
-                    <p>{{error}}</p>
-                    <span slot="footer" class="dialog-footer flex justify-between w-full">
-                        <el-button type="primary" @click="goHome">กลับไปหน้าหลัก</el-button>
+                    <h1 class="pb-3 text-center">การลงทะเบียนไม่สำเร็จ</h1>
+                    <div v-for="err in error[Object.keys(error)[0]][Object.keys(error[Object.keys(error)[0]])[0]]"
+                         :key="error.id" class="alert bg-red text-white mb-1" role="alert">
+                        {{err}}
+                    </div>
+                    <span slot="footer" class="dialog-footer w-full">
+                        <el-button @click="confirmDialog = false">ตรวจสอบอีกครั้ง</el-button>
                     </span>
                 </div>
 
@@ -386,7 +389,8 @@
             },
             password(value) {
                 return Validator.value(value)
-                    .required("กรุณาใส่รหัสผ่าน");
+                    .required("กรุณาใส่รหัสผ่าน")
+                    .minLength(8, "รหัสต้องมีมากกว่า 8 ตัว")
             },
             repassword(value) {
                 return Validator.value(value)
@@ -404,6 +408,7 @@
             tel(value) {
                 return Validator.value(value)
                     .required("กรุณาใส่เบอร์โทรศัพท์")
+                    .length(10, "กรุณาใส่เบอร์โทรศัพท์เป็นตัวเลข 10 หลัก");
             },
             accountName(value) {
                 return Validator.value(value)
@@ -425,58 +430,58 @@
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
             showDialog() {
-                // this.$validate(["username", "fname", "lname", "user_tel", "email", "password", "repassword", "name", "address", "tel", "accountName", "accountNumber", "accountBank"]);
-                // if (
-                //     this.validation.firstError("username") == null &&
-                //     this.validation.firstError("fname") == null &&
-                //     this.validation.firstError("lname") == null &&
-                //     this.validation.firstError("user_tel") == null &&
-                //     this.validation.firstError("email") == null &&
-                //     this.validation.firstError("password") == null &&
-                //     this.validation.firstError("repassword") == null &&
-                //     this.validation.firstError("name") == null &&
-                //     this.validation.firstError("address") == null &&
-                //     this.validation.firstError("tel") == null &&
-                //     this.validation.firstError("accountName") == null &&
-                //     this.validation.firstError("accountNumber") == null &&
-                //     this.validation.firstError("accountBank") == null
-                // ) {
-                //     $(".el-dialog").css({"max-width": "350px"});
-                //     this.confirmDialog = true
-                // }
+                this.$validate(["username", "fname", "lname", "user_tel", "email", "password", "repassword", "name", "address", "tel", "accountName", "accountNumber", "accountBank"]);
+                if (
+                    this.validation.firstError("username") == null &&
+                    this.validation.firstError("fname") == null &&
+                    this.validation.firstError("lname") == null &&
+                    this.validation.firstError("user_tel") == null &&
+                    this.validation.firstError("email") == null &&
+                    this.validation.firstError("password") == null &&
+                    this.validation.firstError("repassword") == null &&
+                    this.validation.firstError("name") == null &&
+                    this.validation.firstError("address") == null &&
+                    this.validation.firstError("tel") == null &&
+                    this.validation.firstError("accountName") == null &&
+                    this.validation.firstError("accountNumber") == null &&
+                    this.validation.firstError("accountBank") == null
+                ) {
+                    $(".el-dialog").css({"max-width": "350px"});
+                    this.confirmDialog = true
+                }
 
                 this.confirmDialog = true
             },
             regis() {
                 let formData = new FormData();
-                // formData.append('username', this.username);
-                // formData.append('first_name', this.fname);
-                // formData.append('last_name', this.lname);
-                // formData.append('email', this.email);
-                // formData.append('user_tel', this.user_tel);
-                // formData.append('password', this.password);
-                // formData.append('name', this.name);
-                // formData.append('address', this.address);
-                // formData.append('hospital_tel', this.tel);
-                // formData.append('back_account_name', this.accountName);
-                // formData.append('bank_account_number', this.accountNumber);
-                // formData.append('bank_name', this.accountBank)
+                formData.append('username', this.username);
+                formData.append('first_name', this.fname);
+                formData.append('last_name', this.lname);
+                formData.append('email', this.email);
+                formData.append('user_tel', this.user_tel);
+                formData.append('password', this.password);
+                formData.append('name', this.name);
+                formData.append('address', this.address);
+                formData.append('hospital_tel', this.tel);
+                formData.append('back_account_name', this.accountName);
+                formData.append('bank_account_number', this.accountNumber);
+                formData.append('bank_name', this.accountBank)
+                formData.append('picture', this.imageData)
+
+                // formData.append('username', 'anusornleon');
+                // formData.append('first_name', 'leffsef');
+                // formData.append('last_name', 'fsefsef');
+                // formData.append('email', 'anusornleo@gmail.com');
+                // formData.append('user_tel', '0215152021');
+                // formData.append('password', 'leo123456');
+                // formData.append('name', 'โรงบาลนะครับ')
+                // formData.append('address', 'sfrsf wef s');
+                // formData.append('hospital_tel', '0215555555');
+                // formData.append('back_account_name', "this.accountName");
+                // formData.append('bank_account_number', "5484984989484");
+                // formData.append('bank_name', "this.accountBank")
                 // formData.append('picture', this.imageData)
 
-                formData.append('username', 'anusornleo');
-                formData.append('first_name', 'leffsef');
-                formData.append('last_name', 'fsefsef');
-                formData.append('email', 'anusornleo@sfse.com');
-                formData.append('user_tel', '0215152021');
-                formData.append('password', '123456');
-                formData.append('name', 'โรงบาล');
-                formData.append('address', 'sfrsf wef s');
-                formData.append('hospital_tel', '0215555555');
-                formData.append('back_account_name', "this.accountName");
-                formData.append('bank_account_number', "5484984989484");
-                formData.append('bank_name', "this.accountBank")
-                formData.append('picture', this.imageData)
-                    
 
                 for (let pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);

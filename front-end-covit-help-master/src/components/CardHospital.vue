@@ -1,25 +1,30 @@
 <template>
     <div class="card" style="margin-bottom: 15px">
-        <img class="card-img-top w-32 h-32 mx-auto" src="../assets/logo.png" alt="Card image cap">
+        <img v-if="data.picture != null" class="card-img-top h-40 mx-auto object-cover" :src="$store.state.host+ data.picture" :alt="data.name">
+        <img v-else class="card-img-top h-40 mx-auto object-cover" src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title text-md">Hospital title</h5>
-            <p class="text-sm text-gray"><i class="fas fa-map-marker-alt mr-2 "></i>rgerg drgergerg ergferger ergerg 10212</p>
-            <a @click="goHospital" class="btn bg-green text-white mt-3">ดูรายละเอียดเพิ่ม</a>
+            <h5 class="card-title text-md">{{data.name}}</h5>
+            <p class="text-sm text-gray"><i class="fas fa-map-marker-alt mr-2 "></i>{{data.address}}</p>
+            <a @click="goHospital(data.id)" class="btn bg-green text-white mt-3">ดูรายละเอียดเพิ่ม</a>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props:[
+            "data"
+        ],
         data(){
             return{
 
             }
         },
         methods:{
-            goHospital(){
+            goHospital(id){
                 this.$router.push({
-                    name:"DashboardHospital"
+                    name:"DashboardHospital",
+                    params:{id:id}
                 })
             }
         }

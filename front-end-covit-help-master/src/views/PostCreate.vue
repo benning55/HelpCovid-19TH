@@ -58,6 +58,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import {Validator} from "../main";
 
     export default {
@@ -100,7 +101,7 @@
                     this.validation.firstError("amount") == null
                 ) {
                     let formData = new FormData();
-                    formData.append('pic', this.imageData);
+                    formData.append('picture', this.imageData);
                     formData.append('title', this.title);
                     formData.append('description', this.description);
                     formData.append('amount', this.amount);
@@ -108,6 +109,25 @@
                     for (let pair of formData.entries()) {
                         console.log(pair[0] + ', ' + pair[1]);
                     }
+
+                    axios.post(`${this.$store.state.host}/api/posts/create-need/`, formData, {
+                        headers: {
+                            // Set your Authorization to 'JWT', not Bearer!!!
+                            Authorization: `JWT ${this.$store.state.jwt}`,
+                            'Content-Type': 'application/json'
+                        },
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    })
+                        .then(res => {
+                            console.log(res)
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+
+
                 }
             }
         }

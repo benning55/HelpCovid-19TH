@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="bg-red fixed w-full h-screen"></div>
+        <div class="bg-image fixed w-full h-screen"></div>
         <div class="container" style="padding-top: 50px">
 
             <div class="mainbox mx-auto bg-white col-md-8 col-lg-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -35,4 +35,11 @@
 </script>
 
 <style scoped>
+    .bg-image {
+        background-image: url("https://www.risenow.com/hs-fs/hubfs/GettyImages-670810492.jpg?width=1086&name=GettyImages-670810492.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: .5;
+    }
 </style>

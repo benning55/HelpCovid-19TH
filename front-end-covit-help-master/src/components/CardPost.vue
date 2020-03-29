@@ -1,25 +1,31 @@
 <template>
-    <div class="card" style="margin-bottom: 15px">
-        <img class="card-img-top w-32 h-32 mx-auto" src="../assets/logo.png" alt="Card image cap">
+    <div class="card h-full" style="margin-bottom: 15px">
+
+        <img v-if="data.picture != null" class="card-img-top h-40 mx-auto object-cover"
+             :src="$store.state.host+data.picture" alt="Card image cap">
+        <img v-else class="card-img-top h-40 mx-auto object-cover"
+             src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
+            <h5 class="card-title">{{data.title}}</h5>
             <p class="">ขาดอีก <span class="text-red">123</span> หน่วย</p>
-            <a @click="goPost" class="btn bg-green text-white w-full mt-3">ดูรายละเอียดเพิ่ม</a>
+            <a @click="goPost(data.id)" class="btn bg-green text-white w-full mt-3">ดูรายละเอียดเพิ่ม</a>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props:["data"],
         data(){
             return{
 
             }
         },
         methods:{
-            goPost(){
+            goPost(id){
                 this.$router.push({
-                    name:"DashboardPost"
+                    name:"DashboardPost",
+                    params:{id:id}
                 })
             }
         }

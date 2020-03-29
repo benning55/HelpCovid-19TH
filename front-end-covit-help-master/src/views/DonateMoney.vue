@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label v-if="validation.firstError('imageData')" class="text-red">{{validation.firstError('imageData')}}</label>
                 <label v-else>รูปของหลักฐานการบริจาค เช่น สลิปโอนเงิน</label>
-                <p class="mb-2 text-sm text-gray">หลักฐานหารโอนเงินของตุณจะถูกเก็บไว้เป็นความลับ</p>
+                <p class="mb-2 text-sm text-gray">หลักฐานการโอนเงินของคุณจะถูกเก็บไว้เป็นความลับ</p>
                 <div class="col-12 upload-section">
                     <div class="upload-btn-wrapper w-full">
                         <div class="">
@@ -46,7 +46,7 @@
 
 
             <div class="form-group">
-                <label class="col-12">จำนวนเงินที่บริจาค</label>
+                <label>จำนวนเงินที่บริจาค</label>
                 <input v-model="amount" class="form-control"
                        type="number"
                        :class="{'is-invalid':validation.firstError('amount')}"

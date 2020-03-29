@@ -8,12 +8,23 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto topnav text-white">
-                    <li @click="goDonatePageObject" class="nav-item cursor-pointer">
+                <ul v-if="!$store.state.isAuthenticated" class="navbar-nav ml-auto topnav text-white">
+                    <li @click="goDonatePageObject" class="nav-item cursor-pointer hover:bg-darkgreen">
                         <a class="nav-link text-white">บริจาคสิ่งของ</a>
                     </li>
-                    <li @click="goDonatePageMoney" class="nav-item cursor-pointer">
+                    <li @click="goDonatePageMoney" class="nav-item cursor-pointer hover:bg-darkgreen">
                         <a class="nav-link text-white">บริจาคเงิน</a>
+                    </li>
+                </ul>
+                <ul v-else class="navbar-nav ml-auto topnav text-white">
+                    <li @click="goDonateDashBoard" class="nav-item cursor-pointer hover:bg-darkgreen">
+                        <a class="nav-link text-white">DashBoard</a>
+                    </li>
+                    <li @click="goDonateCratePost" class="nav-item cursor-pointer hover:bg-darkgreen">
+                        <a class="nav-link text-white">เปิดรับบริจาคสิ่งของ</a>
+                    </li>
+                    <li @click="goDonateCratePost" class="nav-item cursor-pointer hover:bg-darkgreen">
+                        <button @click="logout" type="button" class="btn bg-red text-white">Logout</button>
                     </li>
                 </ul>
             </div>
@@ -46,6 +57,21 @@
                 this.$router.push({
                     name: "DonatePageMoney"
                 })
+            },
+            goDonateDashBoard(){
+                this.$router.push({
+                    name: "DashboardHospital",
+                    params:{id:this.$store.state.authUser.hospital.id}
+                })
+            },
+            goDonateCratePost(){
+                this.$router.push({
+                    name: "PostCreate"
+                })
+            },
+            logout() {
+                this.$store.commit('removeToken');
+                this.$router.push('/');
             }
         }
     }

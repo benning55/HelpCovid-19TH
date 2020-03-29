@@ -18,8 +18,6 @@
     </data-source>
     <data-source name="covid19th@34.87.188.198" uuid="ffd06e15-9ab4-4211-ab9b-f6597d0f5123">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>covid19</user-name>
       <schema-mapping />
     </data-source>
   </component>

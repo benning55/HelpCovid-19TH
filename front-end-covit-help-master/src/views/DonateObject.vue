@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label>Email ที่ใช้ติดต่อกลับ</label>
                 <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงอีเมลล์ให้ผู้อื่นเห็น</p>
-                <p class="mb-2 text-sm text-gray">หากไม่มีให้ใส่เครื่องหมายขีด (-)</p>
+                <p class="mb-2 text-sm text-gray">หากไม่มีให้เว้นว่างไว้</p>
                 <input v-model="email" class="form-control"
                        :class="{'is-invalid':validation.firstError('email')}"
                        placeholder="กรุณาใส่ Email ที่ใช้ในการติดต่อกลับ">
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label>เบอร์โทรศัพท์ที่สามารถติดต่อได้</label>
-                <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงอีเมลล์ให้ผู้อื่นเห็น</p>
+                <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงเบอรโทรศัพท์ให้ผู้อื่นเห็น</p>
                 <p class="mb-2 text-sm text-gray">เจ้าหน้าที่จะติดต่อผ่านเบอร์นี้กลับไปในภายหลัง</p>
                 <input v-model="tel" class="form-control" type="number"
                        :class="{'is-invalid':validation.firstError('tel')}"
@@ -55,25 +55,64 @@
             </div>
             <div class="flex justify-between my-5">
                 <button @click="$router.go(-1)" type="button" class="btn bg-white text-black">ย้อนกลับ</button>
-                <button @click="sent" type="button" class="btn bg-green text-white">ส่งความประสงค์จะบริจาคให้เจ้าหน้าที่</button>
+                <button @click="validate" type="button" class="btn bg-green text-white">
+                    ส่งความประสงค์จะบริจาคให้เจ้าหน้าที่
+                </button>
             </div>
         </form>
-    </div>
 
+        <el-dialog title="ลงทะเบียน" :visible.sync="confirmDialog" @closed="closeModal">
+            <section>
+                <!--                        show when complete-->
+                <div v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
+                    <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
+                        <i class="far fa-check-circle"></i></div>
+                    <p class="pb-5">ส่งข้อมูลให้เจ้าหน้าที่แล้ว กรุณารอการติดต่อกลับจากเจ้าหน้าที่</p>
+                    <span slot="footer" class="dialog-footer flex justify-between w-full">
+                        <el-button type="primary" @click="goHome">กลับไปหน้าหลัก</el-button>
+                    </span>
+                </div>
+
+                <div v-else-if="sentStatus == 'error'" class="h-full ">
+                    <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
+                        <i class="far fa-times-circle"></i></div>
+                    <h1 class="pb-3 text-center">การส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง</h1>
+                    <!--                    <div v-for="err in error[Object.keys(error)[0]][Object.keys(error[Object.keys(error)[0]])[0]]"-->
+                    <!--                         :key="error.id" class="alert bg-red text-white mb-1" role="alert">-->
+                    <!--                        {{err}}-->
+                    <!--                    </div>-->
+                    <span slot="footer" class="dialog-footer w-full">
+                        <el-button @click="confirmDialog = false">ปิด</el-button>
+                    </span>
+                </div>
+
+                <!--                        show before select-->
+                <div v-else class="flex flex-wrap content-between">
+                    <p class="mb-12">คุณต้องการส่งข้อมูลให้เจ้าหน้าที่หรือไม่</p>
+                    <span slot="footer" class="dialog-footer flex justify-between w-full">
+                        <el-button @click="confirmDialog = false">แก้ไขข้อมูล</el-button>
+                        <el-button @click="sent" type="primary">ส่งข้อมูลไปยังเจ้าหน้าที่</el-button>
+                    </span>
+                </div>
+            </section>
+        </el-dialog>
+    </div>
 </template>
 
 <script>
+    import axios from 'axios'
     import {Validator} from "../main";
 
     export default {
-
         data() {
             return {
                 fname: '',
                 lname: '',
                 email: '',
                 tel: '',
-                amount: ''
+                amount: '',
+                confirmDialog: false,
+                sentStatus: 'none'
             }
         },
         validators: {
@@ -87,13 +126,13 @@
             },
             email(value) {
                 return Validator.value(value)
-                    .required("กรุณาระบุหัวข้อ");
+                    .email("รูปแบบอีเมลล์ไม่ถูกต้อง");
             },
             tel(value) {
                 return Validator.value(value)
                     .required("กรุณาระบุรายละเอียด")
                     .integer("กรุณาระบุจำนวนเป็นตัวเลข")
-                    .length(10,"กรุณาระบุจำนวนเป็นตัวเลขจำนวน 10 หลัก");
+                    .length(10, "กรุณาระบุจำนวนเป็นตัวเลขจำนวน 10 หลัก");
             },
             amount(value) {
                 return Validator.value(value)
@@ -103,9 +142,9 @@
             },
 
         },
-        methods:{
-            sent(){
-                this.$validate(["fname", "lname", "email","tel","amount"]);
+        methods: {
+            validate() {
+                this.$validate(["fname", "lname", "email", "tel", "amount"]);
                 if (
                     this.validation.firstError("fname") == null &&
                     this.validation.firstError("lname") == null &&
@@ -113,18 +152,48 @@
                     this.validation.firstError("tel") == null &&
                     this.validation.firstError("amount") == null
                 ) {
-                    let formData = new FormData();
-                    formData.append('fname', this.fname);
-                    formData.append('lname', this.lname);
-                    formData.append('email', this.email);
-                    formData.append('tel', this.tel);
-                    formData.append('amount', this.amount);
-
-                    for (let pair of formData.entries()) {
-                        console.log(pair[0] + ', ' + pair[1]);
-                    }
+                    this.sentStatus = 'none'
+                    this.confirmDialog = true
+                    $(".el-dialog").css({"max-width": "350px"});
                 }
+            },
+            sent() {
+                let formData = new FormData();
+                formData.append('need_id', this.$route.params.id);
+                formData.append('first_name', this.fname);
+                formData.append('last_name', this.lname);
+                formData.append('email', this.email);
+                formData.append('tel', this.tel);
+                formData.append('amount', this.amount);
+
+                axios.post(`${this.$store.state.host}/api/posts/donate/`, formData)
+                    .then(res => {
+                        this.sentStatus = 'complete'
+                        console.log(res)
+                    })
+                    .catch(e => {
+                        this.sentStatus = 'error'
+                        console.log(e)
+                    })
+
+                for (let pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+            },
+            goHome() {
+                this.$router.push({
+                    name: "Home"
+                })
             }
         }
     }
 </script>
+
+<style>
+    .el-dialog {
+        width: 95% !important;
+        top: 30%;
+        -ms-transform: translate(0%, -50%);
+        transform: translate(0%, -50%);
+    }
+</style>

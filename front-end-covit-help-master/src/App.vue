@@ -2,7 +2,11 @@
     <div id="app">
         <NavBar/>
         <router-view/>
-
+        <footer id="sticky-footer" class="py-4 bg-light_green text-white-50">
+            <div class="container text-center">
+                <small class="">Copyright &copy; Your Website</small>
+            </div>
+        </footer>
     </div>
 </template>
 
@@ -44,5 +48,9 @@
         left: 50%;
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
+    }
+
+    .invalid-feedback {
+        color: #f67575;
     }
 </style>

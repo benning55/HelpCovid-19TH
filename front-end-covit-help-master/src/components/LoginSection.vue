@@ -11,15 +11,28 @@
                 <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
 
                 <form id="loginform" class="form-horizontal" role="form">
+                    <el-alert v-if="error" @close="error=''"
+                              :title="error"
+                              type="error"
+                              show-icon>
+                    </el-alert>
 
                     <div style="margin-bottom: 25px" class="form-group">
                         <label class="">ชื่อผู้ใช้งาน</label>
-                        <input v-model="username" type="text" class="form-control" placeholder="ใส่ชื่อผู้ใช้งาน">
+                        <input v-model="username" type="text" class="form-control" placeholder="ใส่ชื่อผู้ใช้งาน"
+                               :class="{'is-invalid':validation.firstError('username')}">
+                        <div class="invalid-feedback">
+                            {{validation.firstError('username')}}
+                        </div>
                     </div>
 
                     <div style="margin-bottom: 25px" class="form-group">
                         <label class="">รหัสผ่าน</label>
-                        <input v-model="password" type="password" class="form-control" placeholder="ใส่รหัสผ่าน">
+                        <input v-model="password" type="password" class="form-control" placeholder="ใส่รหัสผ่าน"
+                               :class="{'is-invalid':validation.firstError('password')}">
+                        <div class="invalid-feedback">
+                            {{validation.firstError('password')}}
+                        </div>
                     </div>
 
 
@@ -42,7 +55,8 @@
         data() {
             return {
                 username: '',
-                password: ''
+                password: '',
+                error: ''
             }
         },
         validators: {
@@ -66,21 +80,10 @@
                     formData.append('username', this.username);
                     formData.append('password', this.password);
 
-                    // axios.post(this.$store.state.host+'/auth/obtain_token/',formData)
-                    // .then(res=>{
-                    //     console.log(res)
-                    // })
-                    // .catch(e=>{
-                    //     console.log(e)
-                    // })
-                    axios.post(this.$store.state.host + '/auth/obtain_token/', {
-                        username: this.username,
-                        password: this.password
-                    })
+                    axios.post(this.$store.state.host + '/auth/obtain_token/', formData)
                         .then((response) => {
                             this.$store.commit('updateToken', response.data.token);
-                            //get and set auth user
-                            const base = {
+                            axios.get(`${this.$store.state.host}/api/accounts/user/`, {
                                 baseURL: this.$store.state.host + '/api/accounts/',
                                 headers: {
                                     // Set your Authorization to 'JWT', not Bearer!!!
@@ -90,30 +93,20 @@
                                 xhrFields: {
                                     withCredentials: true
                                 }
-                            };
-                            const axiosInstance = axios.create(base);
-                            axiosInstance({
-                                url: "/user/",
-                                method: "get",
-                                params: {}
-                            }).then((response) => {
-                                this.$store.commit("setAuthUser",
-                                    {authUser: response.data, isAuthenticated: true}
-                                );
+                            }).then(res => {
+                                this.$store.commit("setAuthUser", {authUser: res.data.data[0], isAuthenticated: true});
                                 this.$router.push("/")
-                                // location.reload();
                             }).catch(e => {
-
                                 this.$message.error('Oops, Something is Error. code ' + e.response.status + ', at Login');
                             })
                         })
                         .catch((error) => {
                             console.log(error.response)
-                            // if (error.response.status == '400') {
-                            //     this.error = 'error_user_alert_username_password_incorrect'
-                            // } else {
-                            //     this.error = 'something_is_wrong_try_again_later'
-                            // }
+                            if (error.response.status == '400') {
+                                this.error = 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'
+                            } else {
+                                this.error = 'มีบางอย่างผิดพลาด กรุณาลองใหม่ในภายหลัง'
+                            }
                         })
                 }
             }

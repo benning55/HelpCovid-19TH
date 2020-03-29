@@ -20,12 +20,12 @@ const routes = [
         component: () => import('../views/Login_Signup.vue')
     },
     {
-        path: '/post',
+        path: '/post/:id',
         name: 'DashboardPost',
         component: () => import('../views/DashboardPost.vue')
     },
     {
-        path: '/hospital',
+        path: '/hospital/:id',
         name: 'DashboardHospital',
         component: () => import('../views/DashboardHospital.vue')
     },
@@ -58,7 +58,7 @@ const routes = [
         name: 'DonateMoney',
         component: () => import('../views/DonateMoney')
     },{
-        path: '/donate-post',
+        path: '/donate-post/:id',
         name: 'DonateObject',
         component: () => import('../views/DonateObject')
     }

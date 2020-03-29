@@ -6,11 +6,27 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        authUser: {},
+        authUser: {
+            id: -1,
+            hospital: {
+                id: -1,
+                name: "",
+                picture: "",
+                address: "",
+                donated_money: "",
+                tel: "",
+                back_account_name: "",
+                bank_name: ""
+            },
+            email: "",
+            first_name: "",
+            last_name: "",
+            tel: ""
+        },
         isAuthenticated: false,
         jwt: localStorage.getItem('token'),
         // host: `${window.location.protocol}//${window.location.hostname}/8000`
-        host: `http://${window.location.hostname}:8000`
+        host: `http://${window.location.hostname}`
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -23,6 +39,28 @@ export default new Vuex.Store({
         updateToken(state, newToken) {
             localStorage.setItem('token', newToken)
             state.jwt = newToken;
+        },
+        removeToken(state) {
+            localStorage.removeItem('token')
+            state.authUser = {
+                id: -1,
+                hospital: {
+                    id: -1,
+                    name: "",
+                    picture: "",
+                    address: "",
+                    donated_money: "",
+                    tel: "",
+                    back_account_name: "",
+                    bank_name: ""
+                },
+                email: "",
+                first_name: "",
+                last_name: "",
+                tel: ""
+            }
+            state.jwt = null
+            state.isAuthenticated = false
         },
     },
     actions: {},
