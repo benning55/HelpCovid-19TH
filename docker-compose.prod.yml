@@ -16,7 +16,7 @@ services:
     command: >
       sh -c "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && python manage.py initdb && gunicorn app.wsgi:application --timeout 800 --bind 0.0.0.0:8000"
     environment:
-      - DB_HOST=db
+      - DB_HOST=34.87.188.198
       - DB_NAME=covid19th
       - DB_USER=covid19
       - DB_PASS=postgres2562
@@ -37,7 +37,7 @@ services:
 
   db:
     container_name: quering-db-covid-prod
-    image: postgres:10-alpine
+    image: postgres:11-alpine
     ports:
       - 5433:5432
     environment:
