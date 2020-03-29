@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5433/covid19th</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="covid19th@34.87.188.198" uuid="ffd06e15-9ab4-4211-ab9b-f6597d0f5123">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://34.87.188.198:5433/covid19th</jdbc-url>
+    </data-source>
   </component>
 </project>
