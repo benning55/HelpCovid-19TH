@@ -162,7 +162,7 @@ class Donator(models.Model):
     )
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255)
+    email = models.EmailField(max_length=255, blank=True, null=True)
     tel = models.CharField(max_length=10)
     amount = models.DecimalField(max_digits=7, decimal_places=2)
     approve_status = models.BooleanField(default=False)

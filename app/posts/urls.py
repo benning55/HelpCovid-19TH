@@ -9,5 +9,6 @@ urlpatterns = [
     path('need/', views.get_all_need),
     path('need/<int:pk>/', views.get_all_need),
     path('create-need/', views.add_need),
-    path('create-need/<int:pk>/', views.add_need)
+    path('create-need/<int:pk>/', views.add_need),
+    path('donate/', views.donate_need)
 ]

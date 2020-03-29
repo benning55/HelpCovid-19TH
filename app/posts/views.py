@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, exceptions
 from collections import namedtuple
-from core.models import Need
+from core.models import Need, Donator
 from posts import serializers
 
 
@@ -34,7 +34,6 @@ def get_all_need(request, *args, **kwargs):
         queryset = Need.objects.all().filter(hospital_id=hospital)
         serializer = serializers.NeedSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
-
 
 
 @api_view(['POST', 'PUT', ])
@@ -92,3 +91,34 @@ def add_need(request, *args, **kwargs):
                     serializer.save()
                     return Response(serializer.data, status.HTTP_200_OK)
                 return Response({"error": "cannot update"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST', 'PUT', ])
+@permission_classes([AllowAny, ])
+def donate_need(request, *args, **kwargs):
+    """ Donate for hospital need """
+    if request.method == "POST":
+        data = request.data
+        payload = {
+            'need_id': data['need_id'],
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+            'amount': data['amount'],
+            'email': data['email'],
+            'tel': data['tel'],
+        }
+
+        serializer = serializers.DonatorSerializer(data=payload)
+        if serializer.is_valid(raise_exception=True):
+            donate = Donator.objects.create(
+                need_id=payload['need_id'],
+                first_name=payload['first_name'],
+                last_name=payload['last_name'],
+                amount=payload['amount'],
+                email=payload['email'],
+                tel=payload['tel']
+            )
+            query = Donator.objects.all().filter(pk=donate.id)
+            show = serializers.DonatorSerializer(query, many=True)
+            return Response({'data': show.data}, status=status.HTTP_200_OK)
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

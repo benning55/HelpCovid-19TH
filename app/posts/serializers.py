@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import Need
+from core.models import Need, Donator
 from accounts.serializers import HospitalSerializer
 
 
@@ -27,3 +27,32 @@ class NeedSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class DonatorSerializer(serializers.ModelSerializer):
+    need_id = serializers.IntegerField(write_only=True)
+    need = NeedSerializer(required=False)
+
+    class Meta:
+        model = Donator
+        fields = ('id', 'need_id', 'need', 'first_name', 'last_name', 'amount', 'email', 'tel', 'approve_status', 'created')
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'approve_status': {'read_only': True},
+            'created': {'read_only': True},
+            'need': {'read_only': True}
+        }
+
+    def validate(self, data):
+        donator = Donator(**data)
+
+        tel = data.get('tel')
+        errors = dict()
+
+        if len(tel) < 9 or len(tel) > 10:
+            errors['tel'] = 'The tel number must be 10 number'
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return data

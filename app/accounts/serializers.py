@@ -53,25 +53,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'password', 'email', 'first_name', 'last_name', 'tel')
 
-    def validate(self, data):
-        user = User(**data)
-
-        tel = data.get('tel')
-        password = data.get('password')
-        errors = dict()
-
-        if len(tel) < 9 or len(tel) > 10:
-            errors['tel'] = 'The tel number must be 10 number'
-
-        try:
-            validators.validate_password(password=password, user=User)
-        except exceptions.ValidationError as e:
-            errors['password'] = list(e.message)
-
-        if errors:
-            raise serializers.ValidationError(errors)
-
-        return data
+    # def validate(self, data):
+    #     user = User(**data)
+    #
+    #     password =
 
 
 
