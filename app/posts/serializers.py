@@ -9,14 +9,17 @@ class NeedSerializer(serializers.ModelSerializer):
     hospital_id = serializers.IntegerField(write_only=True)
     hospital = HospitalSerializer(required=False)
     user = serializers.SerializerMethodField(read_only=True, required=False)
+    total_donation = serializers.SerializerMethodField(read_only=True, required=False)
+
     class Meta:
         model = Need
-        fields = ('id', 'hospital_id', 'hospital', 'title', 'description', 'picture', 'amount', 'status', 'created', 'user')
+        fields = ('id', 'hospital_id', 'hospital', 'title', 'description', 'picture', 'amount', 'base_amount', 'status', 'created', 'user', 'total_donation')
         extra_kwargs = {
             'id': {'read_only': True},
             'status': {'read_only': True},
             'created': {'read_only': True},
-            'hospital': {'read_only': True}
+            'hospital': {'read_only': True},
+            'base_amount': {'read_only': True}
         }
 
     def update(self, instance, validated_data):
@@ -41,6 +44,13 @@ class NeedSerializer(serializers.ModelSerializer):
         }
 
         return payload
+
+    def get_total_donation(self, obj):
+        donation = Donator.objects.all().filter(need_id=obj.id, approve_status=True)
+        total_amount = 0
+        for amount in donation:
+            total_amount += amount.amount
+        return total_amount
 
 
 class DonatorSerializer(serializers.ModelSerializer):

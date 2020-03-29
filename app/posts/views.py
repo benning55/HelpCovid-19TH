@@ -67,7 +67,8 @@ def add_need(request, *args, **kwargs):
                 title=payload['title'],
                 description=payload['description'],
                 picture=payload['picture'],
-                amount=payload['amount']
+                amount=payload['amount'],
+                base_amount=payload['amount']
             )
             queryset = Need.objects.all().filter(pk=need.pk)
             show = serializers.NeedSerializer(queryset, many=True)
@@ -93,7 +94,7 @@ def add_need(request, *args, **kwargs):
                 return Response({"error": "cannot update"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST', 'PUT', ])
+@api_view(['GET', 'POST',])
 @permission_classes([AllowAny, ])
 def donate_need(request, *args, **kwargs):
     """ Donate for hospital need """

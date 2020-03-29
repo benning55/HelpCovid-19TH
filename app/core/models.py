@@ -147,6 +147,7 @@ class Need(models.Model):
     description = models.TextField(blank=True, null=True)
     picture = models.ImageField(upload_to=need_image, null=True, blank=True)
     amount = models.DecimalField(max_digits=7, decimal_places=2)
+    base_amount = models.DecimalField(max_digits=7, decimal_places=2)
     status = models.BooleanField(default=False)
     created = models.DateTimeField(default=datetime.datetime.now, editable=False)
 
@@ -184,7 +185,7 @@ class MoneyDonate(models.Model):
     tel = models.CharField(max_length=10)
     amount = models.DecimalField(max_digits=7, decimal_places=2)
     receipt = models.ImageField(upload_to=receipt_image)
-    time_transfer = models.DateTimeField()
+    time_transfer = models.DateTimeField(blank=True, null=True)
     approve_status = models.BooleanField(default=False)
     created = models.DateTimeField(default=datetime.datetime.now, editable=False)
 
