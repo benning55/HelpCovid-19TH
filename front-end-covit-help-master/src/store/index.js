@@ -26,7 +26,7 @@ export default new Vuex.Store({
         isAuthenticated: false,
         jwt: localStorage.getItem('token'),
         // host: `${window.location.protocol}//${window.location.hostname}/8000`
-        host: `http://${window.location.hostname}`
+        host: `${window.location.protocol}//${window.location.hostname}`
     },
     mutations: {
         setAuth(state, isAuthenticated) {
