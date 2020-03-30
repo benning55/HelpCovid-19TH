@@ -52,6 +52,7 @@
                 const markers = locations
                     .map((location) => {
                         const marker = new google.maps.Marker({ ...location, map });
+                        marker.setAnimation(google.maps.Animation.BOUNCE);
                         marker.addListener('click', () => markerClickHandler((marker)));
                         return marker
                     })

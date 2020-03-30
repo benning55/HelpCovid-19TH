@@ -2,6 +2,7 @@ import django.contrib.auth.password_validation as validators
 from django.core import exceptions
 from rest_framework import serializers
 from core.models import User, Hospital
+import requests
 
 
 class HospitalSerializer(serializers.ModelSerializer):
@@ -80,3 +81,28 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.Serializer):
     hospital = HospitalRegisterSerializer()
     user = UserRegisterSerializer()
+
+
+class getLocationSerializer(serializers.ModelSerializer):
+    geolocation = serializers.SerializerMethodField(read_only=True, required=False)
+
+    class Meta:
+        model = Hospital
+        fields = ('id', 'name', 'geolocation')
+
+    def get_geolocation(self, obj):
+        """Get location"""
+        response = requests.get(f'https://maps.googleapis.com/maps/api/geocode/json?address={obj.name}&key=AIzaSyCjsiYmer25q6yYO6SRMJZNJiMwMCp-BQ4')
+
+        result = response.json()
+
+        if result['status'] == 'ZERO_RESULTS':
+            data = 'No position'
+        else:
+            locate = result['results'][0]['geometry']['location']
+
+            data = {
+                'lat': locate['lat'],
+                'lng': locate['lng']
+            }
+        return data

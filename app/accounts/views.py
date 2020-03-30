@@ -139,9 +139,24 @@ class HospitalApiView(APIView):
 
 @api_view(['GET', ])
 @permission_classes([IsAuthenticated, ])
-def get_user(request):
+def get_user(request, *args, **kwargs):
     """Get admin basic information"""
     user = request.user
     queryset = User.objects.all().filter(pk=user.id)
     serializer = serializers.UserSerializer(queryset, many=True)
     return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def get_location(request, *args, **kwargs):
+    """Get admin basic information"""
+    pk = kwargs.get('pk')
+    queryset = Hospital.objects.all().filter(approve=True).order_by('-id')
+    if pk is None:
+        serializer = serializers.getLocationSerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+    else:
+        queryset = queryset.filter(pk=pk)
+        serializer = serializers.getLocationSerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
