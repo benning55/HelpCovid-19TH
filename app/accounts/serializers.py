@@ -84,13 +84,13 @@ class RegisterSerializer(serializers.Serializer):
 
 
 class getLocationSerializer(serializers.ModelSerializer):
-    geolocation = serializers.SerializerMethodField(read_only=True, required=False)
+    position = serializers.SerializerMethodField(read_only=True, required=False)
 
     class Meta:
         model = Hospital
-        fields = ('id', 'name', 'geolocation')
+        fields = ('id', 'name', 'position')
 
-    def get_geolocation(self, obj):
+    def get_position(self, obj):
         """Get location"""
         response = requests.get(f'https://maps.googleapis.com/maps/api/geocode/json?address={obj.name}&key=AIzaSyCjsiYmer25q6yYO6SRMJZNJiMwMCp-BQ4')
 
