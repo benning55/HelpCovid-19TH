@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, exceptions
 from collections import namedtuple
-from core.models import Need, Donator
+from core.models import Need, Donator, MoneyDonate
 from posts import serializers
 
 
@@ -99,14 +99,14 @@ def add_need(request, *args, **kwargs):
 def donate_need(request, *args, **kwargs):
     """ Donate for hospital need """
     if request.method == "GET":
-        """ Get all donate record or by hospital id"""
+        """ Get all donate record or by need id"""
         pk = kwargs.get('pk')
         if pk is None:
             queryset = Donator.objects.all().filter(approve_status=True)
             serializer = serializers.DonatorSerializer(queryset, many=True)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         else:
-            queryset = Donator.objects.all().filter(need__hospital_id=pk, approve_status=True)
+            queryset = Donator.objects.all().filter(need_id=pk, approve_status=True)
             serializer = serializers.DonatorSerializer(queryset, many=True)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
     elif request.method == "POST":
@@ -133,5 +133,47 @@ def donate_need(request, *args, **kwargs):
             )
             query = Donator.objects.all().filter(pk=donate.id)
             show = serializers.DonatorSerializer(query, many=True)
+            return Response({'data': show.data}, status=status.HTTP_200_OK)
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST',])
+@permission_classes([AllowAny, ])
+@parser_classes([MultiPartParser])
+def donate_money(request, *args, **kwargs):
+    """ Donate money for hospital """
+    if request.method == "GET":
+        """ Get all donate money record or by hospital id"""
+        pk = kwargs.get('pk')
+        if pk is None:
+            queryset = MoneyDonate.objects.all().filter(approve_status=True)
+            serializer = serializers.MoneyDonateSerializer(queryset, many=True)
+            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            queryset = MoneyDonate.objects.all().filter(hospital_id=pk, approve_status=True)
+            serializer = serializers.MoneyDonateSerializer(queryset, many=True)
+            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+    elif request.method == "POST":
+        """Create new money donation"""
+        data = request.data
+        payload = {
+            'hospital_id': data['hospital_id'],
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+            'receipt': request.FILES['receipt'],
+            'amount': data['amount'],
+        }
+
+        serializer = serializers.MoneyDonateSerializer(data=payload)
+        if serializer.is_valid(raise_exception=True):
+            money_donate = MoneyDonate.objects.create(
+                hospital_id=payload['hospital_id'],
+                first_name=payload['first_name'],
+                last_name=payload['last_name'],
+                receipt=payload['receipt'],
+                amount=payload['amount']
+            )
+            query = MoneyDonate.objects.all().filter(pk=money_donate.id)
+            show = serializers.MoneyDonateSerializer(query, many=True)
             return Response({'data': show.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

@@ -97,7 +97,7 @@ class getLocationSerializer(serializers.ModelSerializer):
         result = response.json()
 
         if result['status'] == 'ZERO_RESULTS':
-            data = 'No position'
+            data = None
         else:
             locate = result['results'][0]['geometry']['location']
 

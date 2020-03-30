@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from core.models import Need, Donator, User
+from core.models import Need, Donator, User, MoneyDonate
 from accounts.serializers import HospitalSerializer
 
 
@@ -80,3 +80,17 @@ class DonatorSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)
 
         return data
+
+
+class MoneyDonateSerializer(serializers.ModelSerializer):
+    hospital = HospitalSerializer(required=False, read_only=True)
+    hospital_id = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = MoneyDonate
+        fields = ('id', 'hospital_id', 'hospital', 'first_name', 'last_name', 'receipt', 'amount', 'approve_status', 'created')
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'approve_status': {'read_only': True},
+            'created': {'read_only': True}
+        }

@@ -11,5 +11,7 @@ urlpatterns = [
     path('create-need/', views.add_need),
     path('create-need/<int:pk>/', views.add_need),
     path('donate/', views.donate_need),
-    path('donate/<int:pk>/', views.donate_need)
+    path('donate/<int:pk>/', views.donate_need),
+    path('money-donate/', views.donate_money),
+    path('money-donate/<int:pk>/', views.donate_money)
 ]
