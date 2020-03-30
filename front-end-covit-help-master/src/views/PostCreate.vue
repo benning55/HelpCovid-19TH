@@ -53,7 +53,30 @@
                 </div>
             </div>
         </form>
-        <button @click="createPost" type="button" class="btn bg-green text-white">ลงรับบริจาค</button>
+        <button @click="createPost" type="button" class="btn bg-green text-white mb-5">ลงรับบริจาค</button>
+
+        <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
+            <section>
+                <!--                        show when complete-->
+                <div v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
+                    <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
+                        <i class="far fa-check-circle"></i></div>
+                    <p class="pb-5">บันทึกข้อมูลการรับบริจาคเรียบร้อย</p>
+                    <span slot="footer" class="dialog-footer flex justify-between w-full">
+                        <el-button type="primary" @click="closeModal">กลับไปหน้า Dashboard</el-button>
+                    </span>
+                </div>
+
+                <div v-else-if="sentStatus == 'error'" class="h-full ">
+                    <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
+                        <i class="far fa-times-circle"></i></div>
+                    <h1 class="pb-3 text-center">การบันทึกข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง</h1>
+                    <span slot="footer" class="dialog-footer w-full">
+                        <el-button @click="confirmDialog = false">ปิด</el-button>
+                    </span>
+                </div>
+            </section>
+        </el-dialog>
     </div>
 </template>
 
@@ -68,7 +91,10 @@
                 description: '',
                 amount: 1,
                 imageData: null,
-                profileImageURL: null
+                profileImageURL: null,
+                sentStatus: 'none',
+                confirmDialog: false,
+                error: ''
             }
         },
         validators: {
@@ -89,6 +115,16 @@
 
         },
         methods: {
+            closeModal() {
+                if (this.sentStatus == 'complete') {
+                    this.$router.push({
+                        name: "DashboardHospital",
+                        params: {id: this.$store.state.authUser.hospital.id}
+                    })
+                } else if (this.sentStatus == 'error') {
+                    this.sentStatus = 'none'
+                }
+            },
             previewImage(event) {
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
@@ -121,10 +157,15 @@
                         }
                     })
                         .then(res => {
+                            this.sentStatus = 'complete'
+                            this.confirmDialog = 'true'
+                            $(".el-dialog").css({"max-width": "350px"});
                             console.log(res)
                         })
                         .catch(e => {
-                            console.log(e)
+                            this.sentStatus = 'error'
+                            this.confirmDialog = 'true'
+                            $(".el-dialog").css({"max-width": "350px"});
                         })
 
 
