@@ -15,7 +15,7 @@ from core.models import Donator, MoneyDonate
 from officer import serializers
 
 
-@api_view(['GET', 'PUT', ])
+@api_view(['GET', 'POST', 'PUT', ])
 @permission_classes([IsAuthenticated, ])
 def officer_donation(request, *args, **kwargs):
     """
@@ -36,7 +36,7 @@ def officer_donation(request, *args, **kwargs):
     elif request.method == "POST":
         data = request.data
         user = request.user
-        queryset = Donator.objects.all().filter(need_hospital_id=user.hospital_id, approve_status=data['approve_status'])
+        queryset = Donator.objects.all().filter(need__hospital_id=user.hospital.id, approve_status=data['approve_status'])
         serializer = serializers.OfficerDonatorSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
@@ -64,14 +64,9 @@ def officer_donation_money(request, *args, **kwargs):
     if request.method == "GET":
         pk = kwargs.get('pk')
         user = request.user
-        if pk is None:
-            queryset = MoneyDonate.objects.all().filter(hospital_id=user.hospital_id).order_by('-created')
-            serializer = serializers.OfficerMoneyDonateSerializer(queryset, many=True)
-            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
-        else:
-            queryset = MoneyDonate.objects.all().filter(hospital_id=pk).order_by('-created')
-            serializer = serializers.OfficerMoneyDonateSerializer(queryset, many=True)
-            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+        queryset = MoneyDonate.objects.all().filter(hospital_id=user.hospital_id).order_by('-created')
+        serializer = serializers.OfficerMoneyDonateSerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     elif request.method == "POST":
         data = request.data
