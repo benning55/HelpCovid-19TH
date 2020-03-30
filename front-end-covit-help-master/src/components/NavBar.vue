@@ -18,12 +18,12 @@
                 </ul>
                 <ul v-else class="navbar-nav ml-auto topnav text-white">
                     <li @click="goDonateDashBoard" class="nav-item cursor-pointer hover:bg-darkgreen">
-                        <a class="nav-link text-white">DashBoard</a>
+                        <a class="nav-link text-white">{{this.$store.state.authUser.hospital.name}}</a>
                     </li>
                     <li @click="goDonateCratePost" class="nav-item cursor-pointer hover:bg-darkgreen">
                         <a class="nav-link text-white">เปิดรับบริจาคสิ่งของ</a>
                     </li>
-                    <li @click="goDonateCratePost" class="nav-item cursor-pointer hover:bg-darkgreen">
+                    <li class="nav-item cursor-pointer">
                         <button @click="logout" type="button" class="btn bg-red text-white">Logout</button>
                     </li>
                 </ul>

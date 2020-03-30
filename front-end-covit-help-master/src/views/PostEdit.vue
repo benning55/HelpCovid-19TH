@@ -22,17 +22,26 @@
                 </div>
             </div>
 
+            {{oldImage == null}}
             <div class="form-group">
                 <label>รูปของโพสต์ เช่น รูปตัวอย่างของที่รับบริจาค</label>
                 <div class="col-12 upload-section">
                     <div class="upload-btn-wrapper w-full">
                         <div class="">
                             <div class="image-cropper border-2 border-dashed border-black text-center">
+                                <!--choose new image-->
                                 <img v-if="imageData!=null"
                                      :src="profileImageURL"
                                      alt="avatar"
                                      class="profile-pic"
                                 />
+                                <!--have old image but not choose new image-->
+                                <img v-if="oldImage!=null"
+                                     :src="this.$store.state.host+oldImage"
+                                     alt="avatar"
+                                     class="profile-pic"
+                                />
+                                <!--no old image-->
                                 <p v-else class="center-y">อัปโหลดรูปภาพที่นี่</p>
                             </div>
                         </div>
@@ -43,7 +52,7 @@
 
 
             <div class="form-group">
-                <label class="col-12">จำนวน</label>
+                <label class="col-12">จำนวน (หน่วย)</label>
                 <input v-model="amount" class="form-control"
                        type="number"
                        :class="{'is-invalid':validation.firstError('amount')}"
@@ -53,11 +62,48 @@
                 </div>
             </div>
         </form>
-        <button @click="createPost" type="button" class="btn bg-green text-white">ลงรับบริจาค</button>
+        <button @click="validate" type="button" class="btn bg-green text-white">ลงรับบริจาค</button>
+
+        <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
+            <section>
+                <!--                        show when complete-->
+                <div v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
+                    <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
+                        <i class="far fa-check-circle"></i></div>
+                    <p class="pb-5">ส่งข้อมูลให้เจ้าหน้าที่แล้ว กรุณารอการติดต่อกลับจากเจ้าหน้าที่</p>
+                    <span slot="footer" class="dialog-footer flex justify-between w-full">
+                        <el-button type="primary" @click="$router.go(-1)">กลับไปหน้าหลัก</el-button>
+                    </span>
+                </div>
+
+                <div v-else-if="sentStatus == 'error'" class="h-full ">
+                    <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
+                        <i class="far fa-times-circle"></i></div>
+                    <h1 class="pb-3 text-center">การส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง</h1>
+                    <!--                    <div v-for="err in error[Object.keys(error)[0]][Object.keys(error[Object.keys(error)[0]])[0]]"-->
+                    <!--                         :key="error.id" class="alert bg-red text-white mb-1" role="alert">-->
+                    <!--                        {{err}}-->
+                    <!--                    </div>-->
+                    <span slot="footer" class="dialog-footer w-full">
+                        <el-button @click="confirmDialog = false">ปิด</el-button>
+                    </span>
+                </div>
+
+                <!--                        show before select-->
+                <div v-else class="flex flex-wrap content-between">
+                    <p class="mb-12">คุณต้องการส่งข้อมูลให้เจ้าหน้าที่หรือไม่</p>
+                    <span slot="footer" class="dialog-footer flex justify-between w-full">
+                        <el-button @click="confirmDialog = false">ยกเลิก</el-button>
+                        <el-button @click="sent" type="primary">แก้ไขข้อมูล</el-button>
+                    </span>
+                </div>
+            </section>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     import {Validator} from "../main";
 
     export default {
@@ -67,7 +113,10 @@
                 description: '',
                 amount: 1,
                 imageData: null,
-                profileImageURL: null
+                profileImageURL: null,
+                confirmDialog: false,
+                sentStatus: 'none',
+                oldImage: ''
             }
         },
         validators: {
@@ -82,32 +131,76 @@
             amount(value) {
                 return Validator.value(value)
                     .required("กรุณาระบุจำนวน")
-                    .integer("กรุณาระบุจำนวนเป็นตัวเลข")
+                    .digit("กรุณาระบุจำนวนเป็นตัวเลข")
                     .greaterThan(0, "กรุณาระบุจำนวนเป็นตัวเลขที่มีค่ามากกว่า 0")
             },
 
         },
+        created() {
+            axios.get(`${this.$store.state.host}/api/posts/need/${this.$route.params.id}/`)
+                .then(res => {
+                    this.title = res.data.data[0].title
+                    this.description = res.data.data[0].description
+                    this.amount = Math.floor(res.data.data[0].amount)
+                    this.oldImage = res.data.data[0].picture
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        },
         methods: {
+            closeModal() {
+                if (this.sentStatus == 'complete') {
+                    this.$router.go(-1)
+                } else {
+                    this.confirmDialog = false
+                }
+            },
             previewImage(event) {
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
-            createPost() {
+            validate() {
                 this.$validate(["title", "description", "amount"]);
                 if (
                     this.validation.firstError("title") == null &&
                     this.validation.firstError("description") == null &&
                     this.validation.firstError("amount") == null
                 ) {
-                    let formData = new FormData();
-                    formData.append('pic', this.imageData);
-                    formData.append('title', this.title);
-                    formData.append('description', this.description);
-                    formData.append('amount', this.amount);
+                    this.sentStatus = 'none'
+                    this.confirmDialog = true
+                    $(".el-dialog").css({"max-width": "350px"});
+                }
+            },
+            sent() {
+                let formData = new FormData();
+                if(this.imageData != null){
+                    formData.append('picture', this.imageData);
+                }
+                formData.append('title', this.title);
+                formData.append('description', this.description);
+                formData.append('amount', this.amount);
 
-                    for (let pair of formData.entries()) {
-                        console.log(pair[0] + ', ' + pair[1]);
-                    }
+                axios.put(`${this.$store.state.host}/api/posts/create-need/${this.$route.params.id}/`, formData, {
+                    headers: {
+                        // Set your Authorization to 'JWT', not Bearer!!!
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                })
+                    .then(res => {
+                        this.sentStatus = 'complete'
+                        this.confirmDialog = 'true'
+                        console.log(res)
+                    })
+                    .catch(e => {
+                        this.sentStatus = 'error'
+                        this.confirmDialog = 'true'
+                        console.log(e)
+                    })
+
+                for (let pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
                 }
             }
         }

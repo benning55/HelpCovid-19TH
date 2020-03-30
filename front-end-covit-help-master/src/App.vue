@@ -56,4 +56,8 @@
     .border-image{
         border-radius: 5px 5px 5px 5px;
     }
+
+    .el-dialog__body{
+        break-word:break-word !important;
+    }
 </style>

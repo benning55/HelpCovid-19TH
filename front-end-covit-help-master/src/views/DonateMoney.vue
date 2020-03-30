@@ -16,15 +16,16 @@
                 <label>นามสกุล</label>
                 <p class="mb-2 text-sm text-gray">หากไม่ต้องการระบุให้ใส่เครื่องหมายขีด (-)</p>
                 <input v-model="lname" class="form-control"
-                          placeholder="กรุณาใส่นามสกุล"
-                          :class="{'is-invalid':validation.firstError('lname')}">
+                       placeholder="กรุณาใส่นามสกุล"
+                       :class="{'is-invalid':validation.firstError('lname')}">
                 <div class="invalid-feedback">
                     {{validation.firstError('lname')}}
                 </div>
             </div>
 
             <div class="form-group">
-                <label v-if="validation.firstError('imageData')" class="text-red">{{validation.firstError('imageData')}}</label>
+                <label v-if="validation.firstError('imageData')"
+                       class="text-red">{{validation.firstError('imageData')}}</label>
                 <label v-else>รูปของหลักฐานการบริจาค เช่น สลิปโอนเงิน</label>
                 <p class="mb-2 text-sm text-gray">หลักฐานการโอนเงินของคุณจะถูกเก็บไว้เป็นความลับ</p>
                 <div class="col-12 upload-section">
@@ -57,10 +58,36 @@
             </div>
         </form>
         <button @click="sent" type="button" class="btn bg-green text-white">ส่งหลักฐานการบริจาค</button>
+
+
+        <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal" center>
+            <span v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
+                <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
+                    <i class="far fa-check-circle"></i>
+                </div>
+                <p class="pb-5">ส่งข้อมูลให้เจ้าหน้าที่แล้ว กรุณารอการติดต่อกลับจากเจ้าหน้าที่</p>
+
+                    <span class="w-full">
+                            <el-button @click="closeModal" type="primary" style="width: 50%;margin-left: 50%;transform: translateX(-50%);">ตกลง</el-button>
+
+                </span>
+            </span>
+            <span v-else-if="sentStatus == 'error'" class="h-full ">
+                <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
+                    <i class="far fa-times-circle"></i>
+                </div>
+                <h1 class="pb-3 text-center">การส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง</h1>
+                <span class="w-full">
+                    <el-button @click="confirmDialog = false"
+                               style="width: 50%;margin-left: 50%;transform: translateX(-50%);">ปิด</el-button>
+                </span>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     import {Validator} from "../main";
 
     export default {
@@ -71,6 +98,8 @@
                 amount: '',
                 imageData: null,
                 profileImageURL: null,
+                confirmDialog: false,
+                sentStatus: "none"
             }
         },
         validators: {
@@ -95,12 +124,19 @@
 
         },
         methods: {
+            closeModal() {
+                if (this.sentStatus == 'complete') {
+                    this.$router.go(-1)
+                } else if (this.sentStatus == 'error') {
+                    this.sentStatus = 'none'
+                }
+            },
             previewImage(event) {
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
             sent() {
-                this.$validate(["fname", "lname", "amount","imageData"]);
+                this.$validate(["fname", "lname", "amount", "imageData"]);
                 if (
                     this.validation.firstError("fname") == null &&
                     this.validation.firstError("lname") == null &&
@@ -108,10 +144,32 @@
                     this.validation.firstError("imageData") == null
                 ) {
                     let formData = new FormData();
-                    formData.append('fname', this.fname);
-                    formData.append('lname', this.lname);
+                    formData.append('hospital_id', this.$route.params.id);
+                    formData.append('first_name', this.fname);
+                    formData.append('last_name', this.lname);
                     formData.append('amount', this.amount);
-                    formData.append('imageData', this.imageData);
+                    formData.append('receipt', this.imageData);
+
+                    axios.post(`${this.$store.state.host}/api/posts/money-donate/`,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            },
+                        }
+                    )
+                        .then(res => {
+                            console.log(res)
+                            this.confirmDialog = true
+                            $(".el-dialog").css({"max-width": "350px"});
+                            this.sentStatus = 'complete'
+                        })
+                        .catch(e => {
+                            this.confirmDialog = true
+                            $(".el-dialog").css({"max-width": "350px"});
+                            this.sentStatus = 'error'
+                            console.log(e)
+                        })
 
                     for (let pair of formData.entries()) {
                         console.log(pair[0] + ', ' + pair[1]);

@@ -1,7 +1,9 @@
 <template>
     <div class="container">
+        {{dataPost}}
+        <hr>
+        {{$store.state.authUser.email}}
         <div class="rounded mt-4">
-
             <div class="card-body text-center">
                 <img v-if="dataPost.picture != null" :src="$store.state.host+dataPost.picture"
                      class="mx-auto w-40 h-40 object-contain border-image shadow-lg" alt="Card image cap">
@@ -22,8 +24,12 @@
                     <h1 class=" mb-2 text-md">รายละเอียด</h1>
                     <p>{{dataPost.description}}</p>
                 </div>
-                <button @click="goDonateObject(dataPost.id)" type="button" class="btn bg-green text-white">
+
+                <button v-if="$store.state.authUser.email != dataPost.user.email" @click="goDonateObject(dataPost.id)" type="button" class="btn bg-green text-white">
                     ส่งความประส่งในการบริจาค
+                </button>
+                <button @click="goEdit(dataPost.id)" type="button" class="btn bg-green text-white">
+                    แก้ไขการรับบริจาค
                 </button>
             </div>
             <div class="row">
@@ -36,7 +42,7 @@
                             <img v-else src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg"
                                  class="w-24 h-24 object-contain mr-3" alt="Card image cap">
                             <div>
-                                <p class="card-title">{{dataPost.hospital.name}}</p>
+                                <p class="card-title font-bold">{{dataPost.hospital.name}}</p>
                                 <p class="card-title"><i class="fas fa-map-marker-alt mr-2"></i>{{dataPost.hospital.address}}
                                 </p>
                                 <p class="card-title"><i class="fas fa-phone-alt mr-2"></i>{{dataPost.hospital.tel}}</p>
@@ -58,9 +64,10 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-10 col-lg-8 mx-auto">
+            <div v-if="$store.state.authUser.email != dataPost.user.email" class="col-12 col-md-10 col-lg-8 mx-auto">
                 <h1 class=" mb-2 text-xl">ผู้ร่วมบริจาค</h1>
-                <table class="table">
+                <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
+                <table v-else class="table">
                     <thead>
                     <tr>
                         <th scope="col">ชื่อ</th>
@@ -72,39 +79,41 @@
                     <tr v-for="user in donateUser" :key="user.id">
                         <td>{{user.first_name}}</td>
                         <td>{{user.last_name}}</td>
-                        <td>{{user.amount}}</td>
+                        <td>{{Math.floor(user.amount)}}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+            <AdminCheckObject v-else :id="$route.params.id"/>
         </div>
     </div>
 </template>
 
 <script>
     import axios from "axios"
+    import AdminCheckObject from "../components/AdminCheckObject";
 
     export default {
+        components:{
+            AdminCheckObject
+        },
         data() {
             return {
                 dataPost: {},
-                donateUser: [
-                    {
-                        first_name: 'x',
-                        last_name: 'y',
-                        amount: 15
-                    }, {
-                        first_name: 'x',
-                        last_name: 'y',
-                        amount: 15
-                    }]
+                donateUser: []
             }
         },
         created() {
             axios.get(`${this.$store.state.host}/api/posts/need/${this.$route.params.id}/`)
                 .then(res => {
                     this.dataPost = res.data.data[0]
-                    console.log(res)
+                    axios.get(`${this.$store.state.host}/api/posts/donate/${this.$route.params.id}/`)
+                        .then(res => {
+                            this.donateUser = res.data.data
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
                 })
                 .catch(e => {
                     console.log(e)
@@ -128,6 +137,12 @@
             },
             percent() {
                 return Math.floor(100 - ((this.dataPost.amount / this.dataPost.base_amount) * 100))
+            },
+            goEdit(id){
+                this.$router.push({
+                    name:'PostEdit',
+                    params:{id:id}
+                })
             }
         }
     }

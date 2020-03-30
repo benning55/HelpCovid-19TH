@@ -1,13 +1,15 @@
 <template>
     <div class="shadow-lg  h-full" style="margin-bottom: 15px;border-radius: 10px">
 <!--        {{data.base_amount}} | {{data.amount}}-->
+
         <img v-if="data.picture != null" class=" h-40 mx-auto object-cover card-img"
              :src="$store.state.host+data.picture" :alt="data.title">
         <img v-else class=" h-40 mx-auto object-cover card-img"
              src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg" :alt="data.title">
         <div class="card-body content-between ">
             <div class="w-full">
-                <h5 class="card-title">{{data.title}}</h5>
+                <h5 class="card-title font-bold">{{data.title}}</h5>
+                <p class="text-gray text-sm my-2"><i class="fas fa-hospital"></i> {{data.hospital.name}}</p>
                 <p v-if="leftItem() > 0">ขาดอีก <span class="text-red">{{leftItem()}}</span> หน่วย</p>
                 <p v-else class="text-green">ครบแล้ว</p>
             </div>

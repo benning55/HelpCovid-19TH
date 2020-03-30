@@ -35,7 +35,7 @@ const routes = [
         component: () => import('../views/PostCreate')
     },
     {
-        path: '/post/edit',
+        path: '/post/edit/:id',
         name: 'PostEdit',
         component: () => import('../views/PostEdit')
     },
@@ -54,7 +54,7 @@ const routes = [
         component: () => import('../views/DonatePageObject')
     },
     {
-        path: '/donate-hospital',
+        path: '/donate-hospital/:id',
         name: 'DonateMoney',
         component: () => import('../views/DonateMoney')
     },{

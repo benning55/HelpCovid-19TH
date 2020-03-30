@@ -6,7 +6,7 @@
              style="border-radius: 10px"
              src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg" :alt="data.name">
         <div class="card-body">
-            <h5 class="card-title text-md">{{data.name}}</h5>
+            <h5 class="card-title text-md font-bold">{{data.name}}</h5>
             <p class="text-sm text-gray"><i class="fas fa-map-marker-alt mr-2 "></i>{{data.address}}</p>
             <a @click="goHospital(data.id)" class="btn bg-green text-white mt-3">ดูรายละเอียดเพิ่ม</a>
         </div>
