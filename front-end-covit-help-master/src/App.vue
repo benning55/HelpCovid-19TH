@@ -53,4 +53,7 @@
     .invalid-feedback {
         color: #f67575;
     }
+    .border-image{
+        border-radius: 5px 5px 5px 5px;
+    }
 </style>

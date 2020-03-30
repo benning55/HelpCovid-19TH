@@ -3,18 +3,19 @@
         <div class="container">
             <div class="rounded mt-4">
                 <div class="row">
-<!--                    {{$store.state.authUser}}-->
+                    <!--                    {{$store.state.authUser}}-->
                     <hr>
-<!--                    {{dataHospital.id}}-->
+                    <!--                    {{dataHospital.id}}-->
                     <div class="col-sm-6">
                         <div class=" h-full">
                             <div class="card-body flex md:justify-end justify-start">
-                                <img v-if="dataHospital.hospital.picture != null" :src='$store.state.host+dataHospital.hospital.picture'
-                                     class="w-24 h-24 object-contain mr-3"
-                                     alt="Card image cap">
+                                <img v-if="dataHospital.hospital.picture != null"
+                                     :src='$store.state.host+dataHospital.hospital.picture'
+                                     class="w-24 h-24 object-contain mr-3 border-image shadow-lg"
+                                     :alt="dataHospital.hospital.name">
                                 <img v-else src='http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg'
-                                     class="w-24 h-24 object-contain mr-3"
-                                     alt="Card image cap">
+                                     class="w-24 h-24 object-contain mr-3 border-image shadow-lg"
+                                     :alt="dataHospital.hospital.name">
                                 <div>
                                     <p class="card-title">{{dataHospital.hospital.name}}</p>
                                     <p><i class="fas fa-map-marker-alt mr-2"></i>{{dataHospital.hospital.address}}</p>
@@ -41,7 +42,8 @@
                     <!--                <p class=" text-2xl">Title xxxxxxxxxxxxxxxxxxxx</p>-->
                     <h1 class="my-4">ขณะนี้มีผู้บริจาคผ่านระบบไปแล้ว</h1>
                     <h1 class="text-5xl my-5"> {{dataHospital.hospital.donated_money}} <a class="text-sm">บาท</a></h1>
-                    <button v-if="$store.state.authUser.id == dataHospital.id" @click="goViewDonateMoney" type="button" class="btn bg-green text-white">
+                    <button v-if="$store.state.authUser.id == dataHospital.id" @click="goViewDonateMoney" type="button"
+                            class="btn bg-green text-white">
                         ดูรายการบริจาค
                     </button>
                     <button v-else @click="goDonateMoney" type="button" class="btn bg-green text-white">
@@ -49,7 +51,8 @@
                     </button>
                 </div>
 
-                <h1 class="ml-3 mt-5 mb-3 text-lg col-12 col-md-10 col-lg-8 mx-auto">สิ่งของที่ {{dataHospital.hospital.name}} ต้องการรับบริจาค</h1>
+                <h1 class="ml-3 mt-5 mb-3 text-lg col-12 col-md-10 col-lg-8 mx-auto">สิ่งของที่
+                    {{dataHospital.hospital.name}} ต้องการรับบริจาค</h1>
                 <DashboardHospitalPost :id="$route.params.id"/>
 
 
@@ -64,20 +67,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>3</td>
-                            <td>4</td>
+                        <tr v-for="user in donateUser" :key="user.id">
+                            <td>{{user.first_name}}</td>
+                            <td>{{user.last_name}}</td>
+                            <td>{{user.amount}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -97,13 +90,30 @@
         },
         data() {
             return {
-                dataHospital: {}
+                dataHospital: {},
+                donateUser: [
+                    {
+                        first_name: 'x',
+                        last_name: 'y',
+                        amount: 15
+                    }, {
+                        first_name: 'x',
+                        last_name: 'y',
+                        amount: 15
+                    }]
             }
         },
         created() {
             axios.get(`${this.$store.state.host}/api/accounts/hospital/${this.$route.params.id}/`)
                 .then(res => {
                     this.dataHospital = res.data.data[0]
+                    axios.get(`${this.$store.state.host}/api/posts/donate/${this.dataHospital.hospital.id}/`)
+                        .then(res => {
+                            console.log(res)
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
                 })
                 .catch()
         },
@@ -113,7 +123,7 @@
                     name: "DonateMoney"
                 })
             },
-            goViewDonateMoney(){
+            goViewDonateMoney() {
                 this.$router.push({
                     name: "DonateMoney"
                 })

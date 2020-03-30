@@ -4,9 +4,9 @@
 
             <div class="card-body text-center">
                 <img v-if="dataPost.picture != null" :src="$store.state.host+dataPost.picture"
-                     class="mx-auto w-40 h-40 object-contain" alt="Card image cap">
+                     class="mx-auto w-40 h-40 object-contain border-image shadow-lg" alt="Card image cap">
                 <img v-else src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg"
-                     class="mx-auto w-40 h-40 object-contain" alt="Card image cap">
+                     class="mx-auto w-40 h-40 object-contain border-image shadow-lg" alt="Card image cap">
                 <p class=" text-2xl">{{dataPost.title}}</p>
                 <h1 class="my-4">ขณะนี้มีผู้บริจาคไปแล้ว</h1>
                 <h1 class="text-5xl"> {{Math.floor(dataPost.base_amount - dataPost.amount)}} <a
@@ -69,20 +69,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>3</td>
-                        <td>4</td>
+                    <tr v-for="user in donateUser" :key="user.id">
+                        <td>{{user.first_name}}</td>
+                        <td>{{user.last_name}}</td>
+                        <td>{{user.amount}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -97,7 +87,17 @@
     export default {
         data() {
             return {
-                dataPost: {}
+                dataPost: {},
+                donateUser: [
+                    {
+                        first_name: 'x',
+                        last_name: 'y',
+                        amount: 15
+                    }, {
+                        first_name: 'x',
+                        last_name: 'y',
+                        amount: 15
+                    }]
             }
         },
         created() {
@@ -132,3 +132,7 @@
         }
     }
 </script>
+
+<style>
+
+</style>
