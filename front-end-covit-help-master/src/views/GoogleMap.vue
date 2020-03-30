@@ -11,24 +11,24 @@
             return {
                 positionHospital: [
                     {
-                        id:0,
-                        name:"fefef",
+                        id: 0,
+                        name: "fefef",
                         position: {
                             lat: 13.749274,
                             lng: 100.583502,
                         },
                     },
                     {
-                        id:1,
-                        name:"fefef",
+                        id: 1,
+                        name: "fefef",
                         position: {
                             lat: 48.174270,
                             lng: 16.329620,
                         }
                     },
                     {
-                        id:2,
-                        name:"fefef",
+                        id: 2,
+                        name: "fefef",
                         position: {
                             lat: 13.766043,
                             lng: 100.524511,
@@ -83,8 +83,9 @@
                 const markers = this.positionHospital
                     .map((location) => {
                         console.log(location.id)
-                        marker.setCursor(`${location.id}`)
+                        const marker = new google.maps.Marker({...location, map});
                         marker.setAnimation(google.maps.Animation.BOUNCE);
+                        marker.setCursor(`${location.id}`)
                         marker.addListener('click', () => markerClickHandler((marker)));
                         return marker
                     })
