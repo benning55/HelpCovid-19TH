@@ -110,7 +110,7 @@ def register(request, format=None):
             )
             new_user.set_password(user['password'])
             new_user.save()
-            # new_hospital_notify(new_hospital)
+            new_hospital_notify(new_hospital)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -8,9 +8,48 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, exceptions
 from collections import namedtuple
-from core.models import Need, Donator, MoneyDonate
+from core.models import Need, Donator, MoneyDonate, User
 from posts import serializers
 
+
+def new_donation_notify(donate):
+    """
+    Send an notify email to admin everytime that have order
+    """
+    hospital_id = donate.need.hospital.id
+    user = User.objects.get(hospital_id=hospital_id)
+    emails = [user.email]
+    message = render_to_string('donate_mail.html', {
+        'donate': donate,
+    })
+    send_mail(
+        'มีการบริจาคเกิดขึ้น!',
+        message,
+        'no-reply@covid19th.org',
+        emails,
+        html_message=message,
+        fail_silently=False
+    )
+
+
+def new_donation_money_notify(money_donate):
+    """
+    Send an notify email to admin everytime that have order
+    """
+    hospital_id = money_donate.hospital.id
+    user = User.objects.get(hospital_id=hospital_id)
+    emails = [user.email]
+    message = render_to_string('moneydonate_mail.html', {
+        'donate': money_donate,
+    })
+    send_mail(
+        'มีการบริจาคเงินเกิดขึ้น!',
+        message,
+        'no-reply@covid19th.org',
+        emails,
+        html_message=message,
+        fail_silently=False
+    )
 
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny, ])
@@ -132,6 +171,7 @@ def donate_need(request, *args, **kwargs):
                 tel=payload['tel']
             )
             query = Donator.objects.all().filter(pk=donate.id)
+            new_donation_notify(donate)
             show = serializers.DonatorSerializer(query, many=True)
             return Response({'data': show.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -173,6 +213,7 @@ def donate_money(request, *args, **kwargs):
                 receipt=payload['receipt'],
                 amount=payload['amount']
             )
+            new_donation_money_notify(money_donate)
             query = MoneyDonate.objects.all().filter(pk=money_donate.id)
             show = serializers.MoneyDonateSerializer(query, many=True)
             return Response({'data': show.data}, status=status.HTTP_200_OK)
