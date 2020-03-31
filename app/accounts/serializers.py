@@ -9,7 +9,7 @@ class HospitalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hospital
-        fields = ('id', 'name', 'picture', 'address', 'donated_money', 'tel', 'back_account_name', 'bank_name')
+        fields = ('id', 'name', 'picture', 'address', 'donated_money', 'tel', 'bank_account_number', 'bank_account_name', 'bank_name')
 
 
 class UserSerializer(serializers.ModelSerializer):
