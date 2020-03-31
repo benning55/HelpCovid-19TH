@@ -17,6 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
+
+admin.site.site_header = 'Covid19th Super Admin Dashboard'
+admin.site.index_title = 'Covid19th.org Administration'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/obtain_token/', obtain_jwt_token),

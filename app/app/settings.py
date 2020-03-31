@@ -174,3 +174,8 @@ MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 
 AUTH_USER_MODEL = 'core.User'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by custom User model, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+)
