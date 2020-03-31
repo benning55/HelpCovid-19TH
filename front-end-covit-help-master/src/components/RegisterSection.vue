@@ -1,6 +1,7 @@
 <template>
     <div id="signupbox"
          class="mainbox mx-auto bg-white col-md-8 col-lg-6 col-md-offset-3 col-sm-8 col-sm-offset-2 mb-16">
+
         <div class="panel panel-info">
             <div class="panel-heading text-center text-3xl">
                 <div class="panel-title">ลงทะเบียนในนามของสถานพยาบาล</div>
@@ -120,9 +121,6 @@
                         <label class="col-12 ">ธนาคาร</label>
                         <p class="mb-2 text-sm text-gray col-12">(ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
                         <div class="col-md-12">
-                            <!--                            <input v-model="accountBank" type="number" class="form-control"-->
-                            <!--                                   :class="{'is-invalid':validation.firstError('accountBank')}"-->
-                            <!--                                   placeholder="ธนาคาร">-->
                             <el-select v-model="accountBank" filterable placeholder="เลือกธนาคาร">
                                 <el-option
                                         v-for="item in dataBank"
@@ -261,16 +259,23 @@
                         <el-button @click="regis" type="primary">ลงทะเบียน</el-button>
                     </span>
                 </div>
+
+                <Loader v-if="isLoading"/>
             </section>
         </el-dialog>
+
     </div>
 </template>
 
 <script>
     import {Validator} from "../main";
     import axios from 'axios'
+    import Loader from "./Loader";
 
     export default {
+        components: {
+            Loader
+        },
         data() {
             return {
                 username: '',
@@ -293,98 +298,105 @@
                 dataBank: [
                     {
                         title: 'ไทยพาณิชย์',
-                        icon:'https://i0.wp.com/www.myshineyhineythailand.com/wp-content/uploads/2019/01/scb-icon.png'
+                        icon: 'https://i0.wp.com/www.myshineyhineythailand.com/wp-content/uploads/2019/01/scb-icon.png'
                     },
                     {
                         title: 'ธ.ก.ส',
-                        icon:'https://i.pinimg.com/236x/d3/9a/f8/d39af8e316ffe895c915f6bafa1fbdc7.jpg'
+                        icon: 'https://i.pinimg.com/236x/d3/9a/f8/d39af8e316ffe895c915f6bafa1fbdc7.jpg'
                     },
                     {
                         title: 'กรุงศรี',
-                        icon:'https://www.job4thai.com/wp-content/uploads/job-bank-of-ayudhya.jpg'
+                        icon: 'https://www.job4thai.com/wp-content/uploads/job-bank-of-ayudhya.jpg'
                     },
                     {
                         title: 'กรุงไทย'
-                        ,icon:'https://www.ttmkshop.com/store/image/catalog/ktb_01.png'
+                        , icon: 'https://www.ttmkshop.com/store/image/catalog/ktb_01.png'
                     },
                     {
                         title: 'ซีไอเอ็มบี'
-                        ,icon:'https://s3-ap-southeast-1.amazonaws.com/o77site/njLqHWJUKLA50wJ.svg'
+                        , icon: 'https://s3-ap-southeast-1.amazonaws.com/o77site/njLqHWJUKLA50wJ.svg'
                     },
                     {
                         title: 'ซีตี้แบงก์'
-                        ,icon:'https://lh3.googleusercontent.com/newHcOQB4Yoat7TSDFNkUaz2pD9S8YC0Ylpbq8alCu7A41IQgPQS2oIS_NDBsxcm0wki=s180-rw'
+                        ,
+                        icon: 'https://lh3.googleusercontent.com/newHcOQB4Yoat7TSDFNkUaz2pD9S8YC0Ylpbq8alCu7A41IQgPQS2oIS_NDBsxcm0wki=s180-rw'
                     },
                     {
                         title: 'ดอยซ์แบงก์'
-                        ,icon:'https://upload.wikimedia.org/wikipedia/commons/7/7b/Deutsche_Bank_logo_without_wordmark.svg'
+                        ,
+                        icon: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Deutsche_Bank_logo_without_wordmark.svg'
                     },
                     {
                         title: 'อาคารสงเคราะห์'
-                        ,icon:'https://pbs.twimg.com/profile_images/924691693269540864/UjR818gg_400x400.jpg'
+                        , icon: 'https://pbs.twimg.com/profile_images/924691693269540864/UjR818gg_400x400.jpg'
                     },
                     {
                         title: 'ออมสิน'
-                        ,icon:'https://scontent.fbkk4-3.fna.fbcdn.net/v/t1.0-9/1011860_414966468616320_2126862519_n.jpg?_nc_cat=106&_nc_sid=85a577&_nc_eui2=AeH__RqUlkVLoxdc1PLP7JS7paHN631IZROPTYwnZswIUIpDQ56joLIC1NlmwGKM0mTG5cpCueFsWOujTwywh18abUT69Zkcz4mClaTQntCMLw&_nc_ohc=DRjuOvCp0KMAX-ndjFR&_nc_ht=scontent.fbkk4-3.fna&oh=443eeb578c18c385cccba46af46c912f&oe=5EA9AB71'
+                        ,
+                        icon: 'https://scontent.fbkk4-3.fna.fbcdn.net/v/t1.0-9/1011860_414966468616320_2126862519_n.jpg?_nc_cat=106&_nc_sid=85a577&_nc_eui2=AeH__RqUlkVLoxdc1PLP7JS7paHN631IZROPTYwnZswIUIpDQ56joLIC1NlmwGKM0mTG5cpCueFsWOujTwywh18abUT69Zkcz4mClaTQntCMLw&_nc_ohc=DRjuOvCp0KMAX-ndjFR&_nc_ht=scontent.fbkk4-3.fna&oh=443eeb578c18c385cccba46af46c912f&oe=5EA9AB71'
                     },
                     {
                         title: 'เอชเอสบีซี'
-                        ,icon:'https://upload.wikimedia.org/wikipedia/commons/3/3d/HSBC_%E6%BB%99%E8%B1%90_%28logo_only%29.svg'
+                        ,
+                        icon: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/HSBC_%E6%BB%99%E8%B1%90_%28logo_only%29.svg'
                     },
                     {
                         title: 'ไอซีบีซี'
-                        ,icon:'https://interprogram.pim.ac.th/uploads/content/2015/04/o_19ie9jlrr1gh21dkntrt1lv913eqa.jpg'
+                        ,
+                        icon: 'https://interprogram.pim.ac.th/uploads/content/2015/04/o_19ie9jlrr1gh21dkntrt1lv913eqa.jpg'
                     },
                     {
                         title: 'ธนาคารอิสลาม'
-                        ,icon:'http://baanhathairak.org/wp-content/uploads/2017/12/ibank.png'
+                        , icon: 'http://baanhathairak.org/wp-content/uploads/2017/12/ibank.png'
                     },
                     {
                         title: 'กสิกรไทย'
-                        ,icon:'https://www.ttmkshop.com/store/image/catalog/bank_logo.png'
+                        , icon: 'https://www.ttmkshop.com/store/image/catalog/bank_logo.png'
                     },
                     {
                         title: 'เกียรนาคิน'
-                        ,icon:'https://pbs.twimg.com/profile_images/924831197720600578/oRBgHpyi_400x400.jpg'
+                        , icon: 'https://pbs.twimg.com/profile_images/924831197720600578/oRBgHpyi_400x400.jpg'
                     },
                     {
                         title: 'แลนด์ แอนด์ เฮ้าส์'
-                        ,icon:'https://iservice.aia.co.th/content/dam/th/th/payment/P3_Mobileapp/9LH_mobile.png'
+                        , icon: 'https://iservice.aia.co.th/content/dam/th/th/payment/P3_Mobileapp/9LH_mobile.png'
                     },
                     {
                         title: 'มิซูโฮ'
-                        ,icon:'https://upload.wikimedia.org/wikipedia/commons/e/e9/Mizuho_logo.svg'
+                        , icon: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Mizuho_logo.svg'
                     },
                     {
                         title: 'สแตนดาร์ดชาร์เตอร์ด'
-                        ,icon:'https://image.flaticon.com/icons/svg/825/825502.svg'
+                        , icon: 'https://image.flaticon.com/icons/svg/825/825502.svg'
                     },
                     {
                         title: 'ซูมิโตโม'
-                        ,icon:'https://d1p9wirkq0k00v.cloudfront.net/wp-content/uploads/2019/06/27054453/smbc_group_kihon.jpg'
+                        ,
+                        icon: 'https://d1p9wirkq0k00v.cloudfront.net/wp-content/uploads/2019/06/27054453/smbc_group_kihon.jpg'
                     },
                     {
                         title: 'ธนชาต'
-                        ,icon:'https://s3-ap-southeast-1.amazonaws.com/o77site/BEzryXJ2kSIhXVc.svg'
+                        , icon: 'https://s3-ap-southeast-1.amazonaws.com/o77site/BEzryXJ2kSIhXVc.svg'
                     },
                     {
                         title: 'ไทยเครดิต'
-                        ,icon:'https://s3-ap-southeast-1.amazonaws.com/o77site/N0irZ0uZbUOAJPx.svg'
+                        , icon: 'https://s3-ap-southeast-1.amazonaws.com/o77site/N0irZ0uZbUOAJPx.svg'
                     },
                     {
                         title: 'ทหารไทย'
-                        ,icon:'https://s3-ap-southeast-1.amazonaws.com/o77site/xCA8zVQzDcyB0t2.svg'
+                        , icon: 'https://s3-ap-southeast-1.amazonaws.com/o77site/xCA8zVQzDcyB0t2.svg'
                     },
                     {
                         title: 'ทิสโก้'
-                        ,icon:'https://iservice.aia.co.th/content/dam/th/th/payment/P3_Mobileapp/Tisco.png'
+                        , icon: 'https://iservice.aia.co.th/content/dam/th/th/payment/P3_Mobileapp/Tisco.png'
                     },
                     {
                         title: 'ยูโอบี'
-                        ,icon:'https://s3-ap-southeast-1.amazonaws.com/o77site/kQMxMy27c1loRiR.svg'
+                        , icon: 'https://s3-ap-southeast-1.amazonaws.com/o77site/kQMxMy27c1loRiR.svg'
                     },
                 ],
-                error: ''
+                error: '',
+                isLoading: false
             }
         },
         validators: {
@@ -431,8 +443,8 @@
             tel(value) {
                 return Validator.value(value)
                     .required("กรุณาใส่เบอร์โทรศัพท์")
-                    .minLength(9,"กรุณาใส่เบอร์โทรศัพท์เป็นตัวเลขอย่างน้อย 9 หลัก")
-                    .maxLength(10,"กรุณาใส่เบอร์โทรศัพท์เป็นตัวเลขไม่เกิน 10 หลัก")
+                    .minLength(9, "กรุณาใส่เบอร์โทรศัพท์เป็นตัวเลขอย่างน้อย 9 หลัก")
+                    .maxLength(10, "กรุณาใส่เบอร์โทรศัพท์เป็นตัวเลขไม่เกิน 10 หลัก")
             },
             accountName(value) {
                 return Validator.value(value)
@@ -475,6 +487,7 @@
                 }
             },
             regis() {
+                this.isLoading = true
                 let formData = new FormData();
                 formData.append('username', this.username);
                 formData.append('first_name', this.fname);
@@ -504,25 +517,18 @@
                 // formData.append('bank_name', "this.accountBank")
                 // formData.append('picture', this.imageData)
 
-
-                for (let pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
-
                 axios.post(this.$store.state.host + '/api/accounts/register/', formData)
-                    .then(res => {
-                        console.log(res)
+                    .then(() => {
+                        this.isLoading = false
                         this.registerStatus = 'complete'
                     }).catch(e => {
                     this.registerStatus = 'error';
                     this.error = e.response.data.error
-                    console.log(e.response.data.error)
+                    this.isLoading = false
+                    console.log(e.response.data)
                 })
-
-
             },
             closeModal() {
-                console.log('close')
                 this.registerStatus = 'none'
                 this.error = ''
             },
@@ -571,5 +577,12 @@
         top: 30%;
         -ms-transform: translate(0%, -50%);
         transform: translate(0%, -50%);
+        z-index: 5 !important;
+    }
+    .el-dialog__wrapper{
+        z-index: 3 !important;
+    }
+    .v-modal{
+        z-index: 2 !important;
     }
 </style>
