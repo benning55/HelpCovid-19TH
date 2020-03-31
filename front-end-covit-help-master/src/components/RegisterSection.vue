@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-12">อีเมลล์ของสถานพยาบาล</label>
+                        <label class="col-md-12">อีเมลล์ของเจ้าหน้าที่สถานพยาบาล</label>
                         <p class="mb-2 text-sm text-gray col-12">(ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
                         <div class="col-md-12">
                             <input v-model="email" type="text" class="form-control" name="email"
@@ -485,7 +485,7 @@
                 formData.append('name', this.name);
                 formData.append('address', this.address);
                 formData.append('hospital_tel', this.tel);
-                formData.append('back_account_name', this.accountName);
+                formData.append('bank_account_name', this.accountName);
                 formData.append('bank_account_number', this.accountNumber);
                 formData.append('bank_name', this.accountBank)
                 formData.append('picture', this.imageData)

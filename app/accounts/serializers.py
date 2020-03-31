@@ -27,7 +27,7 @@ class HospitalRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hospital
-        fields = ('name', 'picture', 'address', 'tel', 'bank_account_number', 'back_account_name', 'bank_name')
+        fields = ('name', 'picture', 'address', 'tel', 'bank_account_number', 'bank_account_name', 'bank_name')
 
     def validate(self, data):
         hospital = Hospital(**data)

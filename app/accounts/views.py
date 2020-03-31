@@ -49,6 +49,7 @@ def register(request, format=None):
     """
     if request.method == 'POST':
         data = request.data
+        print(data['bank_account_name'])
         try:
             hospital = {
                 'name': data['name'],
@@ -56,7 +57,7 @@ def register(request, format=None):
                 'address': data['address'],
                 'tel': data['hospital_tel'],
                 'bank_account_number': data['bank_account_number'],
-                'back_account_name': data['back_account_name'],
+                'bank_account_name': data['bank_account_name'],
                 'bank_name': data['bank_name']
             }
             user = {
@@ -74,7 +75,7 @@ def register(request, format=None):
                 'address': data['address'],
                 'tel': data['hospital_tel'],
                 'bank_account_number': data['bank_account_number'],
-                'back_account_name': data['back_account_name'],
+                'bank_account_name': data['bank_account_name'],
                 'bank_name': data['bank_name']
             }
             user = {
@@ -97,7 +98,7 @@ def register(request, format=None):
                 address=hospital['address'],
                 tel=hospital['tel'],
                 bank_account_number=hospital['bank_account_number'],
-                back_account_name=hospital['back_account_name'],
+                bank_account_name=hospital['bank_account_name'],
                 bank_name=hospital['bank_name']
             )
             new_user = User.objects.create(
