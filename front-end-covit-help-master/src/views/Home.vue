@@ -4,7 +4,7 @@
 
         <div class="container">
             <h1 class="text-2xl mt-3 mb-2">ตำแหน่งของสถานที่รับบริจาค</h1>
-            <p class="mb-3">(กดพินสีแดงเพื่อขยาย กดอีกครั้งเพื่อไปยังหน้ารับบริจาค)</p>
+            <p class="mb-3">(กดที่ไอคอนหมุดเพื่อขยาย กดอีกครั้งเพื่อไปยังหน้ารับบริจาค)</p>
             <GoogleMap :position="mapLocation"/>
             <HomeSectionPost/>
             <HomeSectionHospital/>
