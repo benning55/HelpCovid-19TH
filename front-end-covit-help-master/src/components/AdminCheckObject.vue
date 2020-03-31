@@ -10,6 +10,7 @@
                     <tr>
                         <th scope="col">ชื่อ</th>
                         <th scope="col">นามสกุล</th>
+                        <th scope="col">เบอร์โทรศัพท์</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
                         <th scope="col" class="text-right">สถานะ</th>
                     </tr>
@@ -19,6 +20,7 @@
                         <tr v-if="user.approve_status == false" :key="user.id">
                             <td>{{user.first_name}}</td>
                             <td>{{user.last_name}}</td>
+                            <td>{{user.tel}}</td>
                             <td>{{Math.floor(user.amount)}}</td>
                             <td>
                                 <label class="switch">
@@ -41,6 +43,7 @@
                     <tr>
                         <th scope="col">ชื่อ</th>
                         <th scope="col">นามสกุล</th>
+                        <th scope="col">เบอร์โทรศัพท์</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
                         <th scope="col" class="text-right">สถานะ</th>
                     </tr>
@@ -50,6 +53,7 @@
                         <tr v-if="user.approve_status == true" :key="user.id">
                             <td>{{user.first_name}}</td>
                             <td>{{user.last_name}}</td>
+                            <td>{{user.tel}}</td>
                             <td>{{Math.floor(user.amount)}}</td>
                             <td>
                                 <label class="switch">

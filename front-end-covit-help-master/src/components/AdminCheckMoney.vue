@@ -67,19 +67,19 @@
                                 </div>
                             </div>
                         </transition>
-
                     </template>
                 </div>
             </el-tab-pane>
             <el-tab-pane>
                 <span :class="{'text-red':thisTap == 2}" slot="label"><i
-                        class="el-icon-warning"></i>ยังไม่ได้บริจาคสิ่งของ</span>
+                        class="el-icon-warning"></i>สิ่งของบริจาครอการยืนยัน</span>
                 <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">ชื่อ</th>
                         <th scope="col">นามสกุล</th>
+                        <th scope="col">เบอร์โทรศัพท์</th>
                         <th scope="col">รายการสิ่งของ</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
                         <th scope="col" class="text-right">สถานะ</th>
@@ -90,6 +90,7 @@
                         <tr v-if="user.approve_status == false" :key="user.id">
                             <td>{{user.first_name}}</td>
                             <td>{{user.last_name}}</td>
+                            <td>{{user.tel}}</td>
                             <td>{{user.need.title}}</td>
                             <td>{{Math.floor(user.amount)}}</td>
                             <td>
@@ -106,12 +107,13 @@
                     </tbody>
                 </table>
             </el-tab-pane>
-            <el-tab-pane label="บริจาคสิ่งของเรียบร้อย">
+            <el-tab-pane label="สิ่งของบริจาคที่ยืนยันแล้ว">
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">ชื่อ</th>
                         <th scope="col">นามสกุล</th>
+                        <th scope="col">เบอร์โทรศัพท์</th>
                         <th scope="col">รายการสิ่งของ</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
                         <th scope="col" class="text-right">สถานะ</th>
@@ -122,6 +124,7 @@
                         <tr v-if="user.approve_status == true" :key="user.id">
                             <td>{{user.first_name}}</td>
                             <td>{{user.last_name}}</td>
+                            <td>{{user.tel}}</td>
                             <td>{{user.need.title}}</td>
                             <td>{{Math.floor(user.amount)}}</td>
                             <td>
