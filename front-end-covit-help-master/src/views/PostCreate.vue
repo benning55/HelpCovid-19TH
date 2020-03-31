@@ -153,6 +153,8 @@
                         console.log(pair[0] + ', ' + pair[1]);
                     }
 
+                    this.confirmDialog = true
+
                     axios.post(`${this.$store.state.host}/api/posts/create-need/`, formData, {
                         headers: {
                             // Set your Authorization to 'JWT', not Bearer!!!

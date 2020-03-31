@@ -150,6 +150,8 @@
                     this.validation.firstError("imageData") == null
                 ) {
                     this.isLoading = true
+                    this.confirmDialog = true
+                    $(".el-dialog").css({"max-width": "350px"});
                     let formData = new FormData();
                     formData.append('hospital_id', this.$route.params.id);
                     formData.append('first_name', this.fname);
