@@ -1,8 +1,5 @@
 <template>
     <div class="container">
-        {{dataPost}}
-        <hr>
-        {{$store.state.authUser.email}}
         <div class="rounded mt-4">
             <div class="card-body text-center">
                 <img v-if="dataPost.picture != null" :src="$store.state.host+dataPost.picture"
@@ -28,7 +25,7 @@
                 <button v-if="$store.state.authUser.email != dataPost.user.email" @click="goDonateObject(dataPost.id)" type="button" class="btn bg-green text-white">
                     ส่งความประส่งในการบริจาค
                 </button>
-                <button @click="goEdit(dataPost.id)" type="button" class="btn bg-green text-white">
+                <button v-else @click="goEdit(dataPost.id)" type="button" class="btn bg-green text-white">
                     แก้ไขการรับบริจาค
                 </button>
             </div>

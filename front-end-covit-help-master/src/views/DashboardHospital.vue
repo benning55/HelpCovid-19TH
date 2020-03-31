@@ -43,11 +43,24 @@
                     <!--                <p class=" text-2xl">Title xxxxxxxxxxxxxxxxxxxx</p>-->
                     <h1 class="my-4">ขณะนี้มีผู้บริจาคผ่านระบบไปแล้ว</h1>
                     <h1 class="text-5xl my-5"> {{dataHospital.hospital.donated_money}} <a class="text-sm">บาท</a></h1>
+
+                    <h1 class="">บริจาคได้ที่</h1>
+                    <div class="card p-3 bg-white col-12 col-sm-9 col-md-7 col-lg-5 mx-auto shadow-lg my-4"
+                         style="border: 0">
+                        <h1 class="my-2 text-key_column">เลขบัญชี : <span class="text-2xl text-black">{{dataHospital.hospital.bank_account_number}}</span>
+                        </h1>
+                        <h1 class="my-2 text-key_column">ชื่อบัญชี :
+                            <span class="text-black">{{dataHospital.hospital.bank_account_name}}</span></h1>
+                        <h1 class="my-2 text-key_column">ธนาคาร : <span class="text-black">{{dataHospital.hospital.bank_name}}</span>
+                        </h1>
+
+                    </div>
+
                     <a href="#point" v-if="$store.state.authUser.id == dataHospital.id">
-                         <button  type="button"
-                            class="btn bg-green text-white">
-                        ดูรายการบริจาค
-                    </button>
+                        <button type="button"
+                                class="btn bg-green text-white">
+                            ดูรายการบริจาค
+                        </button>
                     </a>
 
                     <button v-else @click="goDonateMoney(dataHospital.hospital.id)" type="button"
@@ -58,7 +71,7 @@
 
                 <h1 class="ml-3 mt-5 mb-4 text-lg col-12 col-md-10 col-lg-8 mx-auto">
                     สิ่งของที่ {{dataHospital.hospital.name}} ต้องการรับบริจาค</h1>
-                <DashboardHospitalPost :id="$route.params.id" />
+                <DashboardHospitalPost :id="$route.params.id"/>
 
                 <a id="point"></a>
 
@@ -142,7 +155,7 @@
                     name: "DonateMoney"
                 })
             },
-            refresh(){
+            refresh() {
                 this.getData()
             }
         }

@@ -35,33 +35,32 @@
 
                         const markerClickHandler = (marker) => {
                             if (map.getZoom() >= 18) {
+                                marker.setAnimation(google.maps.Animation.BOUNCE);
                                 this.$router.push({
                                     name: 'DashboardHospital',
                                     params: {id: parseInt(marker.getCursor())}
                                 })
                             } else {
                                 map.setZoom(18);
+                                marker.setAnimation(google.maps.Animation.BOUNCE);
                                 map.setCenter(marker.getPosition())
                             }
-
                         };
-
 
                         const markers = this.positionHospital
                             .map((location) => {
                                 const marker = new google.maps.Marker({...location, map});
                                 const image = {
                                     url: 'https://i.imgur.com/s1l9Ogh.png',
-                                    // This marker is 20 pixels wide by 32 pixels high.
-                                    size: new google.maps.Size(75, 75),
-                                    // The origin for this image is (0, 0).
+                                    size: new google.maps.Size(35, 35),
+                                    scaledSize: new google.maps.Size(28, 35),
                                     origin: new google.maps.Point(0, 0),
-                                    // The anchor for this image is the base of the flagpole at (0, 32).
-                                    anchor: new google.maps.Point(32, 75)
+                                    anchor: new google.maps.Point(14, 35)
                                 };
+                                marker.setIcon(image)
                                 marker.setAnimation(google.maps.Animation.BOUNCE);
                                 marker.setCursor(`${location.id}`)
-                                marker.setIcon(image)
+
                                 marker.addListener('click', () => markerClickHandler((marker)));
                                 return marker
                             })
