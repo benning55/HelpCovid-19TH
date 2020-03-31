@@ -36,7 +36,7 @@ class HospitalRegisterSerializer(serializers.ModelSerializer):
         errors = dict()
 
         if len(tel) < 9 or len(tel) > 10:
-            errors['tel'] = 'The tel number must be 10 number'
+            errors['tel'] = 'หมายเลขโทรศัพทร์ 9-10 ตัว'
 
         if errors:
             raise serializers.ValidationError(errors)

@@ -1,0 +1,12 @@
+{% extends 'admin/change_list.html' %}
+
+{% block object-tools %}
+    <div>
+        <form action="add-super/">
+            {% csrf_token %}
+                <button type="submit" style="background-color: 	skyblue; color: white; border-radius: 10%; font-size: 15px; font-weight: bold">Add superuser</button>
+        </form>
+    </div>
+    <br />
+    {{ block.super }}
+{% endblock %}

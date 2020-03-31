@@ -1,4 +1,10 @@
-from django.contrib import admin
+
+from django.contrib import admin, messages
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.urls import path
+
+from accounts.form import SuperUserForm
 from core import models
 # Register your models here.
 
@@ -49,10 +55,45 @@ class HospitalAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     list_display = ['id', 'hospital', 'username', 'first_name', 'last_name', 'email', 'tel', 'is_active']
     list_display_links = ['id', 'username']
-    list_filter = ['is_active']
+    list_filter = ['is_active', 'is_superuser']
     list_per_page = 10
 
-    search_fields = ['username', 'hospital_name']
+    search_fields = ['username']
+
+    change_list_template = 'superuser_list.html'
+
+    def has_add_permission(self, request):
+        return False
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('add-super/', self.add_super)
+        ]
+        return my_urls + urls
+
+    def add_super(self, request):
+        if request.method == 'POST':
+            super_user_form = SuperUserForm(request.POST)
+            if super_user_form.is_valid():
+                username = super_user_form.cleaned_data['username']
+                email = super_user_form.cleaned_data['email']
+                tel = super_user_form.cleaned_data['tel']
+                password = super_user_form.cleaned_data['password']
+
+                super_user = models.User.objects.create_superuser(
+                   username=username,
+                   email=email,
+                   password=password
+                )
+                super_user.tel = tel
+                super_user.is_active = False
+                super_user.save()
+                messages.success(request, 'การสมัครของคุณเรียบร้อยแล้วรอการยืนยันจาก superadmin')
+                return HttpResponseRedirect("../")
+        else:
+            super_user_form = SuperUserForm()
+        return render(request, 'super_admin.html', {'form': super_user_form})
 
 
 class NeedAdmin(admin.ModelAdmin):
