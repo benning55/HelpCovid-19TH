@@ -94,18 +94,24 @@
                         <el-button @click="sent" type="primary">ส่งข้อมูลไปยังเจ้าหน้าที่</el-button>
                     </span>
                 </div>
+                <Loader v-if="isLoading"/>
             </section>
         </el-dialog>
     </div>
 </template>
 
 <script>
+    import Loader from "../components/Loader";
     import axios from 'axios'
     import {Validator} from "../main";
 
     export default {
+        components:{
+            Loader
+        },
         data() {
             return {
+                isLoading:false,
                 fname: '',
                 lname: '',
                 email: '',
@@ -165,6 +171,7 @@
                 }
             },
             sent() {
+                this.isLoading = true
                 let formData = new FormData();
                 formData.append('need_id', this.$route.params.id);
                 formData.append('first_name', this.fname);
@@ -174,18 +181,14 @@
                 formData.append('amount', this.amount);
 
                 axios.post(`${this.$store.state.host}/api/posts/donate/`, formData)
-                    .then(res => {
+                    .then(() => {
                         this.sentStatus = 'complete'
-                        console.log(res)
+                        this.isLoading = false
                     })
                     .catch(e => {
                         this.sentStatus = 'error'
-                        console.log(e)
+                        this.isLoading = false
                     })
-
-                for (let pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
             },
             goHome() {
                 this.$router.push({

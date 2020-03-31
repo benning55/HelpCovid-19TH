@@ -75,6 +75,7 @@
                         <el-button @click="confirmDialog = false">ปิด</el-button>
                     </span>
                 </div>
+                <Loader v-if="isLoading"/>
             </section>
         </el-dialog>
     </div>
@@ -83,10 +84,15 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
+    import Loader from "../components/Loader";
 
     export default {
+        components:{
+            Loader
+        },
         data() {
             return {
+                isLoading:false,
                 title: '',
                 description: '',
                 amount: 1,
@@ -136,6 +142,7 @@
                     this.validation.firstError("description") == null &&
                     this.validation.firstError("amount") == null
                 ) {
+                    this.isLoading = true
                     let formData = new FormData();
                     formData.append('picture', this.imageData);
                     formData.append('title', this.title);
@@ -156,15 +163,14 @@
                             withCredentials: true
                         }
                     })
-                        .then(res => {
+                        .then(() => {
+                            this.isLoading = false
                             this.sentStatus = 'complete'
-                            this.confirmDialog = 'true'
                             $(".el-dialog").css({"max-width": "350px"});
-                            console.log(res)
                         })
                         .catch(e => {
+                            this.isLoading = false
                             this.sentStatus = 'error'
-                            this.confirmDialog = 'true'
                             $(".el-dialog").css({"max-width": "350px"});
                         })
 

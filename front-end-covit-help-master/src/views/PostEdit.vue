@@ -97,6 +97,8 @@
                         <el-button @click="sent" type="primary">แก้ไขข้อมูล</el-button>
                     </span>
                 </div>
+
+                <Loader v-if="isLoading"/>
             </section>
         </el-dialog>
     </div>
@@ -105,10 +107,15 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
+    import Loader from "../components/Loader";
 
     export default {
+        components:{
+          Loader
+        },
         data() {
             return {
+                isLoading:false,
                 title: '',
                 description: '',
                 amount: 1,
@@ -173,6 +180,7 @@
                 }
             },
             sent() {
+                this.isLoading = true
                 let formData = new FormData();
                 if(this.imageData != null){
                     formData.append('picture', this.imageData);
@@ -190,12 +198,12 @@
                 })
                     .then(res => {
                         this.sentStatus = 'complete'
-                        this.confirmDialog = 'true'
+                        this.isLoading = false
                         console.log(res)
                     })
                     .catch(e => {
                         this.sentStatus = 'error'
-                        this.confirmDialog = 'true'
+                        this.isLoading = false
                         console.log(e)
                     })
 

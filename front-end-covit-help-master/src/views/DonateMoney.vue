@@ -82,6 +82,7 @@
                                style="width: 50%;margin-left: 50%;transform: translateX(-50%);">ปิด</el-button>
                 </span>
             </span>
+            <Loader v-if="isLoading" />
         </el-dialog>
     </div>
 </template>
@@ -89,10 +90,15 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
+    import Loader from "../components/Loader";
 
     export default {
+        components:{
+           Loader
+        },
         data() {
             return {
+                isLoading:false,
                 fname: '',
                 lname: '',
                 amount: '',
@@ -143,6 +149,7 @@
                     this.validation.firstError("amount") == null &&
                     this.validation.firstError("imageData") == null
                 ) {
+                    this.isLoading = true
                     let formData = new FormData();
                     formData.append('hospital_id', this.$route.params.id);
                     formData.append('first_name', this.fname);
@@ -159,12 +166,13 @@
                         }
                     )
                         .then(res => {
-                            console.log(res)
+                            this.isLoading = false
                             this.confirmDialog = true
                             $(".el-dialog").css({"max-width": "350px"});
                             this.sentStatus = 'complete'
                         })
                         .catch(e => {
+                            this.isLoading = false
                             this.confirmDialog = true
                             $(".el-dialog").css({"max-width": "350px"});
                             this.sentStatus = 'error'

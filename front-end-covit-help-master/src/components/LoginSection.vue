@@ -1,6 +1,7 @@
 <template>
     <div id="loginbox"
          class="mainbox bg-white mx-auto col-md-8 col-lg-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <Loader v-if="isLoading" />
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title text-center text-3xl">ลงชื่อเข้าใช้ในนามของสถานพยาบาล</div>
@@ -50,10 +51,15 @@
 <script>
     import {Validator} from "../main";
     import axios from 'axios'
+    import Loader from "./Loader";
 
     export default {
+        components:{
+            Loader
+        },
         data() {
             return {
+                isLoading:false,
                 username: '',
                 password: '',
                 error: ''
@@ -76,6 +82,7 @@
                     this.validation.firstError("username") == null &&
                     this.validation.firstError("password") == null
                 ) {
+                    this.isLoading = true
                     let formData = new FormData();
                     formData.append('username', this.username);
                     formData.append('password', this.password);
@@ -94,14 +101,16 @@
                                     withCredentials: true
                                 }
                             }).then(res => {
+                                this.isLoading = false
                                 this.$store.commit("setAuthUser", {authUser: res.data.data[0], isAuthenticated: true});
                                 this.$router.push("/")
                             }).catch(e => {
+                                this.isLoading = false
                                 this.$message.error('Oops, Something is Error. code ' + e.response.status + ', at Login');
                             })
                         })
                         .catch((error) => {
-                            console.log(error.response)
+                            this.isLoading = false
                             if (error.response.status == '400') {
                                 this.error = 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'
                             } else {
