@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed opacity-80 h-full w-full">
+    <div class="fixed opacity-80 h-full w-full z-10">
         <img width="100px" class="center-y" src="../assets/Rolling-1s-200px.svg" alt="Loading...">
     </div>
 </template>

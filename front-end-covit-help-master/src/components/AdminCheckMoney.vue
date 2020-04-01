@@ -39,7 +39,8 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="หลักฐานการโอนเงินที่ยืนยันแล้ว">
-                <div class="row">
+                <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
+                <div v-else class="row">
                     <template v-for="(user,index) in donateUser">
                         <transition name="fade" :key="user.id">
                             <div v-if="user.approve_status == true" class="col-sm-6 mb-4" :key="user.id">
@@ -74,7 +75,7 @@
                 <span :class="{'text-red':thisTap == 2}" slot="label"><i
                         class="el-icon-warning"></i>สิ่งของบริจาครอการยืนยัน</span>
                 <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
-                <table class="table">
+                <table v-else class="table">
                     <thead>
                     <tr>
                         <th scope="col">ชื่อ</th>
@@ -108,7 +109,8 @@
                 </table>
             </el-tab-pane>
             <el-tab-pane label="สิ่งของบริจาคที่ยืนยันแล้ว">
-                <table class="table">
+                <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
+                <table v-else class="table">
                     <thead>
                     <tr>
                         <th scope="col">ชื่อ</th>

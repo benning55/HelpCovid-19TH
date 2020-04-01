@@ -1,8 +1,7 @@
 <template>
     <div id="signupbox"
          class="mainbox mx-auto bg-white col-md-8 col-lg-6 col-md-offset-3 col-sm-8 col-sm-offset-2 mb-16">
-
-        <div class="panel panel-info">
+        <div v-if="tokenPass==true" class="panel panel-info">
             <div class="panel-heading text-center text-3xl">
                 <div class="panel-title">ลงทะเบียนในนามของสถานพยาบาล</div>
             </div>
@@ -225,6 +224,7 @@
                 </form>
             </div>
         </div>
+        <TypeTokenSection v-else @returnToken="changeStatus"/>
         <el-dialog title="ลงทะเบียน" :visible.sync="confirmDialog" @closed="closeModal">
             <section>
                 <!--                        show when complete-->
@@ -271,13 +271,16 @@
     import {Validator} from "../main";
     import axios from 'axios'
     import Loader from "./Loader";
+    import TypeTokenSection from "./TypeTokenSection";
 
     export default {
         components: {
-            Loader
+            Loader,
+            TypeTokenSection
         },
         data() {
             return {
+                token:'',
                 username: '',
                 fname: '',
                 lname: '',
@@ -396,7 +399,8 @@
                     },
                 ],
                 error: '',
-                isLoading: false
+                isLoading: false,
+                tokenPass: false
             }
         },
         validators: {
@@ -465,6 +469,10 @@
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
+            changeStatus(token){
+                this.token = token
+                this.tokenPass = true
+            },
             showDialog() {
                 this.$validate(["username", "fname", "lname", "user_tel", "email", "password", "repassword", "name", "address", "tel", "accountName", "accountNumber", "accountBank"]);
                 if (
@@ -489,6 +497,7 @@
             regis() {
                 this.isLoading = true
                 let formData = new FormData();
+                formData.append('token', this.token);
                 formData.append('username', this.username);
                 formData.append('first_name', this.fname);
                 formData.append('last_name', this.lname);
@@ -579,10 +588,12 @@
         transform: translate(0%, -50%);
         z-index: 5 !important;
     }
-    .el-dialog__wrapper{
+
+    .el-dialog__wrapper {
         z-index: 3 !important;
     }
-    .v-modal{
+
+    .v-modal {
         z-index: 2 !important;
     }
 </style>

@@ -2,7 +2,7 @@
     <div class="container">
           <h1 class="text-2xl mt-5 mb-3">รับบริจาคสิ่งของ</h1>
         <div class="row">
-            <div v-for="post in dataNeed" :key="post.id" class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div v-for="post in dataNeed" :key="post.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <CardPost :data="post" />
             </div>
         </div>

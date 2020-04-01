@@ -39,7 +39,7 @@
 
                     <div style="margin-top:10px" class="form-group">
                         <div class="col-sm-12 text-center">
-                            <a @click="login" class="btn bg-green text-white w-32 mb-8">Login </a>
+                            <a @click="login" class="btn bg-green text-white w-32 mb-8">ลงทะเบียน</a>
                         </div>
                     </div>
                 </form>
