@@ -1,6 +1,9 @@
 import string
 import random
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from django.core.management import BaseCommand, CommandError
+from pprint import pprint
 from core.models import User, RegisterToken
 from django.contrib.auth.models import Group
 
@@ -13,10 +16,10 @@ class Command(BaseCommand):
     """Django command to add db"""
 
     def handle(self, *args, **options):
-        registertoken = RegisterToken.objects.all()
         many = int(input("Please enter how many token you need: "))
         for _ in range(many):
             token = token_generator()
             RegisterToken.objects.create(
                 token=token
             )
+        print("Finish adding Token!")

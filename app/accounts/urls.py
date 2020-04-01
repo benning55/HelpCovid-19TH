@@ -8,6 +8,7 @@ router.register('hospital', views.HospitalApiView.as_view(), base_name='hospital
 
 urlpatterns = [
     path('register/', views.register),
+    path('register-token/', views.get_token),
     path('user/', views.get_user),
     path('location/', views.get_location),
     path('location/<int:pk>/', views.get_location),

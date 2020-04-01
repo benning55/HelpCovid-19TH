@@ -203,7 +203,7 @@ class EmailStaff(models.Model):
 
 class RegisterToken(models.Model):
     """ Token to match up to register"""
-    token = models.CharField(max_length=10)
+    token = models.CharField(primary_key=True, max_length=10)
     status = models.BooleanField(default=False)
     register = models.ForeignKey(
         User,

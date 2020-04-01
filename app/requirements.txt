@@ -12,3 +12,6 @@ django-crispy-forms==1.8.1
 gunicorn==20.0.4
 schedule==0.6.0
 whitenoise==5.0.1
+gspread==3.3.0
+oauth2client==4.1.3
+

@@ -6,6 +6,10 @@
             {% csrf_token %}
                 <button type="submit" style="background-color: 	skyblue; color: white; border-radius: 10%; font-size: 15px; font-weight: bold">Add superuser</button>
         </form>
+        <form action="look-token/">
+            {% csrf_token %}
+                <button type="submit" style="background-color: 	green; color: white; border-radius: 10%; font-size: 15px; font-weight: bold">Get All token</button>
+        </form>
     </div>
     <br />
     {{ block.super }}

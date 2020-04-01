@@ -12,11 +12,18 @@ from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
-from core.models import User, Hospital, EmailStaff
+from core.models import User, Hospital, EmailStaff, RegisterToken
 
 from accounts import serializers
 
 Timeline = namedtuple('Timeline', ('hospital', 'user'))
+
+
+def token_complete(new_user, tokens):
+    current_token = RegisterToken.objects.get(token=tokens)
+    current_token.status = True
+    current_token.register = new_user
+    current_token.save()
 
 
 def new_hospital_notify(hospital):
@@ -49,7 +56,6 @@ def register(request, format=None):
     """
     if request.method == 'POST':
         data = request.data
-        print(data['bank_account_name'])
         try:
             hospital = {
                 'name': data['name'],
@@ -112,6 +118,7 @@ def register(request, format=None):
             new_user.set_password(user['password'])
             new_user.save()
             new_hospital_notify(new_hospital)
+            token_complete(new_user, data['token'])
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -161,3 +168,19 @@ def get_location(request, *args, **kwargs):
         queryset = queryset.filter(pk=pk)
         serializer = serializers.getLocationSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST', ])
+@permission_classes([AllowAny, ])
+def get_token(request, *args, **kwargs):
+    """Get admin basic information"""
+    if request.method == "POST":
+        data = request.data
+        queryset = RegisterToken.objects.all()
+        queryset = queryset.filter(token=data['token'])
+        queryset = queryset.filter(status=False)
+        if queryset.count() > 0:
+            return Response({'success': 'โทเค่นนี้ยังสามารถใช้งานได้'}, status=status.HTTP_200_OK)
+        else:
+            print(queryset)
+            return Response({'error': 'โทเค่นนี้ได้ถูกใช้งานไปแล้วโปรดติดต่อผู้ให้โทเค่นอีกครั้ง'}, status=status.HTTP_400_BAD_REQUEST)
