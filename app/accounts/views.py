@@ -182,5 +182,4 @@ def get_token(request, *args, **kwargs):
         if queryset.count() > 0:
             return Response({'success': 'โทเค่นนี้ยังสามารถใช้งานได้'}, status=status.HTTP_200_OK)
         else:
-            print(queryset)
             return Response({'error': 'โทเค่นนี้ได้ถูกใช้งานไปแล้วโปรดติดต่อผู้ให้โทเค่นอีกครั้ง'}, status=status.HTTP_400_BAD_REQUEST)

@@ -9,3 +9,7 @@ docker-compose exec django sh -c "python manage.py makemigrations && python mana
 
 # กลับมา uncomment
 ส่งอีเมล หน้า models.py, register
+
+# Add token
+```docker-compose exec django sh -c "python manage.py gentoken"```
+then enter how much token you want
