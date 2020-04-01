@@ -16,10 +16,10 @@ services:
     command: >
       sh -c "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && python manage.py initdb && gunicorn app.wsgi:application --timeout 800 --bind 0.0.0.0:8000"
     environment:
-      - DB_HOST=35.197.152.15
+      - DB_HOST=db
       - DB_NAME=covid19th
-      - DB_USER=mbro@covid
-      - DB_PASS=MBROGLOBAL!covid19
+      - DB_USER=covid19
+      - DB_PASS=postgres2562
       - SECRET_KEY=3thwz0c7yn)+n10s22i@c!n0)l@&82n#$$q6qk*9@nz-0y-$$0s7
       - EMAIL_HOST=smtp.sendgrid.net
       - EMAIL_HOST_USER=ben@covid19
