@@ -199,3 +199,15 @@ class EmailStaff(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class RegisterToken(models.Model):
+    """ Token to match up to register"""
+    token = models.CharField(max_length=10)
+    status = models.BooleanField(default=False)
+    register = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
