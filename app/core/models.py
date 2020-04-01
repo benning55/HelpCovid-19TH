@@ -211,3 +211,4 @@ class RegisterToken(models.Model):
         blank=True,
         null=True
     )
+    created = models.DateTimeField(default=datetime.datetime.now, editable=False)

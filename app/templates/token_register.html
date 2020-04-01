@@ -1,0 +1,21 @@
+{% extends 'admin/change_list.html' %}
+
+{% block object-tools %}
+    <div>
+        <form action="look-token/">
+            {% csrf_token %}
+            <button type="submit" style="background-color: 	green; color: white; border-radius: 10%; font-size: 15px; font-weight: bold">Get All token to spreadsheet</button>
+            <span><button type="button"><a href="https://docs.google.com/spreadsheets/d/1yxkzt_CDMf9-KqXLsX_8Mn-0J_srXw7C_nU6Lq4Qfks/edit?usp=sharing">Go to spreadsheet</a></button></span>
+        </form>
+        <br>
+        <form action="add_token/" method="post">
+            {% csrf_token %}
+            <label>
+                <input type="text" name="num" value="{{ source.num }}">
+            </label>
+            <button type="submit" value="submit">Generate new token by input</button>
+        </form>
+    </div>
+    <br />
+    {{ block.super }}
+{% endblock %}
