@@ -1,21 +1,86 @@
 {% extends 'admin/change_list.html' %}
 
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
 {% block object-tools %}
     <div>
         <form action="look-token/">
             {% csrf_token %}
-            <button type="submit" style="background-color: 	green; color: white; border-radius: 10%; font-size: 15px; font-weight: bold">Get All token to spreadsheet</button>
-            <span><button type="button"><a href="https://docs.google.com/spreadsheets/d/1yxkzt_CDMf9-KqXLsX_8Mn-0J_srXw7C_nU6Lq4Qfks/edit?usp=sharing">Go to spreadsheet</a></button></span>
+
+            <button type="submit" style="display: inline-block;
+            color:black;
+            background-color: #d4f8e8;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;">อัปเดท token ลง spreadsheet
+            </button>
+            <span><button type="button" style="
+            display: inline-block;
+            color:white;
+            background-color: #1eb2a6;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;">
+                <a style="color: white"
+                   href="https://docs.google.com/spreadsheets/d/1yxkzt_CDMf9-KqXLsX_8Mn-0J_srXw7C_nU6Lq4Qfks/edit?usp=sharing">ไปที่ spreadsheet</a></button></span>
         </form>
-        <br>
+        <hr style="margin: 10px 0 10px ">
         <form action="add_token/" method="post">
             {% csrf_token %}
             <label>
                 <input type="text" name="num" value="{{ source.num }}">
             </label>
-            <button type="submit" value="submit">Generate new token by input</button>
+            <button type="submit" value="submit"
+                    style="
+            display: inline-block;
+            color:white;
+            background-color: #ffa34d;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;">
+                สร้าง Token ใหม่ตามจำนวน
+            </button>
         </form>
     </div>
-    <br />
+    <br/>
     {{ block.super }}
 {% endblock %}
+</body>
+</html>
+
