@@ -8,12 +8,13 @@ from accounts.serializers import HospitalSerializer
 class NeedSerializer(serializers.ModelSerializer):
     hospital_id = serializers.IntegerField(write_only=True)
     hospital = HospitalSerializer(required=False)
+    category_id = serializers.IntegerField(write_only=True)
     user = serializers.SerializerMethodField(read_only=True, required=False)
     total_donation = serializers.SerializerMethodField(read_only=True, required=False)
 
     class Meta:
         model = Need
-        fields = ('id', 'hospital_id', 'hospital', 'title', 'description', 'picture', 'amount', 'base_amount', 'status', 'created', 'user', 'total_donation')
+        fields = ('id', 'hospital_id', 'hospital', 'title', 'category_id', 'description', 'picture', 'amount', 'base_amount', 'status', 'created', 'user', 'total_donation')
         extra_kwargs = {
             'id': {'read_only': True},
             'status': {'read_only': True},
@@ -24,13 +25,32 @@ class NeedSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.hospital_id = validated_data.get('hospital_id', instance.hospital_id)
+        instance.category_id = validated_data.get('category_id', instance.category_id)
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.picture = validated_data.get('picture', instance.picture)
-        instance.amount = validated_data.get('amount', instance.amount)
+        instance.base_amount = validated_data.get('amount', instance.amount)
+
+        if instance.amount < instance.base_amount:
+            instance.status = False
+        else:
+            instance.status = True
 
         instance.save()
         return instance
+
+    def create(self, validated_data):
+        need = Need.objects.create(
+            hospital_id=validated_data.get('hospital_id'),
+            category_id=validated_data.get('category_id'),
+            title=validated_data.get('title'),
+            description=validated_data.get('description'),
+            picture=validated_data.get('picture'),
+            amount=validated_data.get('amount'),
+            base_amount=validated_data.get('amount')
+        )
+
+        return need
 
     def get_user(self, obj):
         hospital_id = obj.hospital_id

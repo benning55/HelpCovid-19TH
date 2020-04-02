@@ -11,7 +11,7 @@ class OfficerDonatorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Donator
-        fields = ('id', 'need_id', 'need', 'first_name', 'last_name', 'amount', 'email', 'tel', 'approve_status', 'created')
+        fields = ('id', 'need_id', 'need', 'first_name', 'last_name', 'company_name', 'tax_id', 'amount', 'email', 'tel', 'approve_status', 'created')
         extra_kwargs = {
             'id': {'read_only': True},
             'created': {'read_only': True},
@@ -23,6 +23,8 @@ class OfficerDonatorSerializer(serializers.ModelSerializer):
         instance.need_id = validated_data.get('need_id', instance.need_id)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.company_name = validated_data.get('company_name', instance.company_name)
+        instance.tax_id = validated_data.get('tax_id', instance.tax_id)
         instance.email = validated_data.get('email', instance.email)
         instance.amount = validated_data.get('amount', instance.amount)
         instance.tel = validated_data.get('tel', instance.tel)
@@ -64,7 +66,7 @@ class OfficerMoneyDonateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MoneyDonate
-        fields = ('id', 'hospital_id', 'hospital', 'first_name', 'last_name', 'receipt', 'amount', 'approve_status', 'created')
+        fields = ('id', 'hospital_id', 'hospital', 'first_name', 'last_name', 'company_name', 'tax_id', 'receipt', 'email', 'tel', 'amount', 'approve_status', 'created')
         extra_kwargs = {
             'id': {'read_only': True},
             'created': {'read_only': True}
@@ -75,7 +77,11 @@ class OfficerMoneyDonateSerializer(serializers.ModelSerializer):
         instance.hospital_id = validated_data.get('hospital_id', instance.hospital_id)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.company_name = validated_data('company_name', instance.company_name)
+        instance.tax_id = validated_data('tax_id', instance.tax_id)
         instance.receipt = validated_data.get('receipt', instance.receipt)
+        instance.email = validated_data.get('email', instance.email)
+        instance.tel = validated_data.get('tel', instance.tel)
         instance.amount = validated_data.get('amount', instance.amount)
         if validated_data.get('approve_status') == instance.approve_status:
             instance.approve_status = validated_data.get('approve_status', instance.approve_status)

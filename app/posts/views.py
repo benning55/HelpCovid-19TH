@@ -83,32 +83,9 @@ def add_need(request, *args, **kwargs):
     if request.method == "POST":
         user = request.user
         data = request.data
-        try:
-            payload = {
-                'hospital_id': user.hospital.id,
-                'title': data['title'],
-                'description': data['description'],
-                'picture': request.FILES['picture'],
-                'amount': data['amount']
-            }
-        except:
-            payload = {
-                'hospital_id': user.hospital.id,
-                'title': data['title'],
-                'description': data['description'],
-                'picture': None,
-                'amount': data['amount']
-            }
-        serializer = serializers.NeedSerializer(data=payload)
+        serializer = serializers.NeedSerializer(data=data)
         if serializer.is_valid():
-            need = Need.objects.create(
-                hospital_id=payload['hospital_id'],
-                title=payload['title'],
-                description=payload['description'],
-                picture=payload['picture'],
-                amount=payload['amount'],
-                base_amount=payload['amount']
-            )
+            need = serializer.create(validated_data=serializer.validated_data)
             queryset = Need.objects.all().filter(pk=need.pk)
             show = serializers.NeedSerializer(queryset, many=True)
             return Response({'data': show.data}, status=status.HTTP_200_OK)

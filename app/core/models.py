@@ -139,6 +139,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Categorie(models.Model):
     name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
 
 
 class Need(models.Model):
