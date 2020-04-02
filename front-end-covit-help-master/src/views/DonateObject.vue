@@ -88,7 +88,7 @@
                 <div v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
                     <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
                         <i class="far fa-check-circle"></i></div>
-                    <p class="pb-5">ส่งข้อมูลให้เจ้าหน้าที่แล้ว กรุณารอการติดต่อกลับจากเจ้าหน้าที่</p>
+                    <p class="pb-5">ข้อมูลถูกส่งแล้ว กรุณารอการติดต่อกลับจากเจ้าหน้าที่สถานพยาบาล</p>
                     <span slot="footer" class="dialog-footer flex justify-between w-full">
                         <el-button type="primary" @click="goHome">กลับไปหน้าหลัก</el-button>
                     </span>

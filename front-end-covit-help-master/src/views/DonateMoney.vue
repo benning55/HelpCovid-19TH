@@ -6,7 +6,7 @@
                 :closable="false"
                 type="warning"
                 show-icon>
-            <p class="text-black text-md">กรุณาตรวจสอบ ชื่อบัญชีว่าถูกต้อง ก่อนกดโอน</p>
+            <p class="text-black text-md" style="font-size: 1rem;">กรุณาตรวจสอบ ชื่อบัญชีว่าถูกต้องหรือไม่ ก่อนกดโอน</p>
         </el-alert>
         <form class="mt-3">
             <div class="form-group">
