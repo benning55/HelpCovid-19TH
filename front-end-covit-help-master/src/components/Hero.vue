@@ -8,7 +8,7 @@
                 และเป็นการแบ่งเบาภาระภาครัฐ</p>
             <hr class="my-4">
             <h1 v-if="!$store.state.isAuthenticated">
-                สำหรับสถานพยาบาลหรือหน่วยงานที่เกี่ยวข้องสามารถลงทะเบียนเพื่อขอรับบริจาคได้
+                โรงพยาบาลและหน่วยงานทางการแพทย์สามารถส่ง email รายชื่อตัวแทนของหน่วยงานของท่าน โดยระบุ ชื่อ-นามสกุล ตำแหน่ง และเบอร์โทรศัพท์ มาที่ admin@covid19th.org และทำการลงทะเบียนได้
                 <router-link to="/login"><span class="text-green">ที่นี่</span></router-link>
             </h1>
             <button v-else @click="goDonateDashBoard" type="button" class="btn bg-green hover:bg-darkgreen text-white">

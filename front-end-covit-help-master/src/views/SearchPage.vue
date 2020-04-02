@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="text-2xl mt-5 mb-3">โรงพยาบาล</h1>
+        <h1 class="text-2xl mt-5 mb-3">ผลลัพท์จากการค้นหา</h1>
         <div v-if="dataHospital.length == 0" class="w-full h-32">
             <h1 class="center-y">ไม่พบสิ่งของที่คุณค้นหา</h1>
         </div>

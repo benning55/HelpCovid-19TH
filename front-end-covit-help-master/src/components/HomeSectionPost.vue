@@ -47,7 +47,14 @@
                     }
 
                 })
-                .catch()
+                .catch(e => {
+                    this.$message({
+                        showClose: true,
+                        message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                        type: 'error',
+                        duration: 10
+                    });
+                })
         }
     }
 </script>

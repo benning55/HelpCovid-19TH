@@ -1,7 +1,7 @@
 <template>
     <div id="loginbox"
          class="mainbox bg-white mx-auto col-md-8 col-lg-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <Loader v-if="isLoading" />
+        <Loader v-if="isLoading"/>
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title text-center text-3xl">ลงชื่อเข้าใช้ในนามของสถานพยาบาล</div>
@@ -54,12 +54,12 @@
     import Loader from "./Loader";
 
     export default {
-        components:{
+        components: {
             Loader
         },
         data() {
             return {
-                isLoading:false,
+                isLoading: false,
                 username: '',
                 password: '',
                 error: ''
@@ -106,7 +106,12 @@
                                 this.$router.push("/")
                             }).catch(e => {
                                 this.isLoading = false
-                                this.$message.error('Oops, Something is Error. code ' + e.response.status + ', at Login');
+                                this.$message({
+                                    showClose: true,
+                                    message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                                    type: 'error',
+                                    duration: 10
+                                });
                             })
                         })
                         .catch((error) => {

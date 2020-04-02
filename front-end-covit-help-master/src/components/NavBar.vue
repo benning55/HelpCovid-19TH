@@ -15,6 +15,9 @@
                     <li @click="goDonatePageMoney" class="nav-item cursor-pointer hover:bg-darkgreen">
                         <a class="nav-link text-white">บริจาคเงิน</a>
                     </li>
+                    <li @click="goAbout" class="nav-item cursor-pointer hover:bg-darkgreen">
+                        <a class="nav-link text-white">เกี่ยวกับเรา</a>
+                    </li>
                 </ul>
                 <ul v-else class="navbar-nav ml-auto topnav text-white">
                     <li @click="goDonateDashBoard" class="nav-item cursor-pointer hover:bg-darkgreen">
@@ -43,6 +46,11 @@
             }
         },
         methods: {
+            goAbout(){
+                this.$router.push({
+                    name: "About"
+                })
+            },
             goHome() {
                 this.$router.push({
                     name: "Home"

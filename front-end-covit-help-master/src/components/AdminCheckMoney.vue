@@ -302,7 +302,12 @@
                         this.donateUser = res.data.data
                     })
                     .catch(e => {
-                        console.log(e)
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                     })
                 axios.get(`${this.$store.state.host}/api/officer/officer-donate/`, {
                     headers: {
@@ -315,7 +320,12 @@
                         this.donateObject = res.data.data
                     })
                     .catch(e => {
-                        console.log(e)
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                     })
             },
             time(time) {
@@ -348,7 +358,12 @@
                         this.$emit("refresh")
                     })
                     .catch(e => {
-                        console.log(e)
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการรีเฟรชข้อมูล' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                     })
             },
             approveObj(id, index, approve) {
@@ -371,7 +386,14 @@
                     .then(() => {
                         this.donateObject[index].approve_status = approve
                     })
-                    .catch()
+                    .catch(e=>{
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการเปลี่ยนข้อมูล' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
+                    })
             }
         },
         mounted() {

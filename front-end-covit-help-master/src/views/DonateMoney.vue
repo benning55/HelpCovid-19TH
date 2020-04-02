@@ -1,7 +1,14 @@
 <template>
     <div class="container mt-5">
-        <h1 class="text-3xl text-center">บริจาคเงิน</h1>
-        <form>
+        <h1 class="text-3xl text-center mb-3">บริจาคเงิน</h1>
+        <p class="mb-2 text-sm text-red"></p>
+        <el-alert
+                :closable="false"
+                type="warning"
+                show-icon>
+            <p class="text-black text-md">กรุณาตรวจสอบ ชื่อบัญชีว่าถูกต้อง ก่อนกดโอน</p>
+        </el-alert>
+        <form class="mt-3">
             <div class="form-group">
                 <label>ชื่อจริง</label>
                 <p class="mb-2 text-sm text-gray">หากไม่ต้องการระบุให้ใส่เครื่องหมายขีด (-)</p>
@@ -25,7 +32,8 @@
 
             <div class="form-group">
                 <label>เบอร์โทรศัพท์</label>
-                <p class="mb-2 text-sm text-gray">ใช้ในการติดต่อกลับไปหากเกิดข้อผิดพลาด เช่น ยอดโอนไม่ตรงกัน หรือ ไม่พบประวัติการโอนเงิน</p>
+                <p class="mb-2 text-sm text-gray">ใช้ในการติดต่อกลับไปหากเกิดข้อผิดพลาด เช่น ยอดโอนไม่ตรงกัน หรือ
+                    ไม่พบประวัติการโอนเงิน</p>
                 <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงเบอร์โทรศัพท์ให้ผู้อื่นเห็น</p>
                 <input v-model="tel" class="form-control"
                        placeholder="กรุณาใส่เบอร์โทรศัพท์"
@@ -40,6 +48,7 @@
                        class="text-red">{{validation.firstError('imageData')}}</label>
                 <label v-else>รูปของหลักฐานการบริจาค เช่น สลิปโอนเงิน</label>
                 <p class="mb-2 text-sm text-gray">หลักฐานการโอนเงินของคุณจะถูกเก็บไว้เป็นความลับ</p>
+
                 <div class="col-12 upload-section">
                     <div class="upload-btn-wrapper w-full">
                         <div class="">
@@ -152,7 +161,7 @@
                 fname: '',
                 lname: '',
                 company_name: '',
-                company_email:'',
+                company_email: '',
                 tax_id: '',
                 amount: '',
                 tel: '',

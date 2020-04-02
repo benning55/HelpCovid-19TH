@@ -88,10 +88,16 @@
                     <div class="panel-title text-xl">บัญชีธนาคาร</div>
                     <hr>
                     <p class="mb-2 text-sm text-gray">
-                        ข้อมูลในส่วนนี้จะแสดงให้เห็นแก่ผู้มีความประสงค์จะบริจาคผ่านการโอนเงิน</p>
+                        ข้อมูลในส่วนนี้จะแสดงให้เห็นแก่ผู้มีความประสงค์จะบริจาคผ่านการโอนเงิน
+                        หากท่านต้องการรับบริจาคเฉพาะสิ่งของให้
+                    </p>
+                    <li class="mb-2 text-sm text-gray">ใส่ขีด (-) ในช่อง "ชื่อบัญชี"</li>
+                    <li class="mb-2 text-sm text-gray">ใส่ขีด (-) ในช่อง "เลขบัญชี"</li>
+                    <li class="mb-2 text-sm text-gray">ข้ามการเลือกธนาคารไปยังส่วนต่อไป</li>
 
                     <div class="form-group">
                         <label class="col-12 ">ชื่อบัญชี</label>
+                        <p class="mb-2 text-sm text-green col-12">หากไม่ต้องการให้ใส่ขีด (-)</p>
                         <p class="mb-2 text-sm text-gray col-12">(ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
                         <div class="col-md-12">
                             <input v-model="accountName" class="form-control"
@@ -105,9 +111,10 @@
 
                     <div class="form-group">
                         <label class="col-12 ">เลขบัญชี</label>
+                        <p class="mb-2 text-sm text-green col-12">หากไม่ต้องการให้ใส่ขีด (-)</p>
                         <p class="mb-2 text-sm text-gray col-12">(ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
                         <div class="col-md-12">
-                            <input v-model="accountNumber" type="number" class="form-control"
+                            <input v-model="accountNumber" class="form-control"
                                    :class="{'is-invalid':validation.firstError('accountNumber')}"
                                    placeholder="ใส่เลขบัญชี">
                             <div class="invalid-feedback">
@@ -118,9 +125,15 @@
 
                     <div class="form-group">
                         <label class="col-12 ">ธนาคาร</label>
+                        <p class="mb-2 text-sm text-green col-12">หากไม่ต้องการสามารถข้ามไปส่วนต่อไปได้</p>
                         <p class="mb-2 text-sm text-gray col-12">(ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
                         <div class="col-md-12">
                             <el-select v-model="accountBank" filterable placeholder="เลือกธนาคาร">
+                                <el-option label="ไม่ใส่ธนาคาร"
+                                           value="-">
+                                    <span style="float: left;margin-right: 10px"><i class="fas fa-ban"></i></span>
+                                    <span style="float: left">ไม่ใส่ธนาคาร</span>
+                                </el-option>
                                 <el-option
                                         v-for="item in dataBank"
                                         :key="item.title"
@@ -280,7 +293,7 @@
         },
         data() {
             return {
-                token:'',
+                token: '',
                 username: '',
                 fname: '',
                 lname: '',
@@ -293,7 +306,7 @@
                 tel: '',
                 accountName: "",
                 accountNumber: "",
-                accountBank: "",
+                accountBank: "-",
                 imageData: null,
                 profileImageURL: null,
                 confirmDialog: false,
@@ -469,7 +482,7 @@
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
-            changeStatus(token){
+            changeStatus(token) {
                 this.token = token
                 this.tokenPass = true
             },
@@ -534,7 +547,12 @@
                     this.registerStatus = 'error';
                     this.error = e.response.data.error
                     this.isLoading = false
-                    console.log(e.response.data)
+                    this.$message({
+                        showClose: true,
+                        message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                        type: 'error',
+                        duration: 10
+                    });
                 })
             },
             closeModal() {

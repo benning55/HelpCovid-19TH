@@ -65,7 +65,7 @@
             token(value) {
                 return Validator.value(value)
                     .required("กรุณา Token")
-                    .length(10,'กรุณาใส่ให้ครบ 10 หลัก')
+                    .length(10, 'กรุณาใส่ให้ครบ 10 หลัก')
             },
         },
         methods: {
@@ -83,9 +83,15 @@
                                 this.$emit('returnToken', this.token)
                             }
                         )
-                        .catch(e=>{
+                        .catch(e => {
                             this.isLoading = false
                             this.error = e.response.data.error
+                            this.$message({
+                                showClose: true,
+                                message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                                type: 'error',
+                                duration: 10
+                            });
                         })
 
                 }

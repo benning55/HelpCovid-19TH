@@ -3,6 +3,12 @@
         <div class="container">
             <div class="rounded mt-4">
 
+                <div v-if="$store.state.authUser.id == dataHospital.id">
+                    <div class="bg-light_green border-l-4 border-green text-black p-4" role="alert">
+                        <p>หากต้องการแก้ไขข้อมูล กรุณาติดต่อผู้ดูแลระบบ โดยส่งเมลล์มาที่ admin@covid19th.org</p>
+                    </div>
+                </div>
+
                 <div class="row">
                     <!--                    {{$store.state.authUser}}-->
                     <hr>
@@ -44,7 +50,14 @@
                             class="text-sm">บาท</a></h1>
 
                     <h1 class="">บริจาคได้ที่</h1>
-                    <div class="card p-3 bg-white col-12 col-sm-9 col-md-7 col-lg-5 mx-auto shadow-lg my-4"
+
+                    <div v-if="dataHospital.hospital.bank_account_number == '-'"
+                         class="card p-3 bg-white col-12 col-sm-9 col-md-7 col-lg-5 mx-auto shadow-lg my-4"
+                         style="border: 0">
+                        <h1 class="my-2 text-key_column"><span class="text-black">ยังไม่ขอรับบริจาคเงิน</span></h1>
+                    </div>
+
+                    <div v-else class="card p-3 bg-white col-12 col-sm-9 col-md-7 col-lg-5 mx-auto shadow-lg my-4"
                          style="border: 0">
                         <h1 class="my-2 text-key_column">เลขบัญชี : <span class="text-2xl text-black">{{dataHospital.hospital.bank_account_number}}</span>
                         </h1>
@@ -52,7 +65,6 @@
                             <span class="text-black">{{dataHospital.hospital.bank_account_name}}</span></h1>
                         <h1 class="my-2 text-key_column">ธนาคาร : <span class="text-black">{{dataHospital.hospital.bank_name}}</span>
                         </h1>
-
                     </div>
 
                     <a href="#point" v-if="$store.state.authUser.id == dataHospital.id">
@@ -88,7 +100,9 @@
 
                         <!--people case-->
                         <tr v-for="user in donateUser" :key="user.id">
-                            <td v-if="user.company_name == null"><i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}</td>
+                            <td v-if="user.company_name == ''"><i class="fas fa-user-alt"></i> {{user.first_name}}
+                                {{user.last_name}}
+                            </td>
                             <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
                             <td>{{numberWithCommas(user.amount)}}</td>
                         </tr>

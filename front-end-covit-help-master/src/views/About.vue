@@ -5,3 +5,15 @@
         </div>
     </div>
 </template>
+
+<script>
+    import axios from 'axios'
+
+    export default {
+        data(){
+            return{
+                // axios.get(`${this.$store.state.host}`)
+            }
+        }
+    }
+</script>

@@ -106,13 +106,17 @@
                         this.donater = res.data.data
                     })
                     .catch(e => {
-                        console.log(e)
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration: 10
+                        });
                     })
             },
             approve(id, index, approve) {
-                console.log(id, index, approve)
                 let stringApprove = ''
-                if(approve == true){
+                if (approve == true) {
                     stringApprove = 'True'
                 } else {
                     stringApprove = 'False'
@@ -130,7 +134,14 @@
                     .then(() => {
                         this.donater[index].approve_status = approve
                     })
-                    .catch()
+                    .catch(e => {
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration: 10
+                        });
+                    })
             }
         }
     }

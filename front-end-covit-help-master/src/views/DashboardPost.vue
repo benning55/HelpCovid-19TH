@@ -74,7 +74,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="user in donateUser" :key="user.id">
-                        <td v-if="user.company_name == null">
+                        <td v-if="user.company_name == ''">
                             <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                         </td>
                         <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
