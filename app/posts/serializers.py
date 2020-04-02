@@ -59,7 +59,7 @@ class DonatorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Donator
-        fields = ('id', 'need_id', 'need', 'first_name', 'last_name', 'amount', 'email', 'tel', 'approve_status', 'created')
+        fields = ('id', 'need_id', 'need', 'first_name', 'last_name', 'company_name', 'tax_id', 'amount', 'email', 'tel', 'approve_status', 'created')
         extra_kwargs = {
             'id': {'read_only': True},
             'approve_status': {'read_only': True},
@@ -81,6 +81,20 @@ class DonatorSerializer(serializers.ModelSerializer):
 
         return data
 
+    def create(self, validated_data):
+        donator = Donator.objects.create(
+            need_id=validated_data.get('need_id'),
+            first_name=validated_data.get('first_name'),
+            last_name=validated_data.get('last_name'),
+            company_name=validated_data.get('company_name', None),
+            tax_id=validated_data.get('tax_id', None),
+            amount=validated_data.get('amount'),
+            email=validated_data.get('email', None),
+            tel=validated_data.get('tel')
+        )
+
+        return donator
+
 
 class MoneyDonateSerializer(serializers.ModelSerializer):
     hospital = HospitalSerializer(required=False, read_only=True)
@@ -88,9 +102,24 @@ class MoneyDonateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MoneyDonate
-        fields = ('id', 'hospital_id', 'hospital', 'first_name', 'last_name', 'receipt', 'amount', 'approve_status', 'created')
+        fields = ('id', 'hospital_id', 'hospital', 'first_name', 'last_name', 'company_name', 'tax_id', 'receipt', 'amount', 'email', 'tel', 'approve_status', 'created')
         extra_kwargs = {
             'id': {'read_only': True},
             'approve_status': {'read_only': True},
             'created': {'read_only': True}
         }
+
+    def create(self, validated_data):
+        donator = MoneyDonate.objects.create(
+            hospital_id=validated_data.get('hospital_id'),
+            first_name=validated_data.get('first_name'),
+            last_name=validated_data.get('last_name'),
+            company_name=validated_data.get('company_name', None),
+            tax_id=validated_data.get('tax_id', None),
+            receipt=validated_data.get('receipt'),
+            amount=validated_data.get('amount'),
+            email=validated_data.get('email', None),
+            tel=validated_data.get('tel', None)
+        )
+
+        return donator

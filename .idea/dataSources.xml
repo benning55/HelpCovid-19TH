@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="covid19th@localhost" uuid="de696f69-cf6e-46b8-b47f-7a092bdd822d">
+    <data-source source="LOCAL" name="covid19th@35.186.149.12" uuid="d6ea188e-30f9-4bc1-812b-0b896387b419">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://35.186.149.12:5433/covid19th</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="covid19th@localhost" uuid="9c7c0908-396c-457b-9770-977027a34ff1">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5433/covid19th</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="covid19th@35.197.152.15" uuid="5f0ac2ee-a11d-4a87-a12a-03c9ae6dce4d">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://35.197.152.15:5432/covid19th</jdbc-url>
     </data-source>
   </component>
 </project>

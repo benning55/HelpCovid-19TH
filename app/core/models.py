@@ -137,10 +137,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
 
+class Categorie(models.Model):
+    name = models.CharField(max_length=255)
+
+
 class Need(models.Model):
     """Need of hospital"""
     hospital = models.ForeignKey(
         Hospital,
+        on_delete=models.CASCADE
+    )
+    category = models.ForeignKey(
+        Categorie,
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255)
@@ -149,7 +157,7 @@ class Need(models.Model):
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     base_amount = models.DecimalField(max_digits=20, decimal_places=2)
     status = models.BooleanField(default=False)
-    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return f'{self.hospital.name}, {self.title}'
@@ -164,10 +172,12 @@ class Donator(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, blank=True, null=True)
+    company_name = models.CharField(max_length=255, blank=True, null=True)
+    tax_id = models.CharField(max_length=255, blank=True, null=True)
     tel = models.CharField(max_length=10)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     approve_status = models.BooleanField(default=False)
-    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -181,13 +191,15 @@ class MoneyDonate(models.Model):
     )
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    company_name = models.CharField(max_length=255, blank=True, null=True)
+    tax_id = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=255, blank=True, null=True)
     tel = models.CharField(max_length=10, blank=True, null=True)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     receipt = models.ImageField(upload_to=receipt_image)
     time_transfer = models.DateTimeField(blank=True, null=True)
     approve_status = models.BooleanField(default=False)
-    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -211,4 +223,4 @@ class RegisterToken(models.Model):
         blank=True,
         null=True
     )
-    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False)

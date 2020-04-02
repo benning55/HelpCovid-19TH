@@ -151,25 +151,10 @@ def donate_need(request, *args, **kwargs):
     elif request.method == "POST":
         """Create new donation"""
         data = request.data
-        payload = {
-            'need_id': data['need_id'],
-            'first_name': data['first_name'],
-            'last_name': data['last_name'],
-            'amount': data['amount'],
-            'email': data['email'],
-            'tel': data['tel'],
-        }
 
-        serializer = serializers.DonatorSerializer(data=payload)
+        serializer = serializers.DonatorSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
-            donate = Donator.objects.create(
-                need_id=payload['need_id'],
-                first_name=payload['first_name'],
-                last_name=payload['last_name'],
-                amount=payload['amount'],
-                email=payload['email'],
-                tel=payload['tel']
-            )
+            donate = serializer.create(validated_data=serializer.validated_data)
             query = Donator.objects.all().filter(pk=donate.id)
             new_donation_notify(donate)
             show = serializers.DonatorSerializer(query, many=True)
@@ -196,23 +181,9 @@ def donate_money(request, *args, **kwargs):
     elif request.method == "POST":
         """Create new money donation"""
         data = request.data
-        payload = {
-            'hospital_id': data['hospital_id'],
-            'first_name': data['first_name'],
-            'last_name': data['last_name'],
-            'receipt': request.FILES['receipt'],
-            'amount': data['amount'],
-        }
-
-        serializer = serializers.MoneyDonateSerializer(data=payload)
+        serializer = serializers.MoneyDonateSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
-            money_donate = MoneyDonate.objects.create(
-                hospital_id=payload['hospital_id'],
-                first_name=payload['first_name'],
-                last_name=payload['last_name'],
-                receipt=payload['receipt'],
-                amount=payload['amount']
-            )
+            money_donate = serializer.create(validated_data=serializer.validated_data)
             new_donation_money_notify(money_donate)
             query = MoneyDonate.objects.all().filter(pk=money_donate.id)
             show = serializers.MoneyDonateSerializer(query, many=True)
