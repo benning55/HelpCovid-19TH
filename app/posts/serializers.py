@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from core.models import Need, Donator, User, MoneyDonate
+from core.models import Need, Donator, User, MoneyDonate, Categorie
 from accounts.serializers import HospitalSerializer
 
 
@@ -29,12 +29,8 @@ class NeedSerializer(serializers.ModelSerializer):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.picture = validated_data.get('picture', instance.picture)
+        instance.amount = validated_data.get('amount', instance.amount)
         instance.base_amount = validated_data.get('amount', instance.amount)
-
-        if instance.amount < instance.base_amount:
-            instance.status = False
-        else:
-            instance.status = True
 
         instance.save()
         return instance
@@ -143,3 +139,15 @@ class MoneyDonateSerializer(serializers.ModelSerializer):
         )
 
         return donator
+
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Categorie
+        fields = ('id', 'name', 'description')
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'name': {'read_only': True},
+            'description': {'read_only': True}
+        }
