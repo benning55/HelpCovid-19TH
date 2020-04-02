@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, exceptions
 from collections import namedtuple
-from core.models import Need, Donator, MoneyDonate, User
+from core.models import Need, Donator, MoneyDonate, User, Categorie
 from posts import serializers
 
 
@@ -56,7 +56,7 @@ def new_donation_money_notify(money_donate):
 def get_all_need(request, *args, **kwargs):
     """Get all the need"""
     if request.method == "GET":
-        queryset = Need.objects.all().order_by('-id')
+        queryset = Need.objects.all().order_by('-amount')
         # print(queryset)
         pk = kwargs.get('pk')
         if pk is None:
@@ -166,3 +166,22 @@ def donate_money(request, *args, **kwargs):
             show = serializers.MoneyDonateSerializer(query, many=True)
             return Response({'data': show.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def show_categories(request):
+    """ Api to load all categories """
+    queryset = Categorie.objects.all()
+    serializer = serializers.CategorySerializer(queryset, many=True)
+    return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST', ])
+@permission_classes([AllowAny, ])
+def get_search(request):
+    """ Api to load all categories """
+    data = request.data
+    queryset = Need.objects.all().filter(title__icontains=data['title']).order_by('-amount')
+    serializer = serializers.NeedSerializer(queryset, many=True)
+    return Response({'data': serializer.data}, status=status.HTTP_200_OK)
