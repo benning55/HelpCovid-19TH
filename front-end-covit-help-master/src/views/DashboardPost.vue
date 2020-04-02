@@ -22,7 +22,8 @@
                     <p>{{dataPost.description}}</p>
                 </div>
 
-                <button v-if="$store.state.authUser.email != dataPost.user.email" @click="goDonateObject(dataPost.id)" type="button" class="btn bg-green text-white">
+                <button v-if="$store.state.authUser.email != dataPost.user.email" @click="goDonateObject(dataPost.id)"
+                        type="button" class="btn bg-green text-white">
                     ส่งความประส่งในการบริจาค
                 </button>
                 <button v-else @click="goEdit(dataPost.id)" type="button" class="btn bg-green text-white">
@@ -35,9 +36,9 @@
                         <div class="card-body flex md:justify-end justify-start">
                             <img v-if="dataPost.hospital.picture != null"
                                  :src="$store.state.host+dataPost.hospital.picture"
-                                 class="w-24 h-24 object-contain mr-3" alt="Card image cap">
+                                 class="w-24 h-24 object-contain mr-3 border-image shadow-lg" :alt="dataPost.hospital.name">
                             <img v-else src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg"
-                                 class="w-24 h-24 object-contain mr-3" alt="Card image cap">
+                                 class="w-24 h-24 object-contain mr-3 border-image shadow-lg" :alt="dataPost.hospital.name">
                             <div>
                                 <p class="card-title font-bold">{{dataPost.hospital.name}}</p>
                                 <p class="card-title"><i class="fas fa-map-marker-alt mr-2"></i>{{dataPost.hospital.address}}
@@ -67,16 +68,17 @@
                 <table v-else class="table">
                     <thead>
                     <tr>
-                        <th scope="col">ชื่อ</th>
-                        <th scope="col">นามสกุล</th>
+                        <th scope="col">ชื่อ/บริษัท</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="user in donateUser" :key="user.id">
-                        <td>{{user.first_name}}</td>
-                        <td>{{user.last_name}}</td>
-                        <td>{{Math.floor(user.amount)}}</td>
+                        <td v-if="user.company_name == null">
+                            <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
+                        </td>
+                        <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
+                        <td>{{numberWithCommas(Math.floor(user.amount))}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -91,7 +93,7 @@
     import AdminCheckObject from "../components/AdminCheckObject";
 
     export default {
-        components:{
+        components: {
             AdminCheckObject
         },
         data() {
@@ -117,6 +119,9 @@
                 })
         },
         methods: {
+            numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             goDonateObject() {
                 this.$router.push({
                     name: "DonateObject",
@@ -135,10 +140,10 @@
             percent() {
                 return Math.floor(100 - ((this.dataPost.amount / this.dataPost.base_amount) * 100))
             },
-            goEdit(id){
+            goEdit(id) {
                 this.$router.push({
-                    name:'PostEdit',
-                    params:{id:id}
+                    name: 'PostEdit',
+                    params: {id: id}
                 })
             }
         }

@@ -573,6 +573,8 @@
         position: relative;
         overflow: hidden;
         margin: auto;
+        border-radius: 10px;
+
     }
 
     .profile-pic {

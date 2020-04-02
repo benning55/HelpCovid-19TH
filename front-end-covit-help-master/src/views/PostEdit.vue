@@ -148,7 +148,7 @@
                 .then(res => {
                     this.title = res.data.data[0].title
                     this.description = res.data.data[0].description
-                    this.amount = Math.floor(res.data.data[0].amount)
+                    this.amount = Math.floor(res.data.data[0].base_amount)
                     this.oldImage = res.data.data[0].picture
                 })
                 .catch(e => {
@@ -187,7 +187,7 @@
                 }
                 formData.append('title', this.title);
                 formData.append('description', this.description);
-                formData.append('amount', this.amount);
+                formData.append('base_amount', this.amount);
 
                 axios.put(`${this.$store.state.host}/api/posts/create-need/${this.$route.params.id}/`, formData, {
                     headers: {

@@ -39,10 +39,9 @@
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <!--                <img src="../assets/logo.png" class="mx-auto w-40 h-40 object-contain" alt="Card image cap">-->
-                    <!--                <p class=" text-2xl">Title xxxxxxxxxxxxxxxxxxxx</p>-->
                     <h1 class="my-4">ขณะนี้มีผู้บริจาคผ่านระบบไปแล้ว</h1>
-                    <h1 class="text-5xl my-5"> {{dataHospital.hospital.donated_money}} <a class="text-sm">บาท</a></h1>
+                    <h1 class="text-5xl my-5"> {{numberWithCommas(dataHospital.hospital.donated_money)}} <a
+                            class="text-sm">บาท</a></h1>
 
                     <h1 class="">บริจาคได้ที่</h1>
                     <div class="card p-3 bg-white col-12 col-sm-9 col-md-7 col-lg-5 mx-auto shadow-lg my-4"
@@ -81,16 +80,17 @@
                     <table v-else class="table">
                         <thead>
                         <tr>
-                            <th scope="col">ชื่อ</th>
-                            <th scope="col">นามสกุล</th>
+                            <th scope="col">ชื่อ/บริษัท</th>
                             <th scope="col" style="width: 110px">จำนวน(บาท)</th>
                         </tr>
                         </thead>
                         <tbody>
+
+                        <!--people case-->
                         <tr v-for="user in donateUser" :key="user.id">
-                            <td>{{user.first_name}}</td>
-                            <td>{{user.last_name}}</td>
-                            <td>{{user.amount}}</td>
+                            <td v-if="user.company_name == null"><i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}</td>
+                            <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
+                            <td>{{numberWithCommas(user.amount)}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -130,6 +130,9 @@
             this.getData()
         },
         methods: {
+            numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             getData() {
                 axios.get(`${this.$store.state.host}/api/accounts/hospital/${this.$route.params.id}/`)
                     .then(res => {
@@ -143,18 +146,21 @@
                             })
                     })
                     .catch()
-            },
+            }
+            ,
             goDonateMoney(id) {
                 this.$router.push({
                     name: "DonateMoney",
                     params: {id: id}
                 })
-            },
+            }
+            ,
             goViewDonateMoney() {
                 this.$router.push({
                     name: "DonateMoney"
                 })
-            },
+            }
+            ,
             refresh() {
                 this.getData()
             }

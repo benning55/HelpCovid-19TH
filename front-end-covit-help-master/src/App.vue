@@ -2,20 +2,18 @@
     <div id="app">
         <NavBar/>
         <router-view/>
-<!--        <footer id="sticky-footer" class="py-4 bg-light_green text-white-50">-->
-<!--            <div class="container text-center">-->
-<!--                <small class="">Copyright &copy; Your Website</small>-->
-<!--            </div>-->
-<!--        </footer>-->
+        <Footer v-if="$route.name!='Login'" />
     </div>
 </template>
 
 <script>
     import NavBar from './components/NavBar'
+    import Footer from './components/Footer'
 
     export default {
         components: {
-            NavBar
+            NavBar,
+            Footer
         }
     }
 </script>

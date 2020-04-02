@@ -24,6 +24,18 @@
             </div>
 
             <div class="form-group">
+                <label>เบอร์โทรศัพท์</label>
+                <p class="mb-2 text-sm text-gray">ใช้ในการติดต่อกลับไปหากเกิดข้อผิดพลาด เช่น ยอดโอนไม่ตรงกัน หรือ ไม่พบประวัติการโอนเงิน</p>
+                <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงเบอร์โทรศัพท์ให้ผู้อื่นเห็น</p>
+                <input v-model="tel" class="form-control"
+                       placeholder="กรุณาใส่เบอร์โทรศัพท์"
+                       :class="{'is-invalid':validation.firstError('tel')}">
+                <div class="invalid-feedback">
+                    {{validation.firstError('tel')}}
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label v-if="validation.firstError('imageData')"
                        class="text-red">{{validation.firstError('imageData')}}</label>
                 <label v-else>รูปของหลักฐานการบริจาค เช่น สลิปโอนเงิน</label>
@@ -56,8 +68,45 @@
                     {{validation.firstError('amount')}}
                 </div>
             </div>
+
+            <el-collapse>
+                <el-collapse-item name="1">
+                    <template slot="title">
+                        <h1 style="font-size: 1rem;margin: 10px 0 10px 0">ข้อมูลสำหรับบริษัทสำหรับออกใบกำกับภาษี
+                            (สำหรับบริษัท)</h1>
+                    </template>
+                    <div class="form-group col-12">
+                        <label style="font-size: 1rem">ชื่อบริษัท</label>
+                        <input v-model="company_name" class="form-control"
+                               type="text"
+                               placeholder="ใส่ชื่อบริษัท">
+                    </div>
+
+                    <div class="form-group col-12">
+                        <label style="font-size: 1rem">เลขที่ใบกำกับภาษี</label>
+                        <input v-model="tax_id" class="form-control"
+                               type="number"
+                               placeholder="ใส่เลขที่ใบกำกับภาษี">
+                    </div>
+
+                    <div class="form-group col-12">
+                        <label style="font-size: 1rem">อีเมลล์</label>
+                        <input v-model="company_email" class="form-control"
+                               type="email"
+                               placeholder="ใส่เลขที่ใบกำกับภาษี">
+                    </div>
+                </el-collapse-item>
+            </el-collapse>
         </form>
-        <button @click="sent" type="button" class="btn bg-green text-white">ส่งหลักฐานการบริจาค</button>
+
+
+        <!--        <recaptcha ref="recaptcha" @verify="submit"></recaptcha>-->
+        <div class="flex justify-between my-5">
+            <button @click="$router.go(-1)" type="button" class="btn bg-white text-black">ย้อนกลับ</button>
+            <button @click="sent" type="button" class="btn bg-green text-white">
+                ส่งหลักฐานการบริจาค
+            </button>
+        </div>
 
 
         <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal" center>
@@ -68,7 +117,8 @@
                 <p class="pb-5">ส่งข้อมูลให้เจ้าหน้าที่แล้ว กรุณารอการติดต่อกลับจากเจ้าหน้าที่</p>
 
                     <span class="w-full">
-                            <el-button @click="closeModal" type="primary" style="width: 50%;margin-left: 50%;transform: translateX(-50%);">ตกลง</el-button>
+                            <el-button @click="closeModal" type="primary"
+                                       style="width: 50%;margin-left: 50%;transform: translateX(-50%);">ตกลง</el-button>
 
                 </span>
             </span>
@@ -82,7 +132,7 @@
                                style="width: 50%;margin-left: 50%;transform: translateX(-50%);">ปิด</el-button>
                 </span>
             </span>
-            <Loader v-if="isLoading" />
+            <Loader v-if="isLoading"/>
         </el-dialog>
     </div>
 </template>
@@ -93,19 +143,24 @@
     import Loader from "../components/Loader";
 
     export default {
-        components:{
-           Loader
+        components: {
+            Loader,
         },
         data() {
             return {
-                isLoading:false,
+                isLoading: false,
                 fname: '',
                 lname: '',
+                company_name: '',
+                company_email:'',
+                tax_id: '',
                 amount: '',
+                tel: '',
                 imageData: null,
                 profileImageURL: null,
                 confirmDialog: false,
-                sentStatus: "none"
+                sentStatus: "none",
+
             }
         },
         validators: {
@@ -116,6 +171,10 @@
             lname(value) {
                 return Validator.value(value)
                     .required("กรุณาใส่นามสกุลจริง");
+            },
+            tel(value) {
+                return Validator.value(value)
+                    .required("กรุณาใส่เบอร์โทรศัพท์").length(10, 'กรุณาใส่เบอร์โทรศัพท์ 10 หลัก')
             },
             amount(value) {
                 return Validator.value(value)
@@ -130,6 +189,9 @@
 
         },
         methods: {
+            handleChange(val) {
+                console.log(val);
+            },
             closeModal() {
                 if (this.sentStatus == 'complete') {
                     this.$router.go(-1)
@@ -141,21 +203,29 @@
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
-            sent() {
+            sent(event) {
                 this.$validate(["fname", "lname", "amount", "imageData"]);
                 if (
                     this.validation.firstError("fname") == null &&
                     this.validation.firstError("lname") == null &&
+                    this.validation.firstError("tel") == null &&
                     this.validation.firstError("amount") == null &&
                     this.validation.firstError("imageData") == null
                 ) {
                     this.isLoading = true
                     this.confirmDialog = true
                     $(".el-dialog").css({"max-width": "350px"});
+
+                    let recaptcha_response_value = event.target['g-recaptcha-response']
+                    console.log(recaptcha_response_value)
+
                     let formData = new FormData();
+                    formData.append('company_name', this.company_name);
+                    formData.append('tax_id', this.tax_id);
                     formData.append('hospital_id', this.$route.params.id);
                     formData.append('first_name', this.fname);
                     formData.append('last_name', this.lname);
+                    formData.append('tel', this.tel);
                     formData.append('amount', this.amount);
                     formData.append('receipt', this.imageData);
 
@@ -180,12 +250,11 @@
                             this.sentStatus = 'error'
                             console.log(e)
                         })
-
-                    for (let pair of formData.entries()) {
-                        console.log(pair[0] + ', ' + pair[1]);
-                    }
                 }
             }
+        },
+        mounted() {
+
         }
     }
 </script>
@@ -213,6 +282,7 @@
         position: relative;
         overflow: hidden;
         margin: auto;
+        border-radius: 10px;
     }
 
     .profile-pic {

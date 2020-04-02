@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label>เบอร์โทรศัพท์ที่สามารถติดต่อได้</label>
-                <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงเบอรโทรศัพท์ให้ผู้อื่นเห็น</p>
+                <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงเบอร์โทรศัพท์ให้ผู้อื่นเห็น</p>
                 <p class="mb-2 text-sm text-gray">เจ้าหน้าที่จะติดต่อผ่านเบอร์นี้กลับไปในภายหลัง</p>
                 <input v-model="tel" class="form-control" type="number"
                        :class="{'is-invalid':validation.firstError('tel')}"
@@ -53,6 +53,27 @@
                     {{validation.firstError('amount')}}
                 </div>
             </div>
+            <el-collapse>
+                <el-collapse-item name="1">
+                    <template slot="title">
+                        <h1 style="font-size: 1rem;margin: 10px 0 10px 0">ข้อมูลสำหรับบริษัทสำหรับออกใบกำกับภาษี
+                            (สำหรับบริษัท)</h1>
+                    </template>
+                    <div class="form-group col-12">
+                        <label style="font-size: 1rem">ชื่อบริษัท</label>
+                        <input v-model="company_name" class="form-control"
+                               type="text"
+                               placeholder="ใส่ชื่อบริษัท">
+                    </div>
+
+                    <div class="form-group col-12">
+                        <label style="font-size: 1rem">เลขที่ใบกำกับภาษี</label>
+                        <input v-model="tax_id" class="form-control"
+                               type="number"
+                               placeholder="ใส่เลขใบกำกับภาษี">
+                    </div>
+                </el-collapse-item>
+            </el-collapse>
             <div class="flex justify-between my-5">
                 <button @click="$router.go(-1)" type="button" class="btn bg-white text-black">ย้อนกลับ</button>
                 <button @click="validate" type="button" class="btn bg-green text-white">
@@ -106,17 +127,19 @@
     import {Validator} from "../main";
 
     export default {
-        components:{
+        components: {
             Loader
         },
         data() {
             return {
-                isLoading:false,
+                isLoading: false,
                 fname: '',
                 lname: '',
                 email: '',
                 tel: '',
                 amount: '',
+                company_name: '',
+                tax_id: '',
                 confirmDialog: false,
                 sentStatus: 'none'
             }
@@ -173,6 +196,8 @@
             sent() {
                 this.isLoading = true
                 let formData = new FormData();
+                formData.append('company_name', this.company_name);
+                formData.append('tax_id', this.tax_id);
                 formData.append('need_id', this.$route.params.id);
                 formData.append('first_name', this.fname);
                 formData.append('last_name', this.lname);

@@ -72,6 +72,7 @@
             logout() {
                 this.$store.commit('removeToken');
                 this.$router.push('/');
+                location.reload()
             }
         }
     }
