@@ -95,6 +95,7 @@ def add_need(request, *args, **kwargs):
         user = request.user
         data = request.data
         pk = kwargs.get('pk')
+        print(data)
         if pk is None:
             return Response({'error': 'need an ID to update'}, status=status.HTTP_400_BAD_REQUEST)
         else:

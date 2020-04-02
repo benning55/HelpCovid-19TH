@@ -11,6 +11,7 @@ class NeedSerializer(serializers.ModelSerializer):
     category_id = serializers.IntegerField(write_only=True)
     user = serializers.SerializerMethodField(read_only=True, required=False)
     total_donation = serializers.SerializerMethodField(read_only=True, required=False)
+    base_amount = serializers.DecimalField(max_digits=20, decimal_places=2, required=False)
 
     class Meta:
         model = Need
@@ -20,7 +21,6 @@ class NeedSerializer(serializers.ModelSerializer):
             'status': {'read_only': True},
             'created': {'read_only': True},
             'hospital': {'read_only': True},
-            'base_amount': {'read_only': True}
         }
 
     def update(self, instance, validated_data):
@@ -29,8 +29,17 @@ class NeedSerializer(serializers.ModelSerializer):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.picture = validated_data.get('picture', instance.picture)
-        instance.amount = validated_data.get('amount', instance.amount)
-        instance.base_amount = validated_data.get('amount', instance.amount)
+
+        current = validated_data.get('base_amount') - instance.base_amount
+
+        amount = current + instance.amount
+
+        if amount < 0:
+            instance.amount = 0
+        else:
+            instance.amount = amount
+
+        instance.base_amount = validated_data.get('base_amount', instance.base_amount)
 
         instance.save()
         return instance
