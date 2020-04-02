@@ -61,6 +61,10 @@ const routes = [
         path: '/donate-post/:id',
         name: 'DonateObject',
         component: () => import('../views/DonateObject')
+    },{
+        path: '/search-word/:title',
+        name: 'SearchPage',
+        component: () => import('../views/SearchPage')
     }
 ]
 

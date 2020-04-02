@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{donateUser}}
         <el-divider>ผู้บริจาค</el-divider>
         <el-tabs type="card" @tab-click="handleClick">
             <el-tab-pane>
@@ -10,7 +9,7 @@
                 <div v-else class="row">
                     <template v-for="(user,index) in donateUser">
                         <transition name="fade" :key="user.id">
-                            <div v-if="user.approve_status != false" class="col-sm-6 mb-4" :key="user.id">
+                            <div v-if="user.approve_status == false" class="col-sm-6 mb-4" :key="user.id">
                                 <div class="shadow-lg">
                                     <a :href="$store.state.host+ user.receipt" data-toggle="lightbox"
                                        data-max-width="800">
@@ -19,7 +18,7 @@
                                     </a>
                                     <div class="card-body">
                                         <h1 class="text-3xl">{{numberWithCommas(user.amount)}} ฿</h1>
-                                        <td v-if="user.company_name == false">
+                                        <td v-if="user.company_name == ''">
                                             <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                                         </td>
                                         <td v-else><i class="fas fa-building"></i>
@@ -64,7 +63,6 @@
                                 </div>
                             </div>
                         </transition>
-
                     </template>
                 </div>
             </el-tab-pane>
@@ -83,7 +81,7 @@
                                     </a>
                                     <div class="card-body">
                                         <h1 class="text-3xl">{{numberWithCommas(user.amount)}} ฿</h1>
-                                        <td v-if="user.company_name == false">
+                                        <td v-if="user.company_name == ''">
                                             <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                                         </td>
                                         <td v-else><i class="fas fa-building"></i>
@@ -148,49 +146,50 @@
                     </thead>
                     <tbody>
                     <template v-for="(user,index) in donateObject">
-                        <tr v-if="user.approve_status == false" :key="user.id">
-                            <td v-if="user.company_name == null">
-                                <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
-                            </td>
-                            <td v-else><i class="fas fa-building"></i>
-                                {{user.company_name}}
-                                <el-popover
-                                        placement="top-start"
-                                        trigger="click">
-                                    <table class="table">
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">ชื่อ</th>
-                                            <td class="text-right">{{user.first_name}} {{user.last_name}}</td>
+                        <transition name="fade" :key="user.id">
+                            <tr v-if="user.approve_status == false" :key="user.id">
+                                <td v-if="user.company_name == ''">
+                                    <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
+                                </td>
+                                <td v-else><i class="fas fa-building"></i>
+                                    {{user.company_name}}
+                                    <el-popover
+                                            placement="top-start"
+                                            trigger="click">
+                                        <table class="table">
+                                            <tbody>
+                                            <tr>
+                                                <th scope="row">ชื่อ</th>
+                                                <td class="text-right">{{user.first_name}} {{user.last_name}}</td>
 
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">อีเมลล์</th>
-                                            <td class="text-right">{{user.email}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">ใบกำกับภาษี</th>
-                                            <td class="text-right">{{user.tax_id}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <el-button slot="reference">ดูข้อมูลบริษัทเพิ่มเติ่ม</el-button>
-                                </el-popover>
-                            </td>
-                            <td>{{user.tel}}</td>
-                            <td>{{user.need.title}}</td>
-                            <td>{{Math.floor(user.amount)}}</td>
-                            <td>
-                                <label class="switch">
-                                    <input v-model="user.approve_status"
-                                           @change="approveObj(user.id,index,user.approve_status)" type="checkbox"
-                                           class="default">
-                                    <span class="slider"></span>
-                                </label>
-                            </td>
-                        </tr>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">อีเมลล์</th>
+                                                <td class="text-right">{{user.email}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">ใบกำกับภาษี</th>
+                                                <td class="text-right">{{user.tax_id}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <el-button slot="reference">ดูข้อมูลบริษัทเพิ่มเติ่ม</el-button>
+                                    </el-popover>
+                                </td>
+                                <td>{{user.tel}}</td>
+                                <td>{{user.need.title}}</td>
+                                <td>{{Math.floor(user.amount)}}</td>
+                                <td>
+                                    <label class="switch">
+                                        <input v-model="user.approve_status"
+                                               @change="approveObj(user.id,index,user.approve_status)" type="checkbox"
+                                               class="default">
+                                        <span class="slider"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </transition>
                     </template>
-
                     </tbody>
                 </table>
             </el-tab-pane>
@@ -209,47 +208,49 @@
                     </thead>
                     <tbody>
                     <template v-for="(user,index) in donateObject">
-                        <tr v-if="user.approve_status == true" :key="user.id">
-                            <td v-if="user.company_name == null">
-                                <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
-                            </td>
-                            <td v-else><i class="fas fa-building"></i>
-                                {{user.company_name}}
-                                <el-popover
-                                        placement="top-start"
-                                        trigger="click">
-                                    <table class="table">
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">ชื่อ</th>
-                                            <td class="text-right">{{user.first_name}} {{user.last_name}}</td>
+                        <transition name="fade" :key="user.id">
+                            <tr v-if="user.approve_status == true" :key="user.id">
+                                <td v-if="user.company_name == ''">
+                                    <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
+                                </td>
+                                <td v-else><i class="fas fa-building"></i>
+                                    {{user.company_name}}
+                                    <el-popover
+                                            placement="top-start"
+                                            trigger="click">
+                                        <table class="table">
+                                            <tbody>
+                                            <tr>
+                                                <th scope="row">ชื่อ</th>
+                                                <td class="text-right">{{user.first_name}} {{user.last_name}}</td>
 
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">อีเมลล์</th>
-                                            <td class="text-right">{{user.email}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">ใบกำกับภาษี</th>
-                                            <td class="text-right">{{user.tax_id}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <el-button slot="reference">ดูข้อมูลบริษัทเพิ่มเติ่ม</el-button>
-                                </el-popover>
-                            </td>
-                            <td>{{user.tel}}</td>
-                            <td>{{user.need.title}}</td>
-                            <td>{{Math.floor(user.amount)}}</td>
-                            <td>
-                                <label class="switch">
-                                    <input v-model="user.approve_status"
-                                           @change="approveObj(user.id,index,user.approve_status)" type="checkbox"
-                                           class="default">
-                                    <span class="slider"></span>
-                                </label>
-                            </td>
-                        </tr>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">อีเมลล์</th>
+                                                <td class="text-right">{{user.email}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">ใบกำกับภาษี</th>
+                                                <td class="text-right">{{user.tax_id}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <el-button slot="reference">ดูข้อมูลบริษัทเพิ่มเติ่ม</el-button>
+                                    </el-popover>
+                                </td>
+                                <td>{{user.tel}}</td>
+                                <td>{{user.need.title}}</td>
+                                <td>{{Math.floor(user.amount)}}</td>
+                                <td>
+                                    <label class="switch">
+                                        <input v-model="user.approve_status"
+                                               @change="approveObj(user.id,index,user.approve_status)" type="checkbox"
+                                               class="default">
+                                        <span class="slider"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </transition>
                     </template>
 
                     </tbody>

@@ -11,6 +11,38 @@
                     {{validation.firstError('title')}}
                 </div>
             </div>
+
+            <!--            <div class="form-group">-->
+            <!--                <label>หัวข้อ</label>-->
+            <!--                <el-select v-model="category" placeholder="Select">-->
+            <!--                    <el-option-->
+            <!--                            v-for="item in categories"-->
+            <!--                            :key="item.id"-->
+            <!--                            :label="item.name"-->
+            <!--                            :value="item.id">-->
+            <!--                    </el-option>-->
+            <!--                </el-select>-->
+            <!--            </div>-->
+
+            <div class="form-group">
+                <label class=" ">หมวดหมู่</label>
+                <p v-if="category.description == null" class="mb-2 text-sm text-gray">(ยังไม่ได้เลือกหมวดหมู่)</p>
+                <p v-else class="mb-2 text-sm text-gray col-12">({{category.description}})</p>
+                <div class="col-md-12">
+                    <el-select v-model="category" placeholder="เลือกหมวดหมู่">
+                        <el-option
+                                v-for="item in categories"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item">
+                        </el-option>
+                    </el-select>
+                    <div v-if="validation.firstError('category')" class="text-sm text-red">
+                        {{validation.firstError('category')}}
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>รายละเอียด</label>
                 <textarea v-model="description" class="form-control"
@@ -87,12 +119,12 @@
     import Loader from "../components/Loader";
 
     export default {
-        components:{
+        components: {
             Loader
         },
         data() {
             return {
-                isLoading:false,
+                isLoading: false,
                 title: '',
                 description: '',
                 amount: 1,
@@ -100,7 +132,9 @@
                 profileImageURL: null,
                 sentStatus: 'none',
                 confirmDialog: false,
-                error: ''
+                error: '',
+                categories: '',
+                category: ''
             }
         },
         validators: {
@@ -112,6 +146,10 @@
                 return Validator.value(value)
                     .required("กรุณาระบุรายละเอียด");
             },
+            category(value) {
+                return Validator.value(value)
+                    .required("กรุณาใส่หมวดหมู่");
+            },
             amount(value) {
                 return Validator.value(value)
                     .required("กรุณาระบุจำนวน")
@@ -120,7 +158,17 @@
             },
 
         },
+        created() {
+            this.getCategory()
+        },
         methods: {
+            getCategory() {
+                axios.get(`${this.$store.state.host}/api/posts/category/`)
+                    .then(res => {
+                        this.categories = res.data.data
+                    })
+                    .catch()
+            },
             closeModal() {
                 if (this.sentStatus == 'complete') {
                     this.$router.push({
@@ -139,13 +187,17 @@
                 this.$validate(["title", "description", "amount"]);
                 if (
                     this.validation.firstError("title") == null &&
+                    this.validation.firstError("category") == null &&
                     this.validation.firstError("description") == null &&
                     this.validation.firstError("amount") == null
                 ) {
                     this.isLoading = true
                     let formData = new FormData();
+                    formData.append('category_id', 1);
+                    formData.append('hospital_id', this.$store.state.authUser.hospital.id);
                     formData.append('picture', this.imageData);
                     formData.append('title', this.title);
+                    formData.append('category_id', this.category.id);
                     formData.append('description', this.description);
                     formData.append('amount', this.amount);
 

@@ -3,8 +3,10 @@
         <Hero/>
 
         <div class="container">
+            <SearchSection/>
             <h1 class="text-2xl mt-3 mb-2">ตำแหน่งของสถานที่รับบริจาค</h1>
             <p class="mb-3">(กดที่ไอคอนหมุดเพื่อขยาย กดอีกครั้งเพื่อไปยังหน้ารับบริจาค)</p>
+
             <GoogleMap :position="mapLocation"/>
             <HomeSectionPost/>
             <HomeSectionHospital/>
@@ -19,6 +21,7 @@
     import HomeSectionPost from "../components/HomeSectionPost";
     import HomeSectionHospital from "../components/HomeSectionHospital";
     import GoogleMap from "./GoogleMap";
+    import SearchSection from "../components/SearchSection";
 
     export default {
         name: 'Home',
@@ -26,7 +29,8 @@
             GoogleMap,
             Hero,
             HomeSectionPost,
-            HomeSectionHospital
+            HomeSectionHospital,
+            SearchSection
         },
         data() {
             return {
