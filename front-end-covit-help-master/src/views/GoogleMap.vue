@@ -7,7 +7,6 @@
     import axios from "axios";
 
     export default {
-        props: ["position"],
         name: 'Map',
         data() {
             return {
@@ -66,11 +65,21 @@
                             })
 
                     } catch (e) {
-                        console.error(e)
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลแผนที่' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                     }
                 })
                 .catch(e => {
-                    console.log(e)
+                    this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลแผนที่' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                 })
         },
         methods: {},

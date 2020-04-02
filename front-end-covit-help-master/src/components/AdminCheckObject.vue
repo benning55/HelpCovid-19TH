@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-divider>ผู้บริจาค</el-divider>
-        <el-tabs type="card" @tab-click="handleClick">
+        <el-tabs type="card">
             <el-tab-pane>
                 <span class="text-red" slot="label"><i class="el-icon-warning"></i>ยังไม่ยืนยัน</span>
                 <p v-if="donater.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
@@ -90,9 +90,6 @@
             this.loadData()
         },
         methods: {
-            handleClick(tab, event) {
-                console.log(tab, event);
-            },
             loadData() {
                 axios.get(`${this.$store.state.host}/api/officer/officer-donate/${this.id}`, {
                     headers: {
@@ -102,7 +99,6 @@
                     },
                 })
                     .then(res => {
-                        console.log(res)
                         this.donater = res.data.data
                     })
                     .catch(e => {

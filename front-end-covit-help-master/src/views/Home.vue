@@ -7,7 +7,7 @@
             <h1 class="text-2xl mt-3 mb-2">ตำแหน่งของสถานที่รับบริจาค</h1>
             <p class="mb-3">(กดที่ไอคอนหมุดเพื่อขยาย กดอีกครั้งเพื่อไปยังหน้ารับบริจาค)</p>
 
-            <GoogleMap :position="mapLocation"/>
+            <GoogleMap/>
             <HomeSectionPost/>
             <HomeSectionHospital/>
         </div>
@@ -38,13 +38,6 @@
             }
         },
         created() {
-            axios.get(`${this.$store.state.host}/api/posts/donate/1/`)
-                .then(res => {
-                    this.mapLocation = res.data
-                })
-                .catch(e => {
-                    console.log(e)
-                })
         }
     }
 </script>

@@ -298,7 +298,6 @@
                     },
                 })
                     .then(res => {
-                        console.log(res)
                         this.donateUser = res.data.data
                     })
                     .catch(e => {

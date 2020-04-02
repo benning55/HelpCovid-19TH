@@ -141,9 +141,6 @@
                     formData.append('fname', this.fname);
                     formData.append('lname', this.lname);
 
-                    for (let pair of formData.entries()) {
-                        console.log(pair[0] + ', ' + pair[1]);
-                    }
                 }
             }
         }

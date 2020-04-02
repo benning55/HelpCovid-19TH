@@ -201,10 +201,6 @@
                     formData.append('description', this.description);
                     formData.append('amount', this.amount);
 
-                    for (let pair of formData.entries()) {
-                        console.log(pair[0] + ', ' + pair[1]);
-                    }
-
                     this.confirmDialog = true
 
                     axios.post(`${this.$store.state.host}/api/posts/create-need/`, formData, {

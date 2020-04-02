@@ -25,7 +25,12 @@
                     this.dataHospital = res.data.data
                 })
                 .catch(e=>{
-                    console.log(e.response)
+                    this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลโรงพยาบาล' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                 })
         },
         components: {

@@ -212,7 +212,7 @@
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
-            sent(event) {
+            sent() {
                 this.$validate(["fname", "lname", "amount", "imageData"]);
                 if (
                     this.validation.firstError("fname") == null &&
@@ -225,8 +225,6 @@
                     this.confirmDialog = true
                     $(".el-dialog").css({"max-width": "350px"});
 
-                    let recaptcha_response_value = event.target['g-recaptcha-response']
-                    console.log(recaptcha_response_value)
 
                     let formData = new FormData();
                     formData.append('company_name', this.company_name);
@@ -257,7 +255,6 @@
                             this.confirmDialog = true
                             $(".el-dialog").css({"max-width": "350px"});
                             this.sentStatus = 'error'
-                            console.log(e)
                         })
                 }
             }

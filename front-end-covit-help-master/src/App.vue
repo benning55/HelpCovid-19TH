@@ -2,7 +2,7 @@
     <div id="app">
         <NavBar/>
         <router-view/>
-        <Footer v-if="$route.name!='Login' && $route.name!='SearchPage'" />
+        <Footer v-if="$route.name!='Login' && $route.name!='SearchPage' && $route.name!='About'" />
     </div>
 </template>
 

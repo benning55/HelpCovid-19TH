@@ -152,7 +152,12 @@
                     this.oldImage = res.data.data[0].picture
                 })
                 .catch(e => {
-                    console.log(e)
+                    this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลการรับบิจาคสินของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                 })
         },
         methods: {
@@ -196,20 +201,21 @@
                         'Content-Type': 'application/json'
                     },
                 })
-                    .then(res => {
+                    .then(() => {
                         this.sentStatus = 'complete'
                         this.isLoading = false
-                        console.log(res)
+
                     })
                     .catch(e => {
                         this.sentStatus = 'error'
                         this.isLoading = false
-                        console.log(e)
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                     })
-
-                for (let pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
             }
         }
     }

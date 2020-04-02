@@ -111,11 +111,21 @@
                             this.donateUser = res.data.data
                         })
                         .catch(e => {
-                            console.log(e)
+                            this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลการบริจาค' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                         })
                 })
                 .catch(e => {
-                    console.log(e)
+                    this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration:10
+                        });
                 })
         },
         methods: {

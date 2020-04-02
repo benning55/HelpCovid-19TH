@@ -29,7 +29,14 @@
                 .then(res => {
                     this.dataHospital = res.data.data
                 })
-                .catch()
+                .catch(e => {
+                    this.$message({
+                        showClose: true,
+                        message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลการค้นหา' + ' Error : ' + e.response.status,
+                        type: 'error',
+                        duration: 10
+                    });
+                })
         },
         components: {
             CardPost
