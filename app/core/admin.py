@@ -184,6 +184,15 @@ class RegisterTokenAdmin(admin.ModelAdmin):
             messages.success(request, f'Token จำนวน {int_amount} อันได้ถูกสร้างขึ้น')
         return HttpResponseRedirect("../")
 
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+    ordering = ['-id']
+    list_display_links = ['id', 'name']
+    list_per_page = 10
+
+    search_fields = ['name']
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Hospital, HospitalAdmin)
 admin.site.register(models.Need, NeedAdmin)
@@ -191,3 +200,4 @@ admin.site.register(models.Donator, DonatorAdmin)
 admin.site.register(models.MoneyDonate, MoneyDonateAdmin)
 admin.site.register(models.EmailStaff)
 admin.site.register(models.RegisterToken, RegisterTokenAdmin)
+admin.site.register(models.Categorie, CategoryAdmin)
