@@ -1,7 +1,7 @@
 import django.contrib.auth.password_validation as validators
 from django.core import exceptions
 from rest_framework import serializers
-from core.models import User, Hospital
+from core.models import User, Hospital, AboutMe
 import requests
 
 
@@ -106,3 +106,10 @@ class getLocationSerializer(serializers.ModelSerializer):
                 'lng': locate['lng']
             }
         return data
+
+
+class AboutMeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AboutMe
+        fields = ('id', 'description')

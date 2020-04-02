@@ -192,6 +192,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_per_page = 10
 
     search_fields = ['name']
+    
 
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Hospital, HospitalAdmin)
@@ -201,3 +202,4 @@ admin.site.register(models.MoneyDonate, MoneyDonateAdmin)
 admin.site.register(models.EmailStaff)
 admin.site.register(models.RegisterToken, RegisterTokenAdmin)
 admin.site.register(models.Categorie, CategoryAdmin)
+admin.site.register(models.AboutMe)

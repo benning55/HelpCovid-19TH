@@ -228,3 +228,8 @@ class RegisterToken(models.Model):
         null=True
     )
     created = models.DateTimeField(auto_now_add=True, editable=False)
+
+
+class AboutMe(models.Model):
+    """ About me Text """
+    description = models.TextField()

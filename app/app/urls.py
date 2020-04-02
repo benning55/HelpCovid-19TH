@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from accounts.views import aboutme
 
 
 admin.site.site_header = 'Covid19th Super Admin Dashboard'
@@ -27,5 +28,6 @@ urlpatterns = [
     path('auth/refresh_token', refresh_jwt_token),
     path('api/accounts/', include('accounts.urls')),
     path('api/posts/', include('posts.urls')),
-    path('api/officer/', include('officer.urls'))
+    path('api/officer/', include('officer.urls')),
+    path('api/about-me/', aboutme)
 ]

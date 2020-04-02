@@ -12,7 +12,7 @@ from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
-from core.models import User, Hospital, EmailStaff, RegisterToken
+from core.models import User, Hospital, EmailStaff, RegisterToken, AboutMe
 
 from accounts import serializers
 
@@ -183,3 +183,13 @@ def get_token(request, *args, **kwargs):
             return Response({'success': 'โทเค่นนี้ยังสามารถใช้งานได้'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'token นี้ได้ถูกใช้งานไปแล้วหรือไม่มีอยู่จริงโปรดติดต่อเจ้าหน้าที่เพื่อขอ token'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def aboutme(request):
+    """Show description about me"""
+    about_me = AboutMe.objects.all()
+    serializer = serializers.AboutMeSerializer(about_me, many=True)
+    return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
