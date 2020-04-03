@@ -24,7 +24,7 @@
 
                 <button v-if="$store.state.authUser.email != dataPost.user.email" @click="goDonateObject(dataPost.id)"
                         type="button" class="btn bg-green text-white">
-                    ส่งความประส่งในการบริจาค
+                    ส่งความประสงค์ในการบริจาค
                 </button>
                 <button v-else @click="goEdit(dataPost.id)" type="button" class="btn bg-green text-white">
                     แก้ไขการรับบริจาค
