@@ -186,6 +186,51 @@ class Donator(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+    def save(self, *args, **kwargs):
+        """ Make admin able to approve donate"""
+        box = 0
+        need = Need.objects.all().filter(id=self.need.id)[0]
+
+        if self.approve_status:
+            need.amount -= self.amount
+        elif not self.approve_status:
+            box1 = 0
+            donators = Donator.objects.all().filter(need_id=self.need.id, approve_status=True).exclude(id=self.id)
+            for donator in donators:
+                box1 += donator.amount
+            if need.amount == 0 and box1 >= need.base_amount:
+                need.amount = 0
+            else:
+                need.amount += self.amount
+
+        print(need.amount)
+        if need.amount <= 0:
+            need.amount = 0
+            need.status = True
+            need.save()
+            super(Donator, self).save(*args, **kwargs)
+        elif need.amount >= need.base_amount:
+            need.amount = need.base_amount
+            need.status = False
+            need.save()
+            super(Donator, self).save(*args, **kwargs)
+            donators = Donator.objects.all().filter(need_id=self.need.id, approve_status=True)
+            for donator in donators:
+                box += donator.amount
+            left = need.amount - box
+            if left <= 0:
+                need.amount = 0
+                need.status = True
+            else:
+                need.amount = left
+                need.status = False
+            need.save()
+            super(Donator, self).save(*args, **kwargs)
+        else:
+            need.status = False
+            need.save()
+            super(Donator, self).save(*args, **kwargs)
+
 
 class MoneyDonate(models.Model):
     """ Money Donate Model """
@@ -207,6 +252,16 @@ class MoneyDonate(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    def save(self, *args, **kwargs):
+        """ Make admin able to approve"""
+        hospital = Hospital.objects.all().filter(id=self.hospital.id)[0]
+        if self.approve_status:
+            hospital.donated_money += self.amount
+        elif not self.approve_status:
+            hospital.donated_money -= self.amount
+        hospital.save()
+        super(MoneyDonate, self).save(*args, **kwargs)
 
 
 class EmailStaff(models.Model):

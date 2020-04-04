@@ -112,6 +112,7 @@ class NeedAdmin(admin.ModelAdmin):
 class DonatorAdmin(admin.ModelAdmin):
     list_display = ['id', 'need', 'first_name', 'last_name', 'email', 'tel', 'amount', 'approve_status', 'created']
     ordering = ['-created']
+    list_editable = ['approve_status']
     list_display_links = ['id', 'need']
     list_filter = ['approve_status']
     list_per_page = 10
@@ -122,6 +123,7 @@ class DonatorAdmin(admin.ModelAdmin):
 class MoneyDonateAdmin(admin.ModelAdmin):
     list_display = ['id', 'hospital', 'first_name', 'last_name', 'amount', 'approve_status', 'created']
     ordering = ['-created']
+    list_editable = ['approve_status']
     list_display_links = ['id', 'hospital']
     list_filter = ['approve_status']
     list_per_page = 10
