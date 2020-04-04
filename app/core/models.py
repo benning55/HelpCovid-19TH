@@ -203,7 +203,6 @@ class Donator(models.Model):
             else:
                 need.amount += self.amount
 
-        print(need.amount)
         if need.amount <= 0:
             need.amount = 0
             need.status = True
@@ -259,7 +258,10 @@ class MoneyDonate(models.Model):
         if self.approve_status:
             hospital.donated_money += self.amount
         elif not self.approve_status:
-            hospital.donated_money -= self.amount
+            if hospital.donated_money == 0:
+                hospital.donated_money = 0
+            else:
+                hospital.donated_money -= self.amount
         hospital.save()
         super(MoneyDonate, self).save(*args, **kwargs)
 

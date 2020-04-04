@@ -28,36 +28,37 @@ class OfficerDonatorSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get('email', instance.email)
         instance.amount = validated_data.get('amount', instance.amount)
         instance.tel = validated_data.get('tel', instance.tel)
-        if validated_data.get('approve_status') == instance.approve_status:
-            instance.approve_status = validated_data.get('approve_status', instance.approve_status)
-            instance.save()
-            return instance
-        else:
-            if validated_data.get('approve_status'):
-                current_need = need.amount
-                left = current_need - instance.amount
-                if left <= 0:
-                    need.amount = 0
-                    need.status = True
-                else:
-                    need.status = False
-                    need.amount = left
-                instance.approve_status = validated_data.get('approve_status', instance.approve_status)
-                need.save()
-            else:
-                current_need = need.amount
-                reform = current_need + instance.amount
-                if reform >= need.base_amount:
-                    need.amount = need.base_amount
-                    need.status = False
-                else:
-                    need.status = False
-                    need.amount = reform
-                instance.approve_status = validated_data.get('approve_status', instance.approve_status)
-                need.save()
+        instance.approve_status = validated_data.get('approve_status', instance.approve_status)
+        # if validated_data.get('approve_status') == instance.approve_status:
+        #     instance.approve_status = validated_data.get('approve_status', instance.approve_status)
+        #     instance.save()
+        #     return instance
+        # else:
+        #     if validated_data.get('approve_status'):
+        #         current_need = need.amount
+        #         left = current_need - instance.amount
+        #         if left <= 0:
+        #             need.amount = 0
+        #             need.status = True
+        #         else:
+        #             need.status = False
+        #             need.amount = left
+        #         instance.approve_status = validated_data.get('approve_status', instance.approve_status)
+        #         need.save()
+        #     else:
+        #         current_need = need.amount
+        #         reform = current_need + instance.amount
+        #         if reform >= need.base_amount:
+        #             need.amount = need.base_amount
+        #             need.status = False
+        #         else:
+        #             need.status = False
+        #             need.amount = reform
+        #         instance.approve_status = validated_data.get('approve_status', instance.approve_status)
+        #         need.save()
 
-            instance.save()
-            return instance
+        instance.save()
+        return instance
 
 
 class OfficerMoneyDonateSerializer(serializers.ModelSerializer):
