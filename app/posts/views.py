@@ -119,11 +119,11 @@ def donate_need(request, *args, **kwargs):
         """ Get all donate record or by need id"""
         pk = kwargs.get('pk')
         if pk is None:
-            queryset = Donator.objects.all().filter(approve_status=True)
+            queryset = Donator.objects.all()
             serializer = serializers.DonatorSerializer(queryset, many=True)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         else:
-            queryset = Donator.objects.all().filter(need_id=pk, approve_status=True)
+            queryset = Donator.objects.all().filter(need_id=pk)
             serializer = serializers.DonatorSerializer(queryset, many=True)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
     elif request.method == "POST":
