@@ -87,7 +87,11 @@
                 <a id="point"></a>
 
                 <div v-if="$store.state.authUser.id != dataHospital.id" class="col-12 col-md-10 col-lg-8 mx-auto">
-                    <h1 class=" my-3 text-xl">ผู้ร่วมบริจาคเงิน</h1>
+                    <h1 class=" my-3 text-xl">ผู้ร่วมบริจาคเงิน
+                        <el-tooltip slot="i" class="item" effect="dark" content="ชื่อของผู้บริจาคจะแสดงก็ต่อเมื่อได้รับการยืนยันจากเจ้าหน้าที่ของสถานพยาบาลแล้ว" placement="right">
+                            <i class="fas fa-info-circle"></i>
+                        </el-tooltip>
+                    </h1>
                     <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
                     <table v-else class="table">
                         <thead>
@@ -100,7 +104,8 @@
 
                         <!--people case-->
                         <tr v-for="user in donateUser" :key="user.id">
-                            <td v-if="user.company_name == ''||user.company_name == null"><i class="fas fa-user-alt"></i> {{user.first_name}}
+                            <td v-if="user.company_name == ''||user.company_name == null"><i
+                                    class="fas fa-user-alt"></i> {{user.first_name}}
                                 {{user.last_name}}
                             </td>
                             <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
@@ -157,11 +162,11 @@
                             })
                             .catch(e => {
                                 this.$message({
-                            showClose: true,
-                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลโรงพยาบาล' + ' Error : ' + e.response.status,
-                            type: 'error',
-                            duration:10
-                        });
+                                    showClose: true,
+                                    message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลโรงพยาบาล' + ' Error : ' + e.response.status,
+                                    type: 'error',
+                                    duration: 10
+                                });
                             })
                     })
                     .catch()
