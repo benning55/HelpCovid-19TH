@@ -70,6 +70,7 @@
                     <tr>
                         <th scope="col">ชื่อ/บริษัท</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
+                        <th scope="col" style="width: 150px">สถานะ</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -79,6 +80,8 @@
                         </td>
                         <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
                         <td>{{numberWithCommas(Math.floor(user.amount))}}</td>
+                        <td v-if="user.approve_status"><h1 class="text-green">ดำเนินการสำเร็จ</h1></td>
+                        <td v-else><h1 class="text-orange">กำลังดำเนินการ</h1></td>
                     </tr>
                     </tbody>
                 </table>
