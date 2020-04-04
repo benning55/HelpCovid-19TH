@@ -8,18 +8,44 @@
                 <table v-else class="table">
                     <thead>
                     <tr>
-                        <th scope="col">ชื่อ</th>
-                        <th scope="col">นามสกุล</th>
+                        <th scope="col">ชื่อ/บริษัท</th>
                         <th scope="col">เบอร์โทรศัพท์</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
                         <th scope="col" class="text-right">สถานะ</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <i class="fas fa-building"></i>
                     <template v-for="(user,index) in donater">
                         <tr v-if="user.approve_status == false" :key="user.id">
-                            <td>{{user.first_name}}</td>
-                            <td>{{user.last_name}}</td>
+                            <td v-if="user.company_name == ''||user.company_name == null">
+                                <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
+                            </td>
+                            <td v-else><i class="fas fa-building"></i>
+                                {{user.company_name}}
+                                <el-popover
+                                        placement="top-start"
+                                        trigger="click">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">ชื่อ</th>
+                                            <td class="text-right">{{user.first_name}} {{user.last_name}}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">อีเมลล์</th>
+                                            <td class="text-right">{{user.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">ใบกำกับภาษี</th>
+                                            <td class="text-right">{{user.tax_id}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <el-button slot="reference">ดูข้อมูลบริษัทเพิ่มเติ่ม</el-button>
+                                </el-popover>
+                            </td>
                             <td>{{user.tel}}</td>
                             <td>{{Math.floor(user.amount)}}</td>
                             <td>
@@ -41,8 +67,7 @@
                 <table v-else class="table">
                     <thead>
                     <tr>
-                        <th scope="col">ชื่อ</th>
-                        <th scope="col">นามสกุล</th>
+                        <th scope="col">ชื่อ/บริษัท</th>
                         <th scope="col">เบอร์โทรศัพท์</th>
                         <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
                         <th scope="col" class="text-right">สถานะ</th>
@@ -51,8 +76,34 @@
                     <tbody>
                     <template v-for="(user,index) in donater">
                         <tr v-if="user.approve_status == true" :key="user.id">
-                            <td>{{user.first_name}}</td>
-                            <td>{{user.last_name}}</td>
+                            <td v-if="user.company_name == ''||user.company_name == null">
+                                <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
+                            </td>
+                            <td v-else><i class="fas fa-building"></i>
+                                {{user.company_name}}
+                                <el-popover
+                                        placement="top-start"
+                                        trigger="click">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">ชื่อ</th>
+                                            <td class="text-right">{{user.first_name}} {{user.last_name}}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">อีเมลล์</th>
+                                            <td class="text-right">{{user.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">ใบกำกับภาษี</th>
+                                            <td class="text-right">{{user.tax_id}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <el-button slot="reference">ดูข้อมูลบริษัทเพิ่มเติ่ม</el-button>
+                                </el-popover>
+                            </td>
                             <td>{{user.tel}}</td>
                             <td>{{Math.floor(user.amount)}}</td>
                             <td>

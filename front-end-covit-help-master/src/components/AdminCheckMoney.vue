@@ -18,7 +18,7 @@
                                     </a>
                                     <div class="card-body">
                                         <h1 class="text-3xl">{{numberWithCommas(user.amount)}} ฿</h1>
-                                        <td v-if="user.company_name == ''">
+                                        <td v-if="user.company_name == ''||user.company_name == null">
                                             <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                                         </td>
                                         <td v-else><i class="fas fa-building"></i>
@@ -81,7 +81,7 @@
                                     </a>
                                     <div class="card-body">
                                         <h1 class="text-3xl">{{numberWithCommas(user.amount)}} ฿</h1>
-                                        <td v-if="user.company_name == ''">
+                                        <td v-if="user.company_name == ''||user.company_name == null">
                                             <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                                         </td>
                                         <td v-else><i class="fas fa-building"></i>
@@ -148,7 +148,7 @@
                     <template v-for="(user,index) in donateObject">
                         <transition name="fade" :key="user.id">
                             <tr v-if="user.approve_status == false" :key="user.id">
-                                <td v-if="user.company_name == ''">
+                                <td v-if="user.company_name == ''||user.company_name == null">
                                     <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                                 </td>
                                 <td v-else><i class="fas fa-building"></i>
@@ -210,7 +210,7 @@
                     <template v-for="(user,index) in donateObject">
                         <transition name="fade" :key="user.id">
                             <tr v-if="user.approve_status == true" :key="user.id">
-                                <td v-if="user.company_name == ''">
+                                <td v-if="user.company_name == ''||user.company_name == null">
                                     <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                                 </td>
                                 <td v-else><i class="fas fa-building"></i>

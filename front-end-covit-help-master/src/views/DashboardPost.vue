@@ -8,7 +8,7 @@
                      class="mx-auto w-40 h-40 object-contain border-image shadow-lg" alt="Card image cap">
                 <p class=" text-2xl">{{dataPost.title}}</p>
                 <h1 class="my-4">ขณะนี้มีผู้บริจาคไปแล้ว</h1>
-                <h1 class="text-5xl"> {{Math.floor(dataPost.base_amount - dataPost.amount)}} <a
+                <h1 class="text-5xl"> {{Math.floor(dataPost.total_donation)}} <a
                         class="text-sm">หน่วย</a></h1>
                 <div class="progress my-2 w-11/12 sm:w-7/12 mx-auto">
                     <div class="progress-bar bg-green" :style="{width: percent()+'%'}" role="progressbar"
@@ -74,7 +74,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="user in donateUser" :key="user.id">
-                        <td v-if="user.company_name == ''">
+                        <td v-if="user.company_name == ''||user.company_name == null">
                             <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
                         </td>
                         <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
