@@ -1,8 +1,10 @@
 <template>
     <div id="app">
         <NavBar/>
-        <router-view/>
-        <Footer v-if="$route.name!='Login' && $route.name!='SearchPage' && $route.name!='About'" />
+        <transition name="fade" mode="out-in" @after-enter="beforeEnter">
+            <router-view/>
+        </transition>
+        <Footer v-if="$route.name!='Login' && $route.name!='SearchPage' && $route.name!='About'"/>
     </div>
 </template>
 
@@ -14,6 +16,15 @@
         components: {
             NavBar,
             Footer
+        },
+        methods: {
+            beforeEnter() {
+                this.$root.$emit('scrollBeforeEnter');
+            },
+            enter(el) {
+                console.log(el)
+                this.$root.$emit('scrollBeforeEnter');
+            }
         }
     }
 </script>
@@ -51,11 +62,21 @@
     .invalid-feedback {
         color: #f67575;
     }
-    .border-image{
+
+    .border-image {
         border-radius: 5px 5px 5px 5px;
     }
 
-    .el-dialog__body{
-        break-word:break-word !important;
+    .el-dialog__body {
+        break-word: break-word !important;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .2s;
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    {
+        opacity: 0;
     }
 </style>

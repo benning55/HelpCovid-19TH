@@ -26,7 +26,9 @@ export default new Vuex.Store({
         isAuthenticated: false,
         jwt: localStorage.getItem('token'),
         // host: `${window.location.protocol}//${window.location.hostname}/8000`
-        host: `${window.location.protocol}//${window.location.hostname}`
+        host: `${window.location.protocol}//${window.location.hostname}`,
+        dataAllHospital:[],
+        dataAllPost:[]
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -62,6 +64,13 @@ export default new Vuex.Store({
             state.jwt = null
             state.isAuthenticated = false
         },
+        setDataAllHospital(state,data){
+            console.log(data)
+            state.dataHome = data
+        },
+        setDataAllPost(state,data){
+            state.dataAllPost = data
+        }
     },
     actions: {},
     modules: {},

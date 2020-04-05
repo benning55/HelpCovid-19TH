@@ -37,24 +37,38 @@
             }
         },
         created() {
-            axios.get(`${this.$store.state.host}/api/posts/need/`)
-                .then(res => {
-                    this.cardLength = res.data.data.length
-                    if (res.data.data.length == 12) {
-                        this.dataNeed = res.data.data.slice(0, 12)
-                    } else {
-                        this.dataNeed = res.data.data.slice(0, 11)
-                    }
+            if (this.$store.state.dataAllPost.length == 0) {
+                this.dataNeed = []
+            }else if (this.$store.state.dataAllPost.length == 12) {
+                this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
+            } else {
+                this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
+            }
+            this.loadData()
+            console.log("getdaat")
+        },
+        methods: {
 
-                })
-                .catch(e => {
-                    this.$message({
-                        showClose: true,
-                        message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
-                        type: 'error',
-                        duration: 10
-                    });
-                })
+            loadData() {
+                axios.get(`${this.$store.state.host}/api/posts/need/`)
+                    .then(res => {
+                        this.cardLength = res.data.data.length
+                        this.$store.commit("setDataAllPost", res.data.data);
+                        if (this.$store.state.dataAllPost.length == 12) {
+                            this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
+                        } else {
+                            this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
+                        }
+                    })
+                    .catch(e => {
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration: 10
+                        });
+                    })
+            }
         }
     }
 </script>

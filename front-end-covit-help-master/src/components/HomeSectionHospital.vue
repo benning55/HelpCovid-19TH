@@ -15,15 +15,24 @@
     import CardHospital from "../components/CardHospital";
 
     export default {
+        components: {
+            CardHospital
+        },
         data() {
             return {
                 dataHospital: []
             }
         },
         created() {
-            axios.get(`${this.$store.state.host}/api/accounts/hospital/`)
+            this.dataHospital = this.$store.state.dataHospital
+            this.loadData()
+        },
+        methods:{
+            loadData(){
+                axios.get(`${this.$store.state.host}/api/accounts/hospital/`)
                 .then(res => {
                     this.dataHospital = res.data.data
+                    this.$store.commit("setDataAllHospital", res.data.data);
                 })
                 .catch(e => {
                     this.$message({
@@ -33,9 +42,7 @@
                         duration: 10
                     });
                 })
-        },
-        components: {
-            CardHospital
+            }
         }
     }
 </script>

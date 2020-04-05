@@ -34,7 +34,7 @@
                                 v-for="item in categories"
                                 :key="item.id"
                                 :label="item.name"
-                                :value="item">
+                                :value="item.name">
                         </el-option>
                     </el-select>
                     <div v-if="validation.firstError('category')" class="text-sm text-red">

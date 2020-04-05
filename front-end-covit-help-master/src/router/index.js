@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import app from "../App";
 
 Vue.use(VueRouter)
 
@@ -48,7 +49,7 @@ const routes = [
         path: '/all-hospital',
         name: 'DonatePageMoney',
         component: () => import('../views/DonatePageMoney')
-    },{
+    }, {
         path: '/all-post',
         name: 'DonatePageObject',
         component: () => import('../views/DonatePageObject')
@@ -57,11 +58,11 @@ const routes = [
         path: '/donate-hospital/:id',
         name: 'DonateMoney',
         component: () => import('../views/DonateMoney')
-    },{
+    }, {
         path: '/donate-post/:id',
         name: 'DonateObject',
         component: () => import('../views/DonateObject')
-    },{
+    }, {
         path: '/search-word/:title',
         name: 'SearchPage',
         component: () => import('../views/SearchPage')
@@ -71,7 +72,44 @@ const routes = [
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
+    // scrollBehavior: (to, from, savedPosition) => {
+    //     console.log(savedPosition)
+    //     if (savedPosition) {
+    //         return savedPosition;
+    //     } else if (to.hash) {
+    //         return {
+    //             selector: to.hash
+    //         };
+    //     } else {
+    //         return {x: 0, y: 0};
+    //     }
+    // }
+
+    scrollBehavior(to, from, savedPosition) {
+        // console.log(savedPosition)
+        // Default scroll position will be 0, 0 unless overridden by a saved position
+        const position = {
+            x: 0,
+            y: 0
+        };
+
+        // Override default with saved position (if it exists)
+        if (savedPosition) {
+            position.x = savedPosition.x;
+            position.y = savedPosition.y;
+        }
+
+        // Listen for scrollBeforeEnter event and set scroll position
+        return new Promise(resolve => {
+
+            this.app.$root.$once("scrollBeforeEnter", () => {
+                console.log(position)
+                resolve(position);
+            });
+        });
+    }
+
 })
 
 export default router
