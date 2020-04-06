@@ -142,7 +142,6 @@ def donate_need(request, *args, **kwargs):
     elif request.method == "POST":
         """Create new donation"""
         data = request.data
-
         serializer = serializers.DonatorSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             donate = serializer.create(validated_data=serializer.validated_data)

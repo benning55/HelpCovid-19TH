@@ -181,53 +181,27 @@ class Donator(models.Model):
     tel = models.CharField(max_length=10)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     approve_status = models.BooleanField(default=False)
+    first_created = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
     def save(self, *args, **kwargs):
-        """ Make admin able to approve donate"""
-        box = 0
-        need = Need.objects.all().filter(id=self.need.id)[0]
-
-        if self.approve_status:
-            need.amount -= self.amount
-        elif not self.approve_status:
-            box1 = 0
-            donators = Donator.objects.all().filter(need_id=self.need.id, approve_status=True).exclude(id=self.id)
-            for donator in donators:
-                box1 += donator.amount
-            if need.amount == 0 and box1 >= need.base_amount:
-                need.amount = 0
-            else:
-                need.amount += self.amount
-
-        if need.amount <= 0:
-            need.amount = 0
-            need.status = True
-            need.save()
-            super(Donator, self).save(*args, **kwargs)
-        elif need.amount >= need.base_amount:
-            need.amount = need.base_amount
-            need.status = False
-            need.save()
-            super(Donator, self).save(*args, **kwargs)
-            donators = Donator.objects.all().filter(need_id=self.need.id, approve_status=True)
-            for donator in donators:
-                box += donator.amount
-            left = need.amount - box
-            if left <= 0:
-                need.amount = 0
-                need.status = True
-            else:
-                need.amount = left
-                need.status = False
-            need.save()
+        if self.first_created:
+            self.first_created = False
             super(Donator, self).save(*args, **kwargs)
         else:
-            need.status = False
-            need.save()
+            if self.approve_status:
+                self.need.amount -= self.amount
+            else:
+                self.need.amount += self.amount
+
+            if self.need.amount <= 0:
+                self.need.status = True
+            else:
+                self.need.status = False
+            self.need.save()
             super(Donator, self).save(*args, **kwargs)
 
 
