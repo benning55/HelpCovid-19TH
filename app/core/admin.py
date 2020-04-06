@@ -105,7 +105,7 @@ class NeedAdmin(admin.ModelAdmin):
     list_filter = ['status']
     list_per_page = 10
 
-    search_fields = ['title', 'hospital_name']
+    search_fields = ['title', 'hospital__name']
     inlines = [DonatorInLine]
 
 
@@ -117,7 +117,7 @@ class DonatorAdmin(admin.ModelAdmin):
     list_filter = ['approve_status']
     list_per_page = 10
 
-    search_fields = ['first_name', 'need_title']
+    search_fields = ['first_name', 'need__title']
 
 
 class MoneyDonateAdmin(admin.ModelAdmin):
@@ -128,7 +128,7 @@ class MoneyDonateAdmin(admin.ModelAdmin):
     list_filter = ['approve_status']
     list_per_page = 10
 
-    search_fields = ['first_name', 'hospital_name']
+    search_fields = ['first_name', 'hospital__name']
 
 
 class RegisterTokenAdmin(admin.ModelAdmin):
