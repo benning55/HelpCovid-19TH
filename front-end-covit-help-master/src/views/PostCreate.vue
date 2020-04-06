@@ -34,7 +34,7 @@
                                 v-for="item in categories"
                                 :key="item.id"
                                 :label="item.name"
-                                :value="item.name">
+                                :value="item">
                         </el-option>
                     </el-select>
                     <div v-if="validation.firstError('category')" class="text-sm text-red">
@@ -193,7 +193,6 @@
                 ) {
                     this.isLoading = true
                     let formData = new FormData();
-                    formData.append('category_id', 1);
                     formData.append('hospital_id', this.$store.state.authUser.hospital.id);
                     formData.append('picture', this.imageData);
                     formData.append('title', this.title);
