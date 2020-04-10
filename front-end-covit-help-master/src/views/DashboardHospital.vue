@@ -69,7 +69,7 @@
 
                     <a href="#point" v-if="$store.state.authUser.id == dataHospital.id">
                         <button type="button"
-                                class="btn bg-green text-white">
+                                class="btn bg-green text-white hover:bg-hover_blue">
                             ดูรายการบริจาค
                         </button>
                     </a>

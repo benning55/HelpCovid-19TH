@@ -45,7 +45,6 @@
                 this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
             }
             this.loadData()
-            console.log("getdaat")
         },
         methods: {
 

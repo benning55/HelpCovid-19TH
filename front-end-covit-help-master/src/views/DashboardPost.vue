@@ -23,10 +23,10 @@
                 </div>
 
                 <button v-if="$store.state.authUser.email != dataPost.user.email" @click="goDonateObject(dataPost.id)"
-                        type="button" class="btn bg-green text-white">
+                        type="button" class="btn bg-green text-white hover:bg-hover_blue">
                     ส่งความประสงค์ในการบริจาค
                 </button>
-                <button v-else @click="goEdit(dataPost.id)" type="button" class="btn bg-green text-white">
+                <button v-else @click="goEdit(dataPost.id)" type="button" class="btn bg-green text-white hover:bg-hover_blue">
                     แก้ไขการรับบริจาค
                 </button>
             </div>

@@ -5,7 +5,6 @@
             <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <CardHospital :data="hospital"/>
             </div>
-
         </div>
     </div>
 </template>

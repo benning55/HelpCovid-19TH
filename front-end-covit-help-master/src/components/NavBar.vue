@@ -1,38 +1,56 @@
 <template>
     <div>
-        <nav class="navbar text-white navbar-expand-lg text-white navbar-dark bg-green fixed w-full z-10">
-            <a @click="goHome" class="navbar-brand cursor-pointer">หน้าหลัก</a>
+        <nav class="navbar navbar-light navbar-expand-lg text-black bg-white fixed w-full z-10 shadow-lg">
+            <a @click="goHome" class="navbar-brand cursor-pointer">
+                <img src="../assets/logo.png" class="h-10" alt="Helpital">
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul v-if="!$store.state.isAuthenticated" class="navbar-nav ml-auto topnav text-white">
-                    <li @click="goDonatePageObject" class="nav-item cursor-pointer hover:bg-darkgreen">
-                        <a class="nav-link text-white">บริจาคสิ่งของ</a>
+            <div class="collapse navbar-collapse text-black" id="navbarSupportedContent">
+                <ul v-if="!$store.state.isAuthenticated" class="navbar-nav ml-auto topnav text-black">
+                    <li @click="goDonatePageObject" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
+                        <a class="nav-link">บริจาคสิ่งของ</a>
                     </li>
-                    <li @click="goDonatePageMoney" class="nav-item cursor-pointer hover:bg-darkgreen">
-                        <a class="nav-link text-white">บริจาคเงิน</a>
+                    <li @click="goDonatePageMoney" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
+                        <a class="nav-link">บริจาคเงิน</a>
                     </li>
-                    <li @click="goAbout" class="nav-item cursor-pointer hover:bg-darkgreen">
-                        <a class="nav-link text-white">เกี่ยวกับเรา</a>
+                    <li @click="goAbout" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
+                        <a class="nav-link">เกี่ยวกับเรา</a>
                     </li>
                 </ul>
-                <ul v-else class="navbar-nav ml-auto topnav text-white">
-                    <li @click="goDonateDashBoard" class="nav-item cursor-pointer hover:bg-darkgreen">
-                        <a class="nav-link text-white">{{this.$store.state.authUser.hospital.name}}</a>
+                <ul v-else class="navbar-nav ml-auto topnav text-black">
+                    <li @click="goDonateDashBoard" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
+                        <a class="nav-link">{{this.$store.state.authUser.hospital.name}}</a>
                     </li>
-                    <li @click="goDonateCratePost" class="nav-item cursor-pointer hover:bg-darkgreen">
-                        <a class="nav-link text-white">เปิดรับบริจาคสิ่งของ</a>
+                    <li @click="goDonateCratePost" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
+                        <a class="nav-link">เปิดรับบริจาคสิ่งของ</a>
                     </li>
                     <li class="nav-item cursor-pointer">
-                        <button @click="logout" type="button" class="btn bg-red text-white">Logout</button>
+                        <button @click="confirmDialog = !confirmDialog" type="button"
+                                class="btn bg-red hover:bg-hover_red text-white">
+                            ออกจากระบบ
+                        </button>
                     </li>
                 </ul>
             </div>
         </nav>
         <div style="height: 56px"></div>
+        <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
+            <section>
+                <div class="flex flex-wrap content-between">
+                    <p class="mb-12">คุณต้องการออกจากระบบหรือไม่</p>
+                    <span slot="footer" class="dialog-footer flex justify-between w-full">
+                        <el-button @click="confirmDialog = false">ยกเลิก</el-button>
+                        <el-button @click="logout" type="danger">ออกจากระบบ</el-button>
+                    </span>
+                </div>
+
+                <!--                <Loader v-if="isLoading"/>-->
+            </section>
+        </el-dialog>
     </div>
 
 </template>
@@ -42,11 +60,15 @@
         name: 'NavBar',
         data() {
             return {
-                menuToggle: false
+                menuToggle: false,
+                confirmDialog: false
             }
         },
         methods: {
-            goAbout(){
+            closeModal() {
+                this.confirmDialog = false
+            },
+            goAbout() {
                 this.$router.push({
                     name: "About"
                 })
@@ -57,22 +79,26 @@
                 })
             },
             goDonatePageObject() {
+                $('#navbarSupportedContent').collapse('toggle');
                 this.$router.push({
                     name: "DonatePageObject"
                 })
             },
             goDonatePageMoney() {
+                $('#navbarSupportedContent').collapse('toggle');
                 this.$router.push({
                     name: "DonatePageMoney"
                 })
             },
-            goDonateDashBoard(){
+            goDonateDashBoard() {
+                $('#navbarSupportedContent').collapse('toggle');
                 this.$router.push({
                     name: "DashboardHospital",
-                    params:{id:this.$store.state.authUser.hospital.id}
+                    params: {id: this.$store.state.authUser.hospital.id}
                 })
             },
-            goDonateCratePost(){
+            goDonateCratePost() {
+                $('#navbarSupportedContent').collapse('toggle');
                 this.$router.push({
                     name: "PostCreate"
                 })
@@ -82,6 +108,19 @@
                 this.$router.push('/');
                 location.reload()
             }
+        },
+        mounted() {
+            /** CLOSE MAIN NAVIGATION WHEN CLICKING OUTSIDE THE MAIN NAVIGATION AREA**/
+            $(document).on('click', function (e) {
+                console.log('fffff')
+                /* bootstrap collapse js adds "in" class to your collapsible element*/
+                var menu_opened = $('#navbarSupportedContent').hasClass('show');
+
+                if (!$(e.target).closest('#navbarSupportedContent').length && !$(e.target).is('#navbarSupportedContent') && menu_opened === true) {
+                    $('#navbarSupportedContent').collapse('toggle');
+                }
+
+            });
         }
     }
 </script>

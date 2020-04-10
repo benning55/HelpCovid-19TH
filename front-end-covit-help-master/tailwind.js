@@ -7,19 +7,21 @@ module.exports = {
             '5':'repeat(5, minmax(0, 1fr))'
         },
         colors: {
-            green: '#1eb2a6',
+            green: '#005a9b',
             darkgreen:'#189087',
+            hover_blue:'#00365d',
             black: '#263238', //text
             black_p: '#37474f', // text description or long text
-            lightGray: '#afbcc2',
+            lightGray: '#CCDEEB',
             white: '#FFFFFF',
             red: '#f67575',
+            hover_red:'#C45D5D',
             orange: '#ffa34d',
             gray: '#707070', // textfield
             gray_bg: '#e3e4e3',
             unHilight: '#f5f5f5',
             key_column:'#53656e',
-            light_green:'#d4f8e8'
+            light_green:'#B5E1F2'
         },
         fontFamily: {
             display: ['Kanit', 'sans-serif'],

@@ -15,7 +15,7 @@
             <p class="text-gray text-sm my-2"><i class="fas fa-hospital"></i> {{data.hospital.name}}</p>
             <p v-if="leftItem() > 0">ขาดอีก <span class="text-red">{{leftItem()}}</span> หน่วย</p>
             <p v-else class="text-green">ครบแล้ว</p>
-            <button @click="goPost(data.id)" class="btn bg-green text-white w-full mt-2">ดูรายละเอียดเพิ่ม</button>
+            <button @click="goPost(data.id)" class="btn bg-green text-white w-full mt-2 hover:bg-hover_blue">ดูรายละเอียดเพิ่ม</button>
         </div>
     </div>
 </template>

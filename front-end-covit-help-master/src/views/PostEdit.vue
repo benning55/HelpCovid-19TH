@@ -62,7 +62,7 @@
                 </div>
             </div>
         </form>
-        <button @click="validate" type="button" class="btn bg-green text-white">ลงรับบริจาค</button>
+        <button @click="validate" type="button" class="btn bg-green text-white mb-5 hover:bg-hover_blue">แก้ไขข้อมูล</button>
 
         <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
             <section>
