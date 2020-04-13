@@ -13,7 +13,7 @@
           rel="stylesheet">
     <script src="https://kit.fontawesome.com/818733fa55.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
 
     <title>Helpital</title>
@@ -52,9 +52,50 @@
         scroll-behavior: smooth;
     }
 
-    .v-model{
+    .v-model {
         z-index: 2 !important;
     }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 7px;
+        position: absolute;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #005a9b;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #00365d;
+    }
+
+    ::selection {
+        background: #005a9b; /* WebKit/Blink Browsers */
+        color: white;
+    }
+
+    ::-moz-selection {
+        background: #005a9b; /* Gecko Browsers */
+        color: white;
+    }
+
+    .el-dialog {
+        width: 95% !important;
+        top: 30%;
+        -ms-transform: translate(0%, -50%);
+        transform: translate(0%, -50%);
+        z-index: 5 !important;
+        max-width: 100px
+    }
+
 
 </style>
 

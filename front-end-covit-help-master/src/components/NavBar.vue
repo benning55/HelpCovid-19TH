@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-light navbar-expand-lg text-black bg-white fixed w-full z-10 shadow-lg">
+        <nav class="navbar navbar-light navbar-expand-lg text-black bg-white fixed w-full z-50 shadow-lg">
             <a @click="goHome" class="navbar-brand cursor-pointer">
                 <img src="../assets/logo.png" class="h-10" alt="Helpital">
             </a>
@@ -30,7 +30,7 @@
                     </li>
                     <li class="nav-item cursor-pointer">
                         <button @click="confirmDialog = !confirmDialog" type="button"
-                                class="btn bg-red hover:bg-hover_red text-white">
+                                class="btn bg-red hover:bg-hover_red text-white ml-2">
                             ออกจากระบบ
                         </button>
                     </li>
@@ -112,7 +112,6 @@
         mounted() {
             /** CLOSE MAIN NAVIGATION WHEN CLICKING OUTSIDE THE MAIN NAVIGATION AREA**/
             $(document).on('click', function (e) {
-                console.log('fffff')
                 /* bootstrap collapse js adds "in" class to your collapsible element*/
                 var menu_opened = $('#navbarSupportedContent').hasClass('show');
 

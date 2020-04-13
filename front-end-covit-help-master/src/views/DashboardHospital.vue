@@ -47,8 +47,7 @@
                 <div class="card-body text-center">
                     <h1 class="my-4">ขณะนี้มีผู้บริจาคผ่านระบบไปแล้ว</h1>
                     <h1 class="text-5xl my-5"> {{numberWithCommas(dataHospital.hospital.donated_money)}} <a
-                            class="text-sm">บาท</a></h1>
-
+                            class="text-sm">บาท *</a></h1>
                     <h1 class="">บริจาคได้ที่</h1>
 
                     <div v-if="dataHospital.hospital.bank_account_number == '-'"
@@ -67,17 +66,23 @@
                         </h1>
                     </div>
 
-                    <a href="#point" v-if="$store.state.authUser.id == dataHospital.id">
-                        <button type="button"
-                                class="btn bg-green text-white hover:bg-hover_blue">
-                            ดูรายการบริจาค
-                        </button>
-                    </a>
+                    <div v-if="dataHospital.hospital.bank_account_number != '-'">
+                        <a href="#point" v-if="$store.state.authUser.id == dataHospital.id">
+                            <button type="button"
+                                    class="btn bg-green text-white hover:bg-hover_blue">
+                                ดูรายการบริจาค
+                            </button>
+                        </a>
 
-                    <button v-else @click="goDonateMoney(dataHospital.hospital.id)" type="button"
-                            class="btn bg-green text-white">
-                        บริจาคเงิน
-                    </button>
+                        <button v-else @click="goDonateMoney(dataHospital.hospital.id)" type="button"
+                                class="btn bg-green text-white">
+                            บริจาคเงิน
+                        </button>
+                    </div>
+
+                    <p class="text-red mt-5" style="font-size: 10px">*ยอดบริจาคที่ปรากฎจะนับจากการบริจาคที่แจ้งผ่าน
+                        Website เท่านั้น ซึ่งอาจจะไม่ตรงกับจำนวนเงินบริจาคที่อยู่ในบัญชีของสถาพยาบาล</p>
+
                 </div>
 
                 <h1 class="ml-3 mt-5 mb-4 text-lg col-12 col-md-10 col-lg-8 mx-auto">
@@ -88,7 +93,9 @@
 
                 <div v-if="$store.state.authUser.id != dataHospital.id" class="col-12 col-md-10 col-lg-8 mx-auto">
                     <h1 class=" my-3 text-xl">ผู้ร่วมบริจาคเงิน
-                        <el-tooltip slot="i" class="item" effect="dark" content="ชื่อของผู้บริจาคจะแสดงก็ต่อเมื่อได้รับการยืนยันจากเจ้าหน้าที่ของสถานพยาบาลแล้ว" placement="right">
+                        <el-tooltip slot="i" class="item" effect="dark"
+                                    content="ชื่อของผู้บริจาคจะแสดงก็ต่อเมื่อได้รับการยืนยันจากเจ้าหน้าที่ของสถานพยาบาลแล้ว"
+                                    placement="right">
                             <i class="fas fa-info-circle"></i>
                         </el-tooltip>
                     </h1>

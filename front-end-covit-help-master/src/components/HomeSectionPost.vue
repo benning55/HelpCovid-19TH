@@ -1,7 +1,11 @@
 <template>
     <div>
 
-        <h1 class="text-2xl mt-5 mb-3">รับบริจาคสิ่งของ</h1>
+        <div class="bg-light_green border-l-4 border-green text-black p-4 mt-5 mb-3" role="alert">
+            <h1 class="text-lg ">รับบริจาคสิ่งของ</h1>
+        </div>
+
+
         <div class="row">
             <div v-for="post in dataNeed" :key="post.id" class=" col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <CardPost :data="post"/>
@@ -39,24 +43,25 @@
         created() {
             if (this.$store.state.dataAllPost.length == 0) {
                 this.dataNeed = []
-            }else if (this.$store.state.dataAllPost.length == 12) {
-                this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
-            } else {
+            } else if (this.$store.state.dataAllPost.length >= 12) {
                 this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
+            } else {
+                this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
             }
             this.loadData()
         },
         methods: {
-
             loadData() {
                 axios.get(`${this.$store.state.host}/api/posts/need/`)
                     .then(res => {
                         this.cardLength = res.data.data.length
                         this.$store.commit("setDataAllPost", res.data.data);
-                        if (this.$store.state.dataAllPost.length == 12) {
-                            this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
-                        } else {
+                        if (this.$store.state.dataAllPost.length == 0) {
+                            this.dataNeed = []
+                        } else if (this.$store.state.dataAllPost.length >= 12) {
                             this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
+                        } else {
+                            this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
                         }
                     })
                     .catch(e => {

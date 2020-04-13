@@ -27,8 +27,8 @@ export default new Vuex.Store({
         jwt: localStorage.getItem('token'),
         // host: `${window.location.protocol}//${window.location.hostname}/8000`
         host: `${window.location.protocol}//${window.location.hostname}`,
-        dataAllHospital:[],
-        dataAllPost:[]
+        dataAllHospital: [],
+        dataAllPost: []
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -64,15 +64,20 @@ export default new Vuex.Store({
             state.jwt = null
             state.isAuthenticated = false
         },
-        setDataAllHospital(state,data){
+        setDataAllHospital(state, data) {
             console.log(data)
             state.dataHome = data
         },
-        setDataAllPost(state,data){
+        setDataAllPost(state, data) {
             state.dataAllPost = data
         }
     },
     actions: {},
     modules: {},
     plugins: [new VuexPersistence().plugin]
+    // plugins: [
+    //     new VuexPersistence({
+    //         paths: ['dataAllHospital'],
+    //     }),
+    // ],
 })

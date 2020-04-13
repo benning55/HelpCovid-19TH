@@ -261,4 +261,12 @@
         height: 100%;
         width: 99.8%;
     }
+
+    .el-dialog {
+        width: 95% !important;
+        top: 30%;
+        -ms-transform: translate(0%, -50%);
+        transform: translate(0%, -50%);
+        z-index: 5 !important;
+    }
 </style>

@@ -1,5 +1,7 @@
 <template>
     <div class="home">
+        <HomePopUp v-show="show_modal" @close="show_modal = false" />
+
         <Hero/>
 
         <div class="container">
@@ -11,7 +13,9 @@
             <HomeSectionPost/>
             <HomeSectionHospital/>
         </div>
+
     </div>
+
 </template>
 
 <script>
@@ -22,6 +26,7 @@
     import HomeSectionHospital from "../components/HomeSectionHospital";
     import GoogleMap from "./GoogleMap";
     import SearchSection from "../components/SearchSection";
+    import HomePopUp from "../components/HomePopUp";
 
     export default {
         name: 'Home',
@@ -30,14 +35,20 @@
             Hero,
             HomeSectionPost,
             HomeSectionHospital,
-            SearchSection
+            SearchSection,
+            HomePopUp
         },
         data() {
             return {
-                mapLocation: []
+                mapLocation: [],
+                show_modal: true
             }
         },
         created() {
-        }
+
+        },
     }
 </script>
+
+<style scoped>
+</style>
