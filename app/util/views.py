@@ -35,14 +35,9 @@ def get_total_money():
 def get_chart(request, *args, **kwargs):
     """ Get Donator and All Money"""
     if request.method == "GET":
-        data = {
-            'total_category1': sum_donation(1),
-            'total_category2': sum_donation(2),
-            'total_category3': sum_donation(3),
-            'total_category4': sum_donation(4)
-        }
         return Response({
-            'data': data,
+            'label': ['สิ่งก่อสร้าง', 'ปรับปรุงโครงสร้าง', 'เครื่องมือแพทย์', 'วัสดุการแพทย์'],
+            'data': [sum_donation(1), sum_donation(2), sum_donation(3), sum_donation(4)],
             'total_money': get_total_money()
         }, status=status.HTTP_200_OK)
 
