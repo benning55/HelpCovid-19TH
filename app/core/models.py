@@ -42,6 +42,13 @@ def need_image(instance, filename):
 
     return os.path.join('uploads/need/', filename)
 
+def popup_image(instance, filename):
+    """Generate file path for need"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/popup/', filename)
+
 
 def receipt_image(instance, filename):
     """Generate file path for need"""
@@ -50,6 +57,13 @@ def receipt_image(instance, filename):
 
     return os.path.join('uploads/receipt/', filename)
 
+
+def product_maker_image(instance, filename):
+    """Generate file path for need"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/product-maker/', filename)
 
 class UserManager(BaseUserManager):
     """Manager for user profiles"""
@@ -264,3 +278,19 @@ class RegisterToken(models.Model):
 class AboutMe(models.Model):
     """ About me Text """
     description = models.TextField()
+
+
+class PopUp(models.Model):
+    """ Pop up data """
+    picture = models.ImageField(upload_to=popup_image)
+    description = models.TextField()
+
+
+class ProductMaker(models.Model):
+    """ Product maker data """
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    picture = models.ImageField(upload_to=product_maker_image)
+    company = models.CharField(max_length=255)
+    tel = models.CharField(max_length=10)
+    email = models.EmailField(blank=True, null=True)

@@ -51,6 +51,7 @@ def new_donation_money_notify(money_donate):
         fail_silently=False
     )
 
+
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny, ])
 def get_all_need(request, *args, **kwargs):

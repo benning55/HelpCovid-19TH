@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
     'officer',
-    'crispy_forms'
+    'crispy_forms',
+    'util'
 ]
 
 REST_FRAMEWORK = {

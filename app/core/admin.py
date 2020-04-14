@@ -194,7 +194,23 @@ class CategoryAdmin(admin.ModelAdmin):
     list_per_page = 10
 
     search_fields = ['name']
-    
+
+
+class PopUpAdmin(admin.ModelAdmin):
+    list_display = ['id', 'picture', 'description']
+    list_display_links = ['id']
+    ordering = ['-id']
+    list_per_page = 10
+
+
+class ProductMakerAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'picture', 'company', 'tel']
+    ordering = ['-id']
+    list_display_links = ['id', 'title']
+
+    search_fields = ['title']
+
+    list_per_page = 10
 
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Hospital, HospitalAdmin)
@@ -205,3 +221,6 @@ admin.site.register(models.EmailStaff)
 admin.site.register(models.RegisterToken, RegisterTokenAdmin)
 admin.site.register(models.Categorie, CategoryAdmin)
 admin.site.register(models.AboutMe)
+admin.site.register(models.PopUp, PopUpAdmin)
+admin.site.register(models.ProductMaker, ProductMakerAdmin)
+
