@@ -66,23 +66,27 @@
             return {
                 mapLocation: [],
                 show_modal: true,
-                sumObject:0,
-                sumMoney:0
+                sumObject: 0,
+                sumMoney: 0
             }
         },
         created() {
             if (!this.$session.exists("popup")) {
                 this.$session.set("popup", "show")
             } else {
-                this.show_modal = false
+                if (this.$session.get("popup") == "show") {
+                    this.show_modal = true
+                } else {
+                    this.show_modal = false
+                }
             }
         },
         methods: {
-            emitData(data){
+            emitData(data) {
                 this.sumMoney = data[0]
                 this.sumObject = data[1]
                 // console.log(data)
-            },numberWithCommas(x) {
+            }, numberWithCommas(x) {
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
             close() {
