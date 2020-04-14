@@ -28,7 +28,8 @@ export default new Vuex.Store({
         // host: `${window.location.protocol}//${window.location.hostname}/8000`
         host: `${window.location.protocol}//${window.location.hostname}`,
         dataAllHospital: [],
-        dataAllPost: []
+        dataAllPost: [],
+        dataAllSupplier:[]
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -65,11 +66,13 @@ export default new Vuex.Store({
             state.isAuthenticated = false
         },
         setDataAllHospital(state, data) {
-            console.log(data)
             state.dataHome = data
         },
         setDataAllPost(state, data) {
             state.dataAllPost = data
+        },
+        setDataAllSupplier(state, data) {
+            state.dataAllSupplier = data
         }
     },
     actions: {},

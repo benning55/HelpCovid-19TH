@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="bg-lightgreen border-l-4 border-darkgreen text-black p-4 mt-5 mb-4" role="alert">
-            <h1 class="text-lg ">สถานพยาบาล</h1>
+        <div class="bg-lightorange border-l-4 border-orange text-black p-4 mt-5 mb-4" role="alert">
+            <h1 class="text-lg ">ผู้ผลิต</h1>
         </div>
 
         <div class="row">
             <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <CardHospital :data="hospital"/>
+                <CardSupplier :data="hospital"/>
             </div>
         </div>
     </div>
@@ -14,11 +14,11 @@
 
 <script>
     import axios from 'axios'
-    import CardHospital from "../components/CardHospital";
+    import CardSupplier from "./CardSupplier";
 
     export default {
         components: {
-            CardHospital
+            CardSupplier
         },
         data() {
             return {
@@ -31,10 +31,10 @@
         },
         methods:{
             loadData(){
-                axios.get(`${this.$store.state.host}/api/accounts/hospital/`)
+                axios.get(`${this.$store.state.host}/api/util/maker/`)
                 .then(res => {
                     this.dataHospital = res.data.data
-                    this.$store.commit("setDataAllHospital", res.data.data);
+                    this.$store.commit("setDataAllSupplier", res.data.data);
                 })
                 .catch(e => {
                     this.$message({

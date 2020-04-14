@@ -29,7 +29,7 @@
                         <a class="nav-link">เปิดรับบริจาคสิ่งของ</a>
                     </li>
                     <li class="nav-item cursor-pointer">
-                        <button @click="confirmDialog = !confirmDialog" type="button"
+                        <button @click="openModal" type="button"
                                 class="btn bg-red hover:bg-hover_red text-white ml-2">
                             ออกจากระบบ
                         </button>
@@ -65,6 +65,10 @@
             }
         },
         methods: {
+            openModal(){
+                this.confirmDialog = true
+                $(".el-dialog").css({"max-width": "350px"});
+            },
             closeModal() {
                 this.confirmDialog = false
             },

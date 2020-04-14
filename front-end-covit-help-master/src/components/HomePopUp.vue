@@ -4,20 +4,19 @@
             <div class="center-y bg-white">
                 <div class="header h-12 bg-red flex justify-between items-center bg-white">
                     <div class=" text-black text-center m-2 flex items-center">
-                        <img src="../assets/logo.png" class="object-contain" style="width: 40px;height: 40px">
-                        <h1 class="ml-3">fsefsef</h1>
+                        <h1 class="ml-2">ยอดเงินบริจาค <a class="text-green">{{total_money}}</a> บาท</h1>
                     </div>
                     <div class="text-black text-center m-2">
                         <a @click="close" class="text-xl mr-2"><i class="fas fa-times"></i></a>
                     </div>
                 </div>
                 <swiper class="swiper" style="height: 90%" :options="swiperOption">
-                    <swiper-slide>
-                        <img src="../assets/logo.png" alt="description" class="object-cover h-100">
+                    <swiper-slide v-for="c in listCarousal" :key="c.id">
+                        <img :src="$store.state.host+c.picture" alt="description" class="object-cover h-100">
                     </swiper-slide>
-                    <swiper-slide>
-                        <img src="../assets/logo.png" class="object-cover h-100">
-                    </swiper-slide>
+<!--                    <swiper-slide>-->
+<!--                        <img src="../assets/logo.png" class="object-cover h-100">-->
+<!--                    </swiper-slide>-->
                     <div class="swiper-pagination" slot="pagination"></div>
                     <div class="swiper-button-prev" slot="button-prev"></div>
                     <div class="swiper-button-next" slot="button-next"></div>
@@ -28,6 +27,8 @@
 </template>
 
 <script>
+    import axios from 'axios'
+
     export default {
         data() {
             return {
@@ -37,11 +38,28 @@
                         type: 'fraction'
                     },
                     navigation: {
-                        nextEl: `<span class=" swiper-pagination-bullet-custom"></span>`,
+                        nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
                     }
-                }
+                },
+                total_money:0,
+                listCarousal:[]
             }
+        },
+        created() {
+            axios.get(`${this.$store.state.host}/api/util/popup/`)
+                .then(res => {
+                    this.total_money = res.data.total_money
+                    this.listCarousal = res.data.data
+                })
+                .catch(e => {
+                    this.$message({
+                        showClose: true,
+                        message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                        type: 'error',
+                        duration: 10
+                    });
+                })
         },
         methods: {
             close() {

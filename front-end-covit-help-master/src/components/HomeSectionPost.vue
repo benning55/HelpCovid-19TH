@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="bg-light_green border-l-4 border-green text-black p-4 mt-5 mb-3" role="alert">
+        <div class="bg-light_green border-l-4 border-green text-black p-4 mt-5 mb-4" role="alert">
             <h1 class="text-lg ">รับบริจาคสิ่งของ</h1>
         </div>
 

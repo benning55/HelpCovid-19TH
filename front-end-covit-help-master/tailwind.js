@@ -9,6 +9,7 @@ module.exports = {
         colors: {
             green: '#005a9b',
             darkgreen:'#189087',
+            lightgreen:'#D0E8E7',
             hover_blue:'#00365d',
             black: '#263238', //text
             black_p: '#37474f', // text description or long text
@@ -17,6 +18,7 @@ module.exports = {
             red: '#f67575',
             hover_red:'#C45D5D',
             orange: '#ffa34d',
+            lightorange:'#FFECDB',
             gray: '#707070', // textfield
             gray_bg: '#e3e4e3',
             unHilight: '#f5f5f5',

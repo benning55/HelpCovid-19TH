@@ -6,11 +6,11 @@
              style="border-radius: 10px"
              src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg" :alt="data.name">
         <div class="card-body" style="padding-bottom: 0">
-            <h5 class="card-title text-md font-bold">{{data.name}}</h5>
-            <p class="text-sm text-gray"><i class="fas fa-map-marker-alt mr-2 "></i>{{data.address}}</p>
+            <h5 class="card-title text-md font-bold">{{data.title}}</h5>
+            <p class="text-sm text-gray">{{data.company}}</p>
         </div>
         <div class="card-footer bg-white" style="border-radius: 10px;border: 0px;padding: 0px 10px 10px 10px">
-            <button @click="goHospital(data.id)" class="btn bg-darkgreen text-white w-full hover:bg-hover_blue">ดูรายละเอียดเพิ่ม</button>
+            <button @click="goHospital(data.id)" class="btn bg-orange text-white w-full hover:bg-hover_blue">ดูรายละเอียดเพิ่ม</button>
         </div>
     </div>
 </template>
@@ -28,7 +28,7 @@
         methods:{
             goHospital(id){
                 this.$router.push({
-                    name:"DashboardHospital",
+                    name:"DashboardSupplier",
                     params:{id:id}
                 })
             }
