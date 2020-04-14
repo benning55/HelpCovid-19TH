@@ -8,5 +8,6 @@ router = DefaultRouter()
 urlpatterns = [
     path('chart/', views.get_chart),
     path('popup/', views.get_pop_up),
-    path('maker/', views.get_product_maker)
+    path('maker/', views.get_product_maker),
+    path('maker/<int:pk>/', views.get_product_maker)
 ]

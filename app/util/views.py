@@ -64,8 +64,16 @@ def get_pop_up(request, *args, **kwargs):
 @permission_classes([AllowAny, ])
 def get_product_maker(request, *args, **kwargs):
     if request.method == "GET":
+        pk = kwargs.get('pk')
         queryset = ProductMaker.objects.all()
-        serializer = serializers.ProductMakerSerializer(queryset, many=True)
-        return Response({
-            'data': serializer.data
-        }, status=status.HTTP_200_OK)
+        if pk is None:
+            serializer = serializers.ProductMakerSerializer(queryset, many=True)
+            return Response({
+                'data': serializer.data
+            }, status=status.HTTP_200_OK)
+        else:
+            queryset = queryset.filter(id=pk)
+            serializer = serializers.ProductMakerSerializer(queryset, many=True)
+            return Response({
+                'data': serializer.data
+            }, status=status.HTTP_200_OK)
