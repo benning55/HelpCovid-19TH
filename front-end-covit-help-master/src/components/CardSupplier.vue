@@ -10,7 +10,7 @@
             <p class="text-sm text-gray">{{data.company}}</p>
         </div>
         <div class="card-footer bg-white" style="border-radius: 10px;border: 0px;padding: 0px 10px 10px 10px">
-            <button @click="goHospital(data.id)" class="btn bg-orange text-white w-full hover:bg-darkorange">ดูรายละเอียดเพิ่ม</button>
+            <button @click="goHospital(data.id)" class="btn bg-green text-white w-full hover:bg-hover_blue">ดูรายละเอียดเพิ่ม</button>
         </div>
     </div>
 </template>

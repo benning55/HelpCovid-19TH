@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div class="bg-lightgreen border-l-4 border-darkgreen text-black p-4 mt-5 mb-4" role="alert">
-            <h1 class="text-lg ">สถานพยาบาล</h1>
-        </div>
+        <h1 class="text-2xl mt-5 mb-3">สถานพยาบาล</h1>
 
         <div class="row">
             <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">

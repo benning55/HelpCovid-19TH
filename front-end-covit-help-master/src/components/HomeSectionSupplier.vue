@@ -1,14 +1,19 @@
 <template>
-    <div>
-        <div class="bg-lightorange border-l-4 border-orange text-black p-4 mt-5 mb-4" role="alert">
-            <h1 class="text-lg ">ผู้ผลิต</h1>
+    <div class="bg-light_green py-1">
+
+        <div class="container">
+
+            <h1 class="text-2xl mt-3 mb-3">ผู้ผลิต</h1>
+
+            <div class="row">
+                <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <CardSupplier :data="hospital"/>
+                </div>
+            </div>
+
         </div>
 
-        <div class="row">
-            <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <CardSupplier :data="hospital"/>
-            </div>
-        </div>
+
     </div>
 </template>
 
@@ -29,21 +34,21 @@
             this.dataHospital = this.$store.state.dataHospital
             this.loadData()
         },
-        methods:{
-            loadData(){
+        methods: {
+            loadData() {
                 axios.get(`${this.$store.state.host}/api/util/maker/`)
-                .then(res => {
-                    this.dataHospital = res.data.data
-                    this.$store.commit("setDataAllSupplier", res.data.data);
-                })
-                .catch(e => {
-                    this.$message({
-                        showClose: true,
-                        message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
-                        type: 'error',
-                        duration: 10
-                    });
-                })
+                    .then(res => {
+                        this.dataHospital = res.data.data
+                        this.$store.commit("setDataAllSupplier", res.data.data);
+                    })
+                    .catch(e => {
+                        this.$message({
+                            showClose: true,
+                            message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,
+                            type: 'error',
+                            duration: 10
+                        });
+                    })
             }
         }
     }
