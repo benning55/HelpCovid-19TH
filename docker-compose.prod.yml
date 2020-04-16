@@ -61,7 +61,7 @@ services:
     volumes:
       - ssl_data:/etc/resty-auto-ssl
     environment:
-      ALLOWED_DOMAINS: 'helpital.org, covid19th.org'
+      ALLOWED_DOMAINS: 'helpital.org'
       SITES: 'helpital.org=nginx:80'
 
   nginx:
