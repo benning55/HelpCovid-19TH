@@ -17,6 +17,9 @@
                     <li @click="goDonatePageMoney" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
                         <a class="nav-link">บริจาคเงิน</a>
                     </li>
+                    <li @click="goDanateSupplier" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
+                        <a class="nav-link">ผู้ผลิตสิ่งของ</a>
+                    </li>
                     <li @click="goAbout" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
                         <a class="nav-link">เกี่ยวกับเรา</a>
                     </li>
@@ -27,6 +30,9 @@
                     </li>
                     <li @click="goDonateCratePost" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
                         <a class="nav-link">เปิดรับบริจาคสิ่งของ</a>
+                    </li>
+                    <li @click="goDanateSupplier" class="nav-item rounded-lg cursor-pointer hover:bg-lightGray">
+                        <a class="nav-link">ผู้ผลิตสิ่งของ</a>
                     </li>
                     <li class="nav-item cursor-pointer">
                         <button @click="openModal" type="button"
@@ -65,7 +71,7 @@
             }
         },
         methods: {
-            openModal(){
+            openModal() {
                 this.confirmDialog = true
                 $(".el-dialog").css({"max-width": "350px"});
             },
@@ -83,26 +89,42 @@
                 })
             },
             goDonatePageObject() {
-                $('#navbarSupportedContent').collapse('toggle');
+                if ($(window).width() < 992) {
+                    $('#navbarSupportedContent').collapse('toggle');
+                }
                 this.$router.push({
                     name: "DonatePageObject"
                 })
             },
             goDonatePageMoney() {
-                $('#navbarSupportedContent').collapse('toggle');
+                if ($(window).width() < 992) {
+                    $('#navbarSupportedContent').collapse('toggle');
+                }
                 this.$router.push({
                     name: "DonatePageMoney"
                 })
             },
+            goDanateSupplier(){
+                if ($(window).width() < 992) {
+                    $('#navbarSupportedContent').collapse('toggle');
+                }
+                this.$router.push({
+                    name: "DonatePageSupplier"
+                })
+            },
             goDonateDashBoard() {
-                $('#navbarSupportedContent').collapse('toggle');
+                if ($(window).width() < 992) {
+                    $('#navbarSupportedContent').collapse('toggle');
+                }
                 this.$router.push({
                     name: "DashboardHospital",
                     params: {id: this.$store.state.authUser.hospital.id}
                 })
             },
             goDonateCratePost() {
-                $('#navbarSupportedContent').collapse('toggle');
+                if ($(window).width() < 992) {
+                    $('#navbarSupportedContent').collapse('toggle');
+                }
                 this.$router.push({
                     name: "PostCreate"
                 })

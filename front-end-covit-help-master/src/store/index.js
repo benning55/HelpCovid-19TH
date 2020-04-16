@@ -25,7 +25,6 @@ export default new Vuex.Store({
         },
         isAuthenticated: false,
         jwt: localStorage.getItem('token'),
-        // host: `${window.location.protocol}//${window.location.hostname}/8000`
         host: `${window.location.protocol}//${window.location.hostname}`,
         dataAllHospital: [],
         dataAllPost: [],
@@ -66,7 +65,7 @@ export default new Vuex.Store({
             state.isAuthenticated = false
         },
         setDataAllHospital(state, data) {
-            state.dataHome = data
+            state.dataAllHospital = data
         },
         setDataAllPost(state, data) {
             state.dataAllPost = data

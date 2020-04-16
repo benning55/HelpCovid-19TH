@@ -52,6 +52,9 @@
                 .then(res => {
                     this.total_money = res.data.total_money
                     this.listCarousal = res.data.data
+                    if(this.listCarousal.length == 0){
+                        this.$emit("close")
+                    }
                 })
                 .catch(e => {
                     this.$message({

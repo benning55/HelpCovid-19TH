@@ -8,7 +8,7 @@
             <div v-for="post in dataNeed" :key="post.id" class=" col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <CardPost :data="post"/>
             </div>
-            <div v-if="cardLength > 12" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 hover:no-underline">
+            <div v-if="showSeeMore" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 hover:no-underline">
                 <router-link to="/all-post">
                     <div class="shadow-lg  h-full text-center" style="margin-bottom: 15px;border-radius: 10px">
                         <div class="card-title font-bold text-key_column opacity-50 h-full" style="">
@@ -35,16 +35,18 @@
         data() {
             return {
                 dataNeed: [],
-                cardLength: 0
+                showSeeMore:false
             }
         },
         created() {
             if (this.$store.state.dataAllPost.length == 0) {
                 this.dataNeed = []
-            } else if (this.$store.state.dataAllPost.length >= 12) {
+            } else if (this.$store.state.dataAllPost.length > 12) {
                 this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
+                this.showSeeMore = true
             } else {
                 this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
+                this.showSeeMore = false
             }
             this.loadData()
         },
@@ -52,14 +54,15 @@
             loadData() {
                 axios.get(`${this.$store.state.host}/api/posts/need/`)
                     .then(res => {
-                        this.cardLength = res.data.data.length
                         this.$store.commit("setDataAllPost", res.data.data);
                         if (this.$store.state.dataAllPost.length == 0) {
                             this.dataNeed = []
-                        } else if (this.$store.state.dataAllPost.length >= 12) {
+                        } else if (this.$store.state.dataAllPost.length > 12) {
                             this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
+                            this.showSeeMore = true
                         } else {
                             this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
+                            this.showSeeMore = false
                         }
                     })
                     .catch(e => {

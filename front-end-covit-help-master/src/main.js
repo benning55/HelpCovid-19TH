@@ -14,8 +14,11 @@ import axios from 'axios';
 import VueSession from "vue-session/index.esm";
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.min.css'
-
 import VueSessionStorage from 'vue-sessionstorage'
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+Vue.use(ChartDataLabels)
+
 Vue.use(VueSessionStorage)
 
 Vue.use(VueSession)

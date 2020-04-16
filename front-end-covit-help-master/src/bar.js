@@ -30,7 +30,7 @@ export default {
                     display: false
                 },
                 tooltips: {
-                    enabled: true,
+                    enabled: false,
                     mode: 'single',
                     callbacks: {
                         label: function (tooltipItems) {
@@ -40,7 +40,17 @@ export default {
                 },
                 responsive: true,
                 maintainAspectRatio: false,
-                height: 400
+                height: 400,
+                plugins: {
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: Math.round,
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
             },
         }
     },

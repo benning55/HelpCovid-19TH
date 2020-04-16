@@ -55,6 +55,11 @@ const routes = [
         component: () => import('../views/DonatePageObject')
     },
     {
+        path: '/all-supplier',
+        name: 'DonatePageSupplier',
+        component: () => import('../views/DonatePageSupplier')
+    },
+    {
         path: '/donate-hospital/:id',
         name: 'DonateMoney',
         component: () => import('../views/DonateMoney')
@@ -77,21 +82,8 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes,
-    // scrollBehavior: (to, from, savedPosition) => {
-    //     console.log(savedPosition)
-    //     if (savedPosition) {
-    //         return savedPosition;
-    //     } else if (to.hash) {
-    //         return {
-    //             selector: to.hash
-    //         };
-    //     } else {
-    //         return {x: 0, y: 0};
-    //     }
-    // }
 
     scrollBehavior(to, from, savedPosition) {
-        // console.log(savedPosition)
         // Default scroll position will be 0, 0 unless overridden by a saved position
         const position = {
             x: 0,
@@ -108,7 +100,6 @@ const router = new VueRouter({
         return new Promise(resolve => {
 
             this.app.$root.$once("scrollBeforeEnter", () => {
-                console.log(position)
                 resolve(position);
             });
         });

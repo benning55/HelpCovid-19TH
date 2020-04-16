@@ -107,7 +107,14 @@
         },
         data() {
             return {
-                datacollection: null,
+                datacollection: {
+                    labels: ["สิ่งก่อสร้าง", "ปรับปรุงโครงสร้าง", "เครื่องมือแพทย์", "วัสดุการแพทย์"],
+                    datasets: [{
+                        maxBarThickness: 100,
+                        data: [0, 0, 0, 0],
+                        backgroundColor: '#005a9b',
+                    }]
+                },
                 loaded: false
             }
         },
