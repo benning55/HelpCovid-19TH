@@ -4,7 +4,7 @@
         <transition name="fade" mode="out-in" @after-enter="beforeEnter">
             <router-view/>
         </transition>
-        <Footer v-if="$route.name!='Login' && $route.name!='SearchPage' && $route.name!='About'"/>
+        <Footer v-if="$route.name!='Login' && $route.name!='SearchPage'"/>
     </div>
 </template>
 

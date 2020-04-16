@@ -25,7 +25,8 @@ module.exports = {
             gray_bg: '#e3e4e3',
             unHilight: '#f5f5f5',
             key_column:'#53656e',
-            light_green:'#B5E1F2'
+            light_green:'#B5E1F2',
+            lighter_blue:'#46b5e0'
         },
         fontFamily: {
             display: ['Kanit', 'sans-serif'],
