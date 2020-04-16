@@ -73,31 +73,31 @@ class OfficerMoneyDonateSerializer(serializers.ModelSerializer):
             'created': {'read_only': True}
         }
 
-    def update(self, instance, validated_data):
-        hospital = get_object_or_404(Hospital.objects.all(), id=instance.hospital_id)
-        instance.hospital_id = validated_data.get('hospital_id', instance.hospital_id)
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.company_name = validated_data.get('company_name', instance.company_name)
-        instance.tax_id = validated_data.get('tax_id', instance.tax_id)
-        instance.receipt = validated_data.get('receipt', instance.receipt)
-        instance.email = validated_data.get('email', instance.email)
-        instance.tel = validated_data.get('tel', instance.tel)
-        instance.amount = validated_data.get('amount', instance.amount)
-        if validated_data.get('approve_status') == instance.approve_status:
-            instance.approve_status = validated_data.get('approve_status', instance.approve_status)
-            instance.save()
-            return instance
-        else:
-            total_donate_now = hospital.donated_money
-            if validated_data.get('approve_status'):
-                hospital.donated_money = total_donate_now + instance.amount
-                instance.approve_status = validated_data.get('approve_status', instance.approve_status)
-                hospital.save()
-            else:
-                hospital.donated_money = total_donate_now - instance.amount
-                instance.approve_status = validated_data.get('approve_status', instance.approve_status)
-                hospital.save()
-
-            instance.save()
-            return instance
+    # def update(self, instance, validated_data):
+    #     hospital = get_object_or_404(Hospital.objects.all(), id=instance.hospital_id)
+    #     instance.hospital_id = validated_data.get('hospital_id', instance.hospital_id)
+    #     instance.first_name = validated_data.get('first_name', instance.first_name)
+    #     instance.last_name = validated_data.get('last_name', instance.last_name)
+    #     instance.company_name = validated_data.get('company_name', instance.company_name)
+    #     instance.tax_id = validated_data.get('tax_id', instance.tax_id)
+    #     instance.receipt = validated_data.get('receipt', instance.receipt)
+    #     instance.email = validated_data.get('email', instance.email)
+    #     instance.tel = validated_data.get('tel', instance.tel)
+    #     instance.amount = validated_data.get('amount', instance.amount)
+    #     if validated_data.get('approve_status') == instance.approve_status:
+    #         instance.approve_status = validated_data.get('approve_status', instance.approve_status)
+    #         instance.save()
+    #         return instance
+    #     else:
+    #         total_donate_now = hospital.donated_money
+    #         if validated_data.get('approve_status'):
+    #             hospital.donated_money = total_donate_now + instance.amount
+    #             instance.approve_status = validated_data.get('approve_status', instance.approve_status)
+    #             hospital.save()
+    #         else:
+    #             hospital.donated_money = total_donate_now - instance.amount
+    #             instance.approve_status = validated_data.get('approve_status', instance.approve_status)
+    #             hospital.save()
+    #
+    #         instance.save()
+    #         return instance

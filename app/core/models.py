@@ -243,6 +243,7 @@ class MoneyDonate(models.Model):
     def save(self, *args, **kwargs):
         """ Make admin able to approve"""
         hospital = Hospital.objects.all().filter(id=self.hospital.id)[0]
+        print(hospital.donated_money)
         if self.approve_status:
             hospital.donated_money += self.amount
         elif not self.approve_status:
