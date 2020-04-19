@@ -229,9 +229,20 @@
                         </div>
                     </div>
 
+                    <a href="https://drive.google.com/file/d/1_-lbFMcVZFPEbwKU5P-x27yAw4R2aVnC/view?usp=sharing"
+                       target="_blank"
+                       class="text-green text-sm underline col-md-12 cursor-pointer">อ่านข้อกำหนดการใช้งานเว็บไซต์</a>
+
+                    <div class="col-md-12 mb-3">
+                        <el-checkbox v-model="checkedAgreement">ยอมรับอ่านข้อกำหนดการใช้งานเว็บไซต์</el-checkbox>
+                    </div>
+
+
                     <div class="">
                         <div class="col-sm-12 text-center">
-                            <a @click="showDialog" class="btn bg-green text-white w-32 mb-8">ลงทะเบียน</a>
+                            <a v-if="checkedAgreement" @click="showDialog" class="btn bg-green text-white w-32 mb-8">ลงทะเบียน</a>
+                            <a v-else
+                               class="btn bg-green opacity-50 text-white w-32 mb-8 cursor-not-allowed">ลงทะเบียน</a>
                         </div>
                     </div>
                 </form>
@@ -413,7 +424,8 @@
                 ],
                 error: '',
                 isLoading: false,
-                tokenPass: false
+                tokenPass: false,
+                checkedAgreement: false
             }
         },
         validators: {

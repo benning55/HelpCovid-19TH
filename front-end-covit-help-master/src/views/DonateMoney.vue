@@ -1,124 +1,126 @@
 <template>
-    <div class="container mt-5">
-        <h1 class="text-3xl text-center mb-3">บริจาคเงิน</h1>
-        <p class="mb-2 text-sm text-red"></p>
-        <el-alert
-                :closable="false"
-                type="warning"
-                show-icon>
-            <p class="text-black text-md" style="font-size: 1rem;">กรุณาตรวจสอบ ชื่อบัญชีว่าถูกต้องหรือไม่ ก่อนกดโอน</p>
-        </el-alert>
-        <form class="mt-3">
-            <div class="form-group">
-                <label>ชื่อจริง</label>
-                <p class="mb-2 text-sm text-gray">หากไม่ต้องการระบุให้ใส่เครื่องหมายขีด (-)</p>
-                <input v-model="fname" class="form-control"
-                       :class="{'is-invalid':validation.firstError('fname')}"
-                       placeholder="กรุณาใส่ชื่อจริง">
-                <div class="invalid-feedback">
-                    {{validation.firstError('fname')}}
+    <div>
+        <div class="container mt-5">
+            <h1 class="text-3xl text-center mb-3">บริจาคเงิน</h1>
+            <p class="mb-2 text-sm text-red"></p>
+            <el-alert
+                    :closable="false"
+                    type="warning"
+                    show-icon>
+                <p class="text-black text-md" style="font-size: 1rem;">กรุณาตรวจสอบ ชื่อบัญชีว่าถูกต้องหรือไม่
+                    ก่อนกดโอน</p>
+            </el-alert>
+            <form class="mt-3">
+                <div class="form-group">
+                    <label>ชื่อจริง</label>
+                    <p class="mb-2 text-sm text-gray">หากไม่ต้องการระบุให้ใส่เครื่องหมายขีด (-)</p>
+                    <input v-model="fname" class="form-control"
+                           :class="{'is-invalid':validation.firstError('fname')}"
+                           placeholder="กรุณาใส่ชื่อจริง">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('fname')}}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>นามสกุล</label>
-                <p class="mb-2 text-sm text-gray">หากไม่ต้องการระบุให้ใส่เครื่องหมายขีด (-)</p>
-                <input v-model="lname" class="form-control"
-                       placeholder="กรุณาใส่นามสกุล"
-                       :class="{'is-invalid':validation.firstError('lname')}">
-                <div class="invalid-feedback">
-                    {{validation.firstError('lname')}}
+                <div class="form-group">
+                    <label>นามสกุล</label>
+                    <p class="mb-2 text-sm text-gray">หากไม่ต้องการระบุให้ใส่เครื่องหมายขีด (-)</p>
+                    <input v-model="lname" class="form-control"
+                           placeholder="กรุณาใส่นามสกุล"
+                           :class="{'is-invalid':validation.firstError('lname')}">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('lname')}}
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>เบอร์โทรศัพท์</label>
-                <p class="mb-2 text-sm text-gray">ใช้ในการติดต่อกลับไปหากเกิดข้อผิดพลาด เช่น ยอดโอนไม่ตรงกัน หรือ
-                    ไม่พบประวัติการโอนเงิน</p>
-                <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงเบอร์โทรศัพท์ให้ผู้อื่นเห็น</p>
-                <input v-model="tel" class="form-control"
-                       placeholder="กรุณาใส่เบอร์โทรศัพท์"
-                       :class="{'is-invalid':validation.firstError('tel')}">
-                <div class="invalid-feedback">
-                    {{validation.firstError('tel')}}
+                <div class="form-group">
+                    <label>เบอร์โทรศัพท์</label>
+                    <p class="mb-2 text-sm text-gray">ใช้ในการติดต่อกลับไปหากเกิดข้อผิดพลาด เช่น ยอดโอนไม่ตรงกัน หรือ
+                        ไม่พบประวัติการโอนเงิน</p>
+                    <p class="mb-2 text-sm text-green">ระบบจะไม่แสดงเบอร์โทรศัพท์ให้ผู้อื่นเห็น</p>
+                    <input v-model="tel" class="form-control"
+                           placeholder="กรุณาใส่เบอร์โทรศัพท์"
+                           :class="{'is-invalid':validation.firstError('tel')}">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('tel')}}
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label v-if="validation.firstError('imageData')"
-                       class="text-red">{{validation.firstError('imageData')}}</label>
-                <label v-else>รูปของหลักฐานการบริจาค เช่น สลิปโอนเงิน</label>
-                <p class="mb-2 text-sm text-gray">หลักฐานการโอนเงินของคุณจะถูกเก็บไว้เป็นความลับ</p>
+                <div class="form-group">
+                    <label v-if="validation.firstError('imageData')"
+                           class="text-red">{{validation.firstError('imageData')}}</label>
+                    <label v-else>รูปของหลักฐานการบริจาค เช่น สลิปโอนเงิน</label>
+                    <p class="mb-2 text-sm text-gray">หลักฐานการโอนเงินของคุณจะถูกเก็บไว้เป็นความลับ</p>
 
-                <div class="col-12 upload-section">
-                    <div class="upload-btn-wrapper w-full">
-                        <div class="">
-                            <div class="image-cropper border-2 border-dashed border-black text-center">
-                                <img v-if="imageData!=null"
-                                     :src="profileImageURL"
-                                     alt="avatar"
-                                     class="profile-pic"
-                                />
-                                <p v-else class="center-y">อัปโหลดรูปภาพที่นี่</p>
+                    <div class="col-12 upload-section">
+                        <div class="upload-btn-wrapper w-full">
+                            <div class="">
+                                <div class="image-cropper border-2 border-dashed border-black text-center">
+                                    <img v-if="imageData!=null"
+                                         :src="profileImageURL"
+                                         alt="avatar"
+                                         class="profile-pic"
+                                    />
+                                    <p v-else class="center-y">อัปโหลดรูปภาพที่นี่</p>
+                                </div>
                             </div>
+                            <input type="file" @change="previewImage" accept="image/*"/>
                         </div>
-                        <input type="file" @change="previewImage" accept="image/*"/>
                     </div>
                 </div>
+
+
+                <div class="form-group">
+                    <label>จำนวนเงินที่บริจาค</label>
+                    <input v-model="amount" class="form-control"
+                           type="number"
+                           :class="{'is-invalid':validation.firstError('amount')}"
+                           placeholder="กรุณาจำนวนเงินรับบริจาค">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('amount')}}
+                    </div>
+                </div>
+
+                <el-collapse>
+                    <el-collapse-item name="1">
+                        <template slot="title">
+                            <h1 style="font-size: 1rem;margin: 10px 0 10px 0">ข้อมูลสำหรับบริษัทสำหรับออกใบกำกับภาษี
+                                (สำหรับบริษัท)</h1>
+                        </template>
+                        <div class="form-group col-12">
+                            <label style="font-size: 1rem">ชื่อบริษัท</label>
+                            <input v-model="company_name" class="form-control"
+                                   type="text"
+                                   placeholder="ใส่ชื่อบริษัท">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label style="font-size: 1rem">เลขที่ใบกำกับภาษี</label>
+                            <input v-model="tax_id" class="form-control"
+                                   type="number"
+                                   placeholder="ใส่เลขที่ใบกำกับภาษี">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label style="font-size: 1rem">อีเมลล์</label>
+                            <input v-model="company_email" class="form-control"
+                                   type="email"
+                                   placeholder="ใส่เลขที่ใบกำกับภาษี">
+                        </div>
+                    </el-collapse-item>
+                </el-collapse>
+            </form>
+
+
+            <!--        <recaptcha ref="recaptcha" @verify="submit"></recaptcha>-->
+            <div class="flex justify-between my-5">
+                <button @click="$router.go(-1)" type="button" class="btn bg-white text-black">ย้อนกลับ</button>
+                <button @click="sent" type="button" class="btn bg-green text-white">
+                    ส่งหลักฐานการบริจาค
+                </button>
             </div>
 
 
-            <div class="form-group">
-                <label>จำนวนเงินที่บริจาค</label>
-                <input v-model="amount" class="form-control"
-                       type="number"
-                       :class="{'is-invalid':validation.firstError('amount')}"
-                       placeholder="กรุณาจำนวนเงินรับบริจาค">
-                <div class="invalid-feedback">
-                    {{validation.firstError('amount')}}
-                </div>
-            </div>
-
-            <el-collapse>
-                <el-collapse-item name="1">
-                    <template slot="title">
-                        <h1 style="font-size: 1rem;margin: 10px 0 10px 0">ข้อมูลสำหรับบริษัทสำหรับออกใบกำกับภาษี
-                            (สำหรับบริษัท)</h1>
-                    </template>
-                    <div class="form-group col-12">
-                        <label style="font-size: 1rem">ชื่อบริษัท</label>
-                        <input v-model="company_name" class="form-control"
-                               type="text"
-                               placeholder="ใส่ชื่อบริษัท">
-                    </div>
-
-                    <div class="form-group col-12">
-                        <label style="font-size: 1rem">เลขที่ใบกำกับภาษี</label>
-                        <input v-model="tax_id" class="form-control"
-                               type="number"
-                               placeholder="ใส่เลขที่ใบกำกับภาษี">
-                    </div>
-
-                    <div class="form-group col-12">
-                        <label style="font-size: 1rem">อีเมลล์</label>
-                        <input v-model="company_email" class="form-control"
-                               type="email"
-                               placeholder="ใส่เลขที่ใบกำกับภาษี">
-                    </div>
-                </el-collapse-item>
-            </el-collapse>
-        </form>
-
-
-        <!--        <recaptcha ref="recaptcha" @verify="submit"></recaptcha>-->
-        <div class="flex justify-between my-5">
-            <button @click="$router.go(-1)" type="button" class="btn bg-white text-black">ย้อนกลับ</button>
-            <button @click="sent" type="button" class="btn bg-green text-white">
-                ส่งหลักฐานการบริจาค
-            </button>
-        </div>
-
-
-        <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal" center>
+            <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal" center>
             <span v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
                 <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
                     <i class="far fa-check-circle"></i>
@@ -131,7 +133,7 @@
 
                 </span>
             </span>
-            <span v-else-if="sentStatus == 'error'" class="h-full ">
+                <span v-else-if="sentStatus == 'error'" class="h-full ">
                 <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
                     <i class="far fa-times-circle"></i>
                 </div>
@@ -141,8 +143,10 @@
                                style="width: 50%;margin-left: 50%;transform: translateX(-50%);">ปิด</el-button>
                 </span>
             </span>
-            <Loader v-if="isLoading"/>
-        </el-dialog>
+                <Loader v-if="isLoading"/>
+            </el-dialog>
+        </div>
+        <Footer/>
     </div>
 </template>
 
@@ -150,10 +154,12 @@
     import axios from 'axios'
     import {Validator} from "../main";
     import Loader from "../components/Loader";
+    import Footer from "../components/Footer";
 
     export default {
         components: {
-            Loader,
+            Loader,Footer
+
         },
         data() {
             return {

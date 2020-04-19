@@ -1,115 +1,118 @@
 <template>
-    <div class="container mt-5">
-        <h1 class="text-3xl text-center">รับบริจาค</h1>
-        <form>
-            <div class="form-group">
-                <label>หัวข้อ</label>
-                <input v-model="title" class="form-control"
-                       :class="{'is-invalid':validation.firstError('title')}"
-                       placeholder="กรุณาใส่ชื่อหัวข้อ">
-                <div class="invalid-feedback">
-                    {{validation.firstError('title')}}
-                </div>
-            </div>
-
-            <!--            <div class="form-group">-->
-            <!--                <label>หัวข้อ</label>-->
-            <!--                <el-select v-model="category" placeholder="Select">-->
-            <!--                    <el-option-->
-            <!--                            v-for="item in categories"-->
-            <!--                            :key="item.id"-->
-            <!--                            :label="item.name"-->
-            <!--                            :value="item.id">-->
-            <!--                    </el-option>-->
-            <!--                </el-select>-->
-            <!--            </div>-->
-
-            <div class="form-group">
-                <label class=" ">หมวดหมู่</label>
-                <p v-if="category.description == null" class="mb-2 text-sm text-gray">(ยังไม่ได้เลือกหมวดหมู่)</p>
-                <p v-else class="mb-2 text-sm text-gray col-12">({{category.description}})</p>
-                <div class="col-md-12">
-                    <el-select v-model="category" placeholder="เลือกหมวดหมู่">
-                        <el-option
-                                v-for="item in categories"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item">
-                        </el-option>
-                    </el-select>
-                    <div v-if="validation.firstError('category')" class="text-sm text-red">
-                        {{validation.firstError('category')}}
+    <div>
+        <div class="container mt-5">
+            <h1 class="text-3xl text-center">รับบริจาค</h1>
+            <form>
+                <div class="form-group">
+                    <label>หัวข้อ</label>
+                    <input v-model="title" class="form-control"
+                           :class="{'is-invalid':validation.firstError('title')}"
+                           placeholder="กรุณาใส่ชื่อหัวข้อ">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('title')}}
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>รายละเอียด</label>
-                <textarea v-model="description" class="form-control"
-                          placeholder="กรุณาใส่รายระเอียดเกี่ยวกับของรับบริจาค"
-                          :class="{'is-invalid':validation.firstError('description')}">
-                </textarea>
-                <div class="invalid-feedback">
-                    {{validation.firstError('description')}}
-                </div>
-            </div>
+                <!--            <div class="form-group">-->
+                <!--                <label>หัวข้อ</label>-->
+                <!--                <el-select v-model="category" placeholder="Select">-->
+                <!--                    <el-option-->
+                <!--                            v-for="item in categories"-->
+                <!--                            :key="item.id"-->
+                <!--                            :label="item.name"-->
+                <!--                            :value="item.id">-->
+                <!--                    </el-option>-->
+                <!--                </el-select>-->
+                <!--            </div>-->
 
-            <div class="form-group">
-                <label>รูปของโพสต์ เช่น รูปตัวอย่างของที่รับบริจาค</label>
-                <div class="col-12 upload-section">
-                    <div class="upload-btn-wrapper w-full">
-                        <div class="">
-                            <div class="image-cropper border-2 border-dashed border-black text-center">
-                                <img v-if="imageData!=null"
-                                     :src="profileImageURL"
-                                     alt="avatar"
-                                     class="profile-pic"
-                                />
-                                <p v-else class="center-y">อัปโหลดรูปภาพที่นี่</p>
-                            </div>
+                <div class="form-group">
+                    <label class=" ">หมวดหมู่</label>
+                    <p v-if="category.description == null" class="mb-2 text-sm text-gray">(ยังไม่ได้เลือกหมวดหมู่)</p>
+                    <p v-else class="mb-2 text-sm text-gray col-12">({{category.description}})</p>
+                    <div class="col-md-12">
+                        <el-select v-model="category" placeholder="เลือกหมวดหมู่">
+                            <el-option
+                                    v-for="item in categories"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item">
+                            </el-option>
+                        </el-select>
+                        <div v-if="validation.firstError('category')" class="text-sm text-red">
+                            {{validation.firstError('category')}}
                         </div>
-                        <input type="file" @change="previewImage" accept="image/*"/>
                     </div>
                 </div>
-            </div>
 
-
-            <div class="form-group">
-                <label class="col-12">จำนวน</label>
-                <input v-model="amount" class="form-control"
-                       type="number"
-                       :class="{'is-invalid':validation.firstError('amount')}"
-                       placeholder="กรุณาจำนวนที่ต้องการรับบริจาค">
-                <div class="invalid-feedback">
-                    {{validation.firstError('amount')}}
+                <div class="form-group">
+                    <label>รายละเอียด</label>
+                    <textarea v-model="description" class="form-control"
+                              placeholder="กรุณาใส่รายระเอียดเกี่ยวกับของรับบริจาค"
+                              :class="{'is-invalid':validation.firstError('description')}">
+                </textarea>
+                    <div class="invalid-feedback">
+                        {{validation.firstError('description')}}
+                    </div>
                 </div>
-            </div>
-        </form>
-        <button @click="createPost" type="button" class="btn bg-green text-white mb-5">ลงรับบริจาค</button>
 
-        <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
-            <section>
-                <!--                        show when complete-->
-                <div v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
-                    <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
-                        <i class="far fa-check-circle"></i></div>
-                    <p class="pb-5">บันทึกข้อมูลการรับบริจาคเรียบร้อย</p>
-                    <span slot="footer" class="dialog-footer flex justify-between w-full">
+                <div class="form-group">
+                    <label>รูปของโพสต์ เช่น รูปตัวอย่างของที่รับบริจาค</label>
+                    <div class="col-12 upload-section">
+                        <div class="upload-btn-wrapper w-full">
+                            <div class="">
+                                <div class="image-cropper border-2 border-dashed border-black text-center">
+                                    <img v-if="imageData!=null"
+                                         :src="profileImageURL"
+                                         alt="avatar"
+                                         class="profile-pic"
+                                    />
+                                    <p v-else class="center-y">อัปโหลดรูปภาพที่นี่</p>
+                                </div>
+                            </div>
+                            <input type="file" @change="previewImage" accept="image/*"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-12">จำนวน</label>
+                    <input v-model="amount" class="form-control"
+                           type="number"
+                           :class="{'is-invalid':validation.firstError('amount')}"
+                           placeholder="กรุณาจำนวนที่ต้องการรับบริจาค">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('amount')}}
+                    </div>
+                </div>
+            </form>
+            <button @click="createPost" type="button" class="btn bg-green text-white mb-5">ลงรับบริจาค</button>
+
+            <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
+                <section>
+                    <!--                        show when complete-->
+                    <div v-if="sentStatus == 'complete'" class="h-full flex flex-wrap">
+                        <div class="w-full text-center text-green" style="font-size: 6.2rem;padding-bottom: 26px">
+                            <i class="far fa-check-circle"></i></div>
+                        <p class="pb-5">บันทึกข้อมูลการรับบริจาคเรียบร้อย</p>
+                        <span slot="footer" class="dialog-footer flex justify-between w-full">
                         <el-button type="primary" @click="closeModal">กลับไปหน้า Dashboard</el-button>
                     </span>
-                </div>
+                    </div>
 
-                <div v-else-if="sentStatus == 'error'" class="h-full ">
-                    <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
-                        <i class="far fa-times-circle"></i></div>
-                    <h1 class="pb-3 text-center">การบันทึกข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง</h1>
-                    <span slot="footer" class="dialog-footer w-full">
+                    <div v-else-if="sentStatus == 'error'" class="h-full ">
+                        <div class="w-full text-center text-red" style="font-size: 6.2rem;padding-bottom: 26px">
+                            <i class="far fa-times-circle"></i></div>
+                        <h1 class="pb-3 text-center">การบันทึกข้อมูลไม่สำเร็จ กรุณาลองใหม่ในภายหลัง</h1>
+                        <span slot="footer" class="dialog-footer w-full">
                         <el-button @click="confirmDialog = false">ปิด</el-button>
                     </span>
-                </div>
-                <Loader v-if="isLoading"/>
-            </section>
-        </el-dialog>
+                    </div>
+                    <Loader v-if="isLoading"/>
+                </section>
+            </el-dialog>
+        </div>
+        <Footer/>
     </div>
 </template>
 
@@ -117,10 +120,12 @@
     import axios from 'axios'
     import {Validator} from "../main";
     import Loader from "../components/Loader";
+    import Footer from "../components/Footer";
 
     export default {
         components: {
-            Loader
+            Loader,
+            Footer
         },
         data() {
             return {

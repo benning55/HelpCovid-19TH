@@ -1,90 +1,97 @@
 <template>
-    <div class="container mt-5">
-        <h1 class="text-3xl text-center">แก้ไขข้อมูลโรงพยาบาล</h1>
-        <form>
-            <h1 class="text-xl">ข้อมูลส่วนโรงพยาบาล</h1>
-            <hr>
-            <div class="form-group">
-                <label>ชื่อโรงพยาบาล</label>
-                <input v-model="title" class="form-control"
-                       :class="{'is-invalid':validation.firstError('title')}"
-                       placeholder="กรุณาใสชื่อโรงพยาบาล">
-                <div class="invalid-feedback">
-                    {{validation.firstError('title')}}
-                </div>
-            </div>
-            <div class="form-group">
-                <label>ที่อยู่โรงพยาบาล</label>
-                <textarea v-model="description" class="form-control"
-                          placeholder="กรุณาใส่ที่อยู่โรงพยาบาล"
-                          :class="{'is-invalid':validation.firstError('description')}">
-                </textarea>
-                <div class="invalid-feedback">
-                    {{validation.firstError('description')}}
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>เบอร์โทรศัพท์ที่ใช้ติดต่อ</label>
-                <textarea v-model="description" class="form-control"
-                          placeholder="กรุณาใส่เบอร์โทรศัพท์ที่ใช้ติดต่อ"
-                          :class="{'is-invalid':validation.firstError('description')}">
-                </textarea>
-                <div class="invalid-feedback">
-                    {{validation.firstError('description')}}
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>รูปของโรงพยาบาล</label>
-                <div class="col-12 upload-section">
-                    <div class="upload-btn-wrapper w-full">
-                        <div class="">
-                            <div class="image-cropper border-2 border-dashed border-black text-center">
-                                <img v-if="imageData!=null"
-                                     :src="profileImageURL"
-                                     alt="avatar"
-                                     class="profile-pic"
-                                />
-                                <p v-else class="center-y">อัปโหลดรูปภาพที่นี่</p>
-                            </div>
-                        </div>
-                        <input type="file" @change="previewImage" accept="image/*"/>
+    <div>
+        <div class="container mt-5">
+            <h1 class="text-3xl text-center">แก้ไขข้อมูลโรงพยาบาล</h1>
+            <form>
+                <h1 class="text-xl">ข้อมูลส่วนโรงพยาบาล</h1>
+                <hr>
+                <div class="form-group">
+                    <label>ชื่อโรงพยาบาล</label>
+                    <input v-model="title" class="form-control"
+                           :class="{'is-invalid':validation.firstError('title')}"
+                           placeholder="กรุณาใสชื่อโรงพยาบาล">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('title')}}
                     </div>
                 </div>
-            </div>
-
-            <h1 class="text-xl">ข้อมูลของเจ้าหน้าที่</h1>
-            <hr>
-
-            <div class="form-group">
-                <label class="col-12">ชื่อจริง</label>
-                <input v-model="amount" class="form-control"
-                       :class="{'is-invalid':validation.firstError('amount')}"
-                       placeholder="กรุณาใส่ชื่อจริง">
-                <div class="invalid-feedback">
-                    {{validation.firstError('amount')}}
+                <div class="form-group">
+                    <label>ที่อยู่โรงพยาบาล</label>
+                    <textarea v-model="description" class="form-control"
+                              placeholder="กรุณาใส่ที่อยู่โรงพยาบาล"
+                              :class="{'is-invalid':validation.firstError('description')}">
+                </textarea>
+                    <div class="invalid-feedback">
+                        {{validation.firstError('description')}}
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-12">นามสกุล</label>
-                <input v-model="amount" class="form-control"
-                       :class="{'is-invalid':validation.firstError('amount')}"
-                       placeholder="กรุณาใส่นามสกุล">
-                <div class="invalid-feedback">
-                    {{validation.firstError('amount')}}
+                <div class="form-group">
+                    <label>เบอร์โทรศัพท์ที่ใช้ติดต่อ</label>
+                    <textarea v-model="description" class="form-control"
+                              placeholder="กรุณาใส่เบอร์โทรศัพท์ที่ใช้ติดต่อ"
+                              :class="{'is-invalid':validation.firstError('description')}">
+                </textarea>
+                    <div class="invalid-feedback">
+                        {{validation.firstError('description')}}
+                    </div>
                 </div>
-            </div>
-        </form>
-        <button @click="createPost" type="button" class="btn bg-green text-white">บันทึกข้อมูล</button>
+
+                <div class="form-group">
+                    <label>รูปของโรงพยาบาล</label>
+                    <div class="col-12 upload-section">
+                        <div class="upload-btn-wrapper w-full">
+                            <div class="">
+                                <div class="image-cropper border-2 border-dashed border-black text-center">
+                                    <img v-if="imageData!=null"
+                                         :src="profileImageURL"
+                                         alt="avatar"
+                                         class="profile-pic"
+                                    />
+                                    <p v-else class="center-y">อัปโหลดรูปภาพที่นี่</p>
+                                </div>
+                            </div>
+                            <input type="file" @change="previewImage" accept="image/*"/>
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="text-xl">ข้อมูลของเจ้าหน้าที่</h1>
+                <hr>
+
+                <div class="form-group">
+                    <label class="col-12">ชื่อจริง</label>
+                    <input v-model="amount" class="form-control"
+                           :class="{'is-invalid':validation.firstError('amount')}"
+                           placeholder="กรุณาใส่ชื่อจริง">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('amount')}}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-12">นามสกุล</label>
+                    <input v-model="amount" class="form-control"
+                           :class="{'is-invalid':validation.firstError('amount')}"
+                           placeholder="กรุณาใส่นามสกุล">
+                    <div class="invalid-feedback">
+                        {{validation.firstError('amount')}}
+                    </div>
+                </div>
+            </form>
+            <button @click="createPost" type="button" class="btn bg-green text-white">บันทึกข้อมูล</button>
+        </div>
+        <Footer/>
     </div>
 </template>
 
 <script>
     import {Validator} from "../main";
+    import Footer from "../components/Footer";
 
     export default {
+        components: {
+            Footer
+        },
         data() {
             return {
                 name: '',
@@ -92,8 +99,8 @@
                 tel: '',
                 imageData: null,
                 profileImageURL: null,
-                fname:'',
-                lname:''
+                fname: '',
+                lname: ''
             }
         },
         validators: {
@@ -125,7 +132,7 @@
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
             createPost() {
-                this.$validate(["name", "address", "tel","fname","lname"]);
+                this.$validate(["name", "address", "tel", "fname", "lname"]);
                 if (
                     this.validation.firstError("name") == null &&
                     this.validation.firstError("address") == null &&

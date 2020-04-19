@@ -79,6 +79,9 @@
                 this.confirmDialog = false
             },
             goAbout() {
+                if ($(window).width() < 992) {
+                    $('#navbarSupportedContent').collapse('toggle');
+                }
                 this.$router.push({
                     name: "About"
                 })

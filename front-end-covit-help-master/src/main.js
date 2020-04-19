@@ -17,6 +17,7 @@ import 'swiper/css/swiper.min.css'
 import VueSessionStorage from 'vue-sessionstorage'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+
 Vue.use(ChartDataLabels)
 
 Vue.use(VueSessionStorage)

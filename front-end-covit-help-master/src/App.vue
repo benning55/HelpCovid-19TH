@@ -2,27 +2,23 @@
     <div id="app">
         <NavBar/>
         <transition name="fade" mode="out-in" @after-enter="beforeEnter">
+<!--        <vue-page-transition name="fade">-->
             <router-view/>
+<!--        </vue-page-transition>-->
         </transition>
-        <Footer v-if="$route.name!='Login' && $route.name!='SearchPage'"/>
+
     </div>
 </template>
 
 <script>
     import NavBar from './components/NavBar'
-    import Footer from './components/Footer'
 
     export default {
         components: {
             NavBar,
-            Footer
         },
         methods: {
             beforeEnter() {
-                this.$root.$emit('scrollBeforeEnter');
-            },
-            enter(el) {
-                console.log(el)
                 this.$root.$emit('scrollBeforeEnter');
             }
         }

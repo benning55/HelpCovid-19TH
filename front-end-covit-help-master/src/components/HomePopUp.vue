@@ -4,7 +4,8 @@
             <div class="center-y bg-white">
                 <div class="header h-12 bg-red flex justify-between items-center bg-white">
                     <div class=" text-black text-center m-2 flex items-center">
-                        <h1 class="ml-2">ยอดเงินบริจาค <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span> บาท</h1>
+                        <h1 class="ml-2">ยอดเงินบริจาค <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>
+                            บาท</h1>
                     </div>
                     <div class="text-black text-center m-2">
                         <a @click="close" class="text-xl mr-2"><i class="fas fa-times"></i></a>
@@ -12,12 +13,14 @@
                 </div>
                 <swiper class="swiper" style="height: 90%" :options="swiperOption">
                     <swiper-slide v-for="c in listCarousal" :key="c.id">
-                        <img :src="$store.state.host+c.picture" alt="description" class="object-contain h-75 " style="background-color: black">
-                        <p class="p-2">{{c.description}}</p>
+                        <img :src="$store.state.host+c.picture" alt="description" class="object-contain h-75 "
+                             style="background-color: black">
+                        <p class="p-2 limitline">{{c.description}}..
+                        </p>
                     </swiper-slide>
-<!--                    <swiper-slide>-->
-<!--                        <img src="../assets/logo.png" class="object-cover h-100">-->
-<!--                    </swiper-slide>-->
+                    <!--                    <swiper-slide>-->
+                    <!--                        <img src="../assets/logo.png" class="object-cover h-100">-->
+                    <!--                    </swiper-slide>-->
                     <div class="swiper-pagination" slot="pagination"></div>
                     <div class="swiper-button-prev" slot="button-prev"></div>
                     <div class="swiper-button-next" slot="button-next"></div>
@@ -43,8 +46,8 @@
                         prevEl: '.swiper-button-prev'
                     }
                 },
-                total_money:0,
-                listCarousal:[]
+                total_money: 0,
+                listCarousal: []
             }
         },
         created() {
@@ -52,7 +55,7 @@
                 .then(res => {
                     this.total_money = res.data.total_money
                     this.listCarousal = res.data.data
-                    if(this.listCarousal.length == 0){
+                    if (this.listCarousal.length == 0) {
                         this.$emit("close")
                     }
                 })
@@ -77,6 +80,18 @@
 </script>
 
 <style scoped>
+    .limitline {
+        display: block;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        overflow: hidden;
+        max-height: 5.6em;
+        line-height: 1.8em;
+    }
+
+    .swiper-pagination {
+        bottom: 0;
+    }
 
     .center-y {
         margin: 0;

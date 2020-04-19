@@ -26,7 +26,7 @@
             </div>
 
             <div>
-                <h1 class="text-4xl font-medium mb-4 text-left lg:text-right lg:mt-0">Helpital</h1>
+                <img class="h-12 my-3" src="../assets/logo.png">
                 <router-link to="/all-post">
                     <h1 class="py-1 text-left lg:text-right cursor-pointer hover:text-green">บริจาคสิ่งของ</h1>
                 </router-link>
@@ -59,3 +59,9 @@
 
     </footer>
 </template>
+
+<script>
+    export default {
+        
+    }
+</script>

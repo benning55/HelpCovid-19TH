@@ -21,24 +21,29 @@
                 </router-link>
             </div>
         </div>
+        <LoaderFull v-if="loading" />
     </div>
 </template>
 
 <script>
     import axios from 'axios'
     import CardPost from "../components/CardPost";
+    import LoaderFull from "./LoaderFull";
 
     export default {
         components: {
-            CardPost
+            CardPost,
+            LoaderFull
         },
         data() {
             return {
                 dataNeed: [],
-                showSeeMore:false
+                showSeeMore:false,
+                loading:false
             }
         },
         created() {
+            this.loading = true
             if (this.$store.state.dataAllPost.length == 0) {
                 this.dataNeed = []
             } else if (this.$store.state.dataAllPost.length > 12) {
@@ -56,7 +61,6 @@
                     .then(res => {
                         this.$store.commit("setDataAllPost", res.data.data);
                         if (this.$store.state.dataAllPost.length == 0) {
-                            this.dataNeed = []
                         } else if (this.$store.state.dataAllPost.length > 12) {
                             this.dataNeed = this.$store.state.dataAllPost.slice(0, 11)
                             this.showSeeMore = true
@@ -64,8 +68,10 @@
                             this.dataNeed = this.$store.state.dataAllPost.slice(0, 12)
                             this.showSeeMore = false
                         }
+                        this.loading = false
                     })
                     .catch(e => {
+                        this.loading = false
                         this.$message({
                             showClose: true,
                             message: 'มีข้อผิดพลาดเกิดขึ้น' + 'ในการในการดึงข้อมูลผู้บริจาคสิ่งของ' + ' Error : ' + e.response.status,

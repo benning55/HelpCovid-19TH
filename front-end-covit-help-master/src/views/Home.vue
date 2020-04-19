@@ -8,7 +8,6 @@
 
             <SearchSection/>
 
-
             <h1 class="text-2xl mt-3 mb-2">ตำแหน่งของสถานที่รับบริจาค</h1>
             <p class="mb-3">(กดที่ไอคอนหมุดเพื่อขยาย กดอีกครั้งเพื่อไปยังหน้ารับบริจาค)</p>
 
@@ -23,6 +22,8 @@
             <HomeSectionHospital/>
         </div>
 
+        <Footer/>
+
     </div>
 
 </template>
@@ -35,6 +36,7 @@
     import SearchSection from "../components/SearchSection";
     import HomePopUp from "../components/HomePopUp";
     import HomeSectionSupplier from "../components/HomeSectionSupplier";
+    import Footer from '../components/Footer'
 
 
     export default {
@@ -47,6 +49,7 @@
             SearchSection,
             HomePopUp,
             HomeSectionSupplier,
+            Footer
         },
         data() {
             return {

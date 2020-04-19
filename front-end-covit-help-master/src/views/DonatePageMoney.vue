@@ -1,21 +1,26 @@
 <template>
-    <div class="container">
-        <h1 class="text-2xl mt-5 mb-3">โรงพยาบาล ({{this.dataHospital.length}})</h1>
-        <div class="row">
-            <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <CardHospital :data="hospital"/>
+    <div>
+        <div class="container">
+            <h1 class="text-2xl mt-5 mb-3">โรงพยาบาล ({{this.dataHospital.length}})</h1>
+            <div class="row">
+                <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <CardHospital :data="hospital"/>
+                </div>
             </div>
         </div>
+        <Footer/>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
     import CardHospital from "../components/CardHospital";
+    import Footer from "../components/Footer";
 
     export default {
         components: {
-            CardHospital
+            CardHospital,
+            Footer
         },
         data() {
             return {

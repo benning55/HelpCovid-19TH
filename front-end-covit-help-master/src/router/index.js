@@ -84,6 +84,8 @@ const router = new VueRouter({
     routes,
 
     scrollBehavior(to, from, savedPosition) {
+
+
         // Default scroll position will be 0, 0 unless overridden by a saved position
         const position = {
             x: 0,

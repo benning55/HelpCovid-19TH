@@ -137,14 +137,20 @@
                 </div>
             </div>
         </div>
+        <Footer/>
     </div>
 
 </template>
 
 <script>
     import axios from 'axios'
+    import Footer from "../components/Footer";
+
 
     export default {
+        components:{
+            Footer
+        },
         data() {
             return {
                 datas: ''
