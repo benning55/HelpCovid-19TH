@@ -169,8 +169,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-12">รูปภาพจดหมายรับรองจากทางโรงพยาบาล</label>
-                        <p class="mb-2 text-sm text-gray col-12">จะใส่หรือไม่ใส่ก็ได้ เช่น รูปจดหมาย หรือ รูป โปสเตอร์ ขอรับบริจาคของโรงพยาบาลในสื่อออนไลน์
+                        <label class="col-12">อัพโหลดเอกสารยืนยันตัวตนจากทางโรงพยาบาล</label>
+                        <p class="mb-2 text-sm text-gray col-12">บัตรประจำตัวข้าราชการ หรือ บัตรพนักงานโรงพยาบาล หรือ จดหมายรับรองจากโรงพยาบาล
                             (ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
                         <div class="col-12 upload-section">
                             <div class="upload-btn-wrapper w-full">
