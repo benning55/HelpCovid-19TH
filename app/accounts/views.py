@@ -68,6 +68,7 @@ def register(request, format=None):
             }
             user = {
                 'username': data['username'],
+                'letter': request.FILES['letter'],
                 'email': data['email'],
                 'password': data['password'],
                 'first_name': data['first_name'],
@@ -86,6 +87,7 @@ def register(request, format=None):
             }
             user = {
                 'username': data['username'],
+                'letter': None,
                 'email': data['email'],
                 'password': data['password'],
                 'first_name': data['first_name'],
@@ -110,6 +112,7 @@ def register(request, format=None):
             new_user = User.objects.create(
                 hospital_id=new_hospital.id,
                 username=user['username'],
+                letter=user['letter'],
                 email=user['email'],
                 first_name=user['first_name'],
                 last_name=user['last_name'],

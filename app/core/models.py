@@ -35,6 +35,14 @@ def hospital_image(instance, filename):
     return os.path.join('uploads/hospital/', filename)
 
 
+def letter_image(instance, filename):
+    """Generate file path for hospital"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/letter/', filename)
+
+
 def need_image(instance, filename):
     """Generate file path for need"""
     ext = filename.split('.')[-1]
@@ -138,6 +146,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
+    letter = models.ImageField(upload_to=letter_image, null=True, blank=True)
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     tel = models.CharField(max_length=10, blank=True)

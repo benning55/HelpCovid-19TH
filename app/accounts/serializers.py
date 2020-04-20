@@ -52,7 +52,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email', 'first_name', 'last_name', 'tel')
+        fields = ('username', 'password', 'letter', 'email', 'first_name', 'last_name', 'tel')
 
     def validate(self, data):
         # here data has all the fields which have validated values

@@ -169,6 +169,28 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="col-12">รูปภาพจดหมายรับรองจากทางโรงพยาบาล</label>
+                        <p class="mb-2 text-sm text-gray col-12">จะใส่หรือไม่ใส่ก็ได้ เช่น รูปจดหมาย หรือ รูป โปสเตอร์ ขอรับบริจาคของโรงพยาบาลในสื่อออนไลน์
+                            (ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
+                        <div class="col-12 upload-section">
+                            <div class="upload-btn-wrapper w-full">
+                                <div class="">
+                                    <div class="image-cropper border-2 border-dashed border-black text-center">
+                                        <img
+                                                v-if="imageData2!=null"
+                                                :src="profileImageURL2"
+                                                alt="avatar"
+                                                class="profile-pic"
+                                        />
+                                        <p v-else class="center-y">อัปโหลดรูปภาพ</p>
+                                    </div>
+                                </div>
+                                <input type="file" @change="previewImage2" accept="image/*"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-md-12">ชื่อจริง</label>
                         <p class="mb-2 text-sm text-gray col-12">(ไม่สามารถเปลี่ยนแปลงได้ภายหลัง)</p>
                         <div class="col-md-12">
@@ -319,7 +341,9 @@
                 accountNumber: "",
                 accountBank: "-",
                 imageData: null,
+                imageData2: null,
                 profileImageURL: null,
+                profileImageURL2: null,
                 confirmDialog: false,
                 registerStatus: 'none',
                 dataBank: [
@@ -494,6 +518,10 @@
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
             },
+            previewImage2(event) {
+                this.imageData2 = event.target.files[0]
+                this.profileImageURL2 = URL.createObjectURL(this.imageData2)
+            },
             changeStatus(token) {
                 this.token = token
                 this.tokenPass = true
@@ -536,6 +564,7 @@
                 formData.append('bank_account_number', this.accountNumber);
                 formData.append('bank_name', this.accountBank)
                 formData.append('picture', this.imageData)
+                formData.append('letter', this.imageData2)
 
                 // formData.append('username', 'anusornleon');
                 // formData.append('first_name', 'leffsef');
