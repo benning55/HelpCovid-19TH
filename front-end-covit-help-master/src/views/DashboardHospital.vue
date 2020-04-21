@@ -21,7 +21,7 @@
                                          :src='$store.state.host+dataHospital.hospital.picture'
                                          class="w-24 h-24 object-contain mr-3 border-image shadow-lg"
                                          :alt="dataHospital.hospital.name">
-                                    <img v-else src='http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg'
+                                    <img v-else src='../assets/undefine.jpg'
                                          class="w-24 h-24 object-contain mr-3 border-image shadow-lg"
                                          :alt="dataHospital.hospital.name">
                                     <div>

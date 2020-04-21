@@ -6,7 +6,7 @@
                     <img v-if="dataSupplier.picture != null" :src="$store.state.host+dataSupplier.picture"
                          style="max-width: 500px;max-height: 300px"
                          class="mx-auto w-full object-contain border-image shadow-lg" :alt="dataSupplier.title">
-                    <img v-else src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg"
+                    <img v-else src="../assets/undefine.jpg"
                          style="max-width: 500px;max-height: 300px"
                          class="mx-auto w-full object-contain border-image shadow-lg" :alt="dataSupplier.title">
                     <p class=" text-2xl mt-3 font-bold">{{dataSupplier.title}}</p>

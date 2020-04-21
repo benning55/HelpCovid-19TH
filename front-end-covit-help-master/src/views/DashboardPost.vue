@@ -5,7 +5,7 @@
                 <div class="card-body text-center">
                     <img v-if="dataPost.picture != null" :src="$store.state.host+dataPost.picture"
                          class="mx-auto w-40 h-40 object-contain border-image shadow-lg" alt="Card image cap">
-                    <img v-else src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg"
+                    <img v-else src="../assets/undefine.jpg"
                          class="mx-auto w-40 h-40 object-contain border-image shadow-lg" alt="Card image cap">
                     <p class=" text-2xl">{{dataPost.title}}</p>
                     <h1 class="my-4">ขณะนี้มีผู้บริจาคไปแล้ว</h1>
@@ -41,7 +41,7 @@
                                      :src="$store.state.host+dataPost.hospital.picture"
                                      class="w-24 h-24 object-contain mr-3 border-image shadow-lg"
                                      :alt="dataPost.hospital.name">
-                                <img v-else src="http://ecx.images-amazon.com/images/I/41Ail0vAGbL._SX300_.jpg"
+                                <img v-else src="../assets/undefine.jpg"
                                      class="w-24 h-24 object-contain mr-3 border-image shadow-lg"
                                      :alt="dataPost.hospital.name">
                                 <div>
