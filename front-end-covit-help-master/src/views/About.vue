@@ -125,7 +125,7 @@
                              class="h-24">
                     </el-tooltip>
                     <el-tooltip content="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า" placement="top">
-                        <img src="http://www.foundation.pmk.ac.th/image/logo.jpg" alt="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า"
+                        <img src="../assets/logoPMK.jpg" alt="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า"
                              class="h-24 rounded-lg ml-5">
                     </el-tooltip>
 
