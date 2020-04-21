@@ -7,7 +7,7 @@
                          alt="DCT สภาดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งประเทศไทย"
                          class="h-16">
                     <el-tooltip content="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า" placement="top">
-                        <img src="http://www.foundation.pmk.ac.th/image/logo.jpg" alt="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า"
+                        <img src="../assets/logoPMK.jpg" alt="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า"
                              class="h-16 rounded-lg ml-3">
                     </el-tooltip>
 
