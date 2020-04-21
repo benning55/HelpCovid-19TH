@@ -6,16 +6,6 @@
                     <img src="https://www.dct.or.th/images/sustain3/icon/logo.png"
                          alt="DCT สภาดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งประเทศไทย"
                          class="h-16">
-                    <el-tooltip content="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า" placement="top">
-                        <img src="../assets/logoPMK.jpg" alt="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า"
-                             class="h-16 rounded-lg ml-3">
-                    </el-tooltip>
-
-                    <el-tooltip content="สภากาชาดไทย" placement="top">
-                        <img src="https://www.egov.go.th/upload/eservice-thumbnail/img_0bdc3e3694c16d8b06ce1f7636024ec7.png"
-                             alt="สภากาชาดไทย"
-                             class="h-16 rounded-lg ml-3">
-                    </el-tooltip>
                 </div>
                 <h1 class="py-2 text-lg font-medium">สภาดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งประเทศไทย</h1>
                 <p class="w-full lg:w-1/3">ชั้น 31 อาคาร เอไอเอ แคปปิตอล เซ็นเตอร์ ถ.รัชดาภิเษก แขวงดินแดง เขตดินแดง
