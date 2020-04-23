@@ -11,8 +11,8 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
-
-from core.models import User, Hospital, EmailStaff, RegisterToken, AboutMe
+from core.management.commands.gentoken import get_position
+from core.models import User, Hospital, EmailStaff, RegisterToken, AboutMe, Location
 
 from accounts import serializers
 
@@ -24,6 +24,18 @@ def token_complete(new_user, tokens):
     current_token.status = True
     current_token.register = new_user
     current_token.save()
+
+
+def create_location(hospital):
+    locate = get_position(hospital.name)
+    if locate is None:
+        pass
+    else:
+        Location.objects.update_or_create(
+            hospital_id=hospital.id,
+            latitude=locate[0],
+            longitude=locate[1]
+        )
 
 
 def new_hospital_notify(hospital):
@@ -121,6 +133,7 @@ def register(request, format=None):
             new_user.set_password(user['password'])
             new_user.save()
             new_hospital_notify(new_hospital)
+            create_location(new_hospital)
             token_complete(new_user, data['token'])
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -163,7 +176,7 @@ def get_user(request, *args, **kwargs):
 def get_location(request, *args, **kwargs):
     """Get admin basic information"""
     pk = kwargs.get('pk')
-    queryset = Hospital.objects.all().filter(approve=True).order_by('-id')
+    queryset = Location.objects.all().filter(hospital__approve=True)
     if pk is None:
         serializer = serializers.getLocationSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)

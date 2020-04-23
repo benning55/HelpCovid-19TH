@@ -58,7 +58,7 @@
                                 };
                                 marker.setIcon(image)
                                 marker.setAnimation(google.maps.Animation.BOUNCE);
-                                marker.setCursor(`${location.id}`)
+                                marker.setCursor(`${location.hospital_id}`)
 
                                 marker.addListener('click', () => markerClickHandler((marker)));
                                 return marker

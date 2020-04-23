@@ -304,3 +304,14 @@ class ProductMaker(models.Model):
     company = models.CharField(max_length=255)
     tel = models.CharField(max_length=10)
     email = models.EmailField(blank=True, null=True)
+
+
+class Location(models.Model):
+    """ Get location by lat and lng """
+    hospital = models.OneToOneField(
+        Hospital,
+        primary_key=True,
+        on_delete=models.CASCADE
+    )
+    latitude = models.CharField(max_length=255, blank=True, null=True)
+    longitude = models.CharField(max_length=255, blank=True, null=True)
