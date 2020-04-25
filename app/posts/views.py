@@ -10,6 +10,7 @@ from rest_framework import status, exceptions
 from collections import namedtuple
 from core.models import Need, Donator, MoneyDonate, User, Categorie
 from posts import serializers
+import random
 
 
 def new_donation_notify(donate):
@@ -57,7 +58,7 @@ def new_donation_money_notify(money_donate):
 def get_all_need(request, *args, **kwargs):
     """Get all the need"""
     if request.method == "GET":
-        queryset = Need.objects.all().order_by('-amount')
+        queryset = Need.objects.all().order_by('?')
         # print(queryset)
         pk = kwargs.get('pk')
         if pk is None:
