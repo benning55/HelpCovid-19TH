@@ -4,10 +4,14 @@
             <div class="center-y bg-white">
                 <div class="header h-12 bg-red flex justify-between items-center bg-white">
                     <div class=" text-black text-center m-2 items-center">
-                        <h1 class="ml-2">ยอดเงินบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>
+                        <div style="display: flex;">
+                            <h1 class="ml-2">ยอดเงินบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>
                             บาท</h1>
 <!--                        <h1 class="ml-2">ยอดเงินบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>-->
 <!--                            บาท</h1>-->
+                            <h1 class="ml-2">ยอดสิ่งของบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_donate)}}</span>
+                                ชิ้น</h1>
+                        </div>
                     </div>
                     <div class="text-black text-center m-2">
                         <a @click="close" class="text-xl mr-2"><i class="fas fa-times"></i></a>
@@ -49,6 +53,7 @@
                     }
                 },
                 total_money: 0,
+                total_donate: 0,
                 listCarousal: []
             }
         },
@@ -56,6 +61,7 @@
             axios.get(`${this.$store.state.host}/api/util/popup/`)
                 .then(res => {
                     this.total_money = res.data.total_money
+                    this.total_donate = res.data.total_donate
                     this.listCarousal = res.data.data
                     if (this.listCarousal.length == 0) {
                         this.$emit("close")

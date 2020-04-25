@@ -51,7 +51,8 @@ def get_pop_up(request, *args, **kwargs):
         serializer = serializers.PopUpSerializer(queryset, many=True)
         return Response({
             'data': serializer.data,
-            'total_money': get_total_money()
+            'total_money': get_total_money(),
+            'total_donate': sum_donation(1)+sum_donation(2)+sum_donation(3)+sum_donation(4)
         }, status=status.HTTP_200_OK)
 
 
