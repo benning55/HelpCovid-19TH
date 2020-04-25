@@ -4,7 +4,7 @@
             <div class="center-y bg-white">
                 <div class="header h-12 bg-red flex justify-between items-center bg-white">
                     <div class=" text-black text-center m-2 items-center">
-                        <div style="display: flex;">
+                        <div style="display: flex; padding: 5px 0;">
                             <h1 class="ml-2">ยอดเงินบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>
                             บาท</h1>
 <!--                        <h1 class="ml-2">ยอดเงินบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>-->
