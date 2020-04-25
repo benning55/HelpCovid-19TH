@@ -86,6 +86,14 @@
                     </div>
 
                     <div class="mx-3" style="width: 300px">
+                        <img src="../assets/team/member.png"
+                             alt="นาคาญ์ ทวิชาวัฒน์ รองเลขาธิการ สภาอุตสาหกรรมแห่งประเทศไทย"
+                             class="h-40 mx-auto">
+                        <h1 class="text-white text-center my-2">นาคาญ์ ทวิชาวัฒน์</h1>
+                        <h1 class="text-white text-center">รองเลขาธิการ สภาอุตสาหกรรมแห่งประเทศไทย</h1>
+                    </div>
+
+                    <div class="mx-3" style="width: 300px">
                         <img src="../assets/team/เอกลักษณ์_วิทยนันท์_ผู้ประสานงานโรงพยาบาล.png"
                              alt="เอกลักษณ์ วิทยนันท์"
                              class="h-40 mx-auto">
@@ -122,17 +130,65 @@
                     <el-tooltip content="สภาดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งประเทศไทย" placement="top">
                         <img src="https://www.dct.or.th/images/sustain3/icon/logo.png"
                              alt="DCT สภาดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งประเทศไทย"
-                             class="h-24">
+                             class="h-32">
                     </el-tooltip>
                     <el-tooltip content="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า" placement="top">
                         <img src="../assets/logoPMK.jpg" alt="มูลนิธิโรงพยาบาลพระมงกุฎเกล้า"
-                             class="h-24 rounded-lg ml-5">
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="สมาคมศิษย์เก่าสวนกุหลาบ" placement="top">
+                        <img src="../assets/สวน.png"
+                             alt="สมาคมศิษย์เก่าสวนกุหลาบ"
+                             class="h-32 rounded-lg ml-5">
                     </el-tooltip>
 
                     <el-tooltip content="สภากาชาดไทย" placement="top">
                         <img src="https://www.egov.go.th/upload/eservice-thumbnail/img_0bdc3e3694c16d8b06ce1f7636024ec7.png"
                              alt="สภากาชาดไทย"
-                             class="h-24 rounded-lg ml-5">
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="chula" placement="top">
+                        <img src="../assets/chula.png"
+                             alt="chula"
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="MBRO GLOBAL" placement="top">
+                        <img src="../assets/mbro.png"
+                             alt="MBRO"
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="MONO29" placement="top">
+                        <img src="../assets/mono.png"
+                             alt="MONO29"
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="Mthai" placement="top">
+                        <img src="../assets/mthai.png"
+                             alt="Mthai"
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="Social Glver" placement="top">
+                        <img src="../assets/socia.png"
+                             alt="Social Glver"
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="Unicore" placement="top">
+                        <img src="../assets/unicore.png"
+                             alt="Unicore"
+                             class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                    <el-tooltip content="Velobis" placement="top">
+                        <img src="../assets/velobis.png"
+                             alt="Velobis"
+                             class="h-32 rounded-lg ml-5">
                     </el-tooltip>
                 </div>
             </div>
