@@ -2,7 +2,7 @@
     <div class="card shadow-lg h-full" style="margin-bottom: 15px;border-radius: 10px;border: 0">
         <!--        {{data.base_amount}} | {{data.amount}}-->
 
-        <img v-if="data.picture != null" class=" h-40 mx-auto object-cover card-img"
+        <img v-if="data.picture != null" class=" h-40 mx-auto object-contain card-img"
              :src="$store.state.host+data.picture" :alt="data.title">
         <img v-else class=" h-40 mx-auto object-cover card-img"
              src="../assets/undefine.jpg" :alt="data.title">

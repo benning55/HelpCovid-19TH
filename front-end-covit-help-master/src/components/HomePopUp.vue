@@ -3,9 +3,11 @@
         <div @click.self="close" class="opacity-background w-full h-screen fixed bg-green z-30">
             <div class="center-y bg-white">
                 <div class="header h-12 bg-red flex justify-between items-center bg-white">
-                    <div class=" text-black text-center m-2 flex items-center">
-                        <h1 class="ml-2">ยอดเงินบริจาค <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>
+                    <div class=" text-black text-center m-2 items-center">
+                        <h1 class="ml-2">ยอดเงินบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>
                             บาท</h1>
+<!--                        <h1 class="ml-2">ยอดเงินบริจาครวม <span class="text-green text-lg font-medium">{{numberWithCommas(total_money)}}</span>-->
+<!--                            บาท</h1>-->
                     </div>
                     <div class="text-black text-center m-2">
                         <a @click="close" class="text-xl mr-2"><i class="fas fa-times"></i></a>
@@ -13,8 +15,8 @@
                 </div>
                 <swiper class="swiper" style="height: 90%" :options="swiperOption">
                     <swiper-slide v-for="c in listCarousal" :key="c.id">
-                        <img :src="$store.state.host+c.picture" alt="description" class="object-contain h-75 "
-                             style="background-color: black">
+                        <img :src="$store.state.host+c.picture" :alt="c.description" class="object-contain"
+                             style="background-color: black;height: 72%">
                         <p class="p-2 limitline">{{c.description}}..
                         </p>
                     </swiper-slide>
@@ -96,7 +98,7 @@
     .center-y {
         margin: 0;
         position: absolute;
-        top: 47%;
+        top: 44%;
         left: 50%;
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);

@@ -43,7 +43,7 @@
                 </ul>
             </div>
         </nav>
-        <div style="height: 56px"></div>
+        <div style="height: 66px"></div>
         <el-dialog title="ยืนยัน" :visible.sync="confirmDialog" @closed="closeModal">
             <section>
                 <div class="flex flex-wrap content-between">

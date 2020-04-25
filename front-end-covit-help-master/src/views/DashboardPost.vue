@@ -71,30 +71,39 @@
 
                 <div v-if="$store.state.authUser.email != dataPost.user.email"
                      class="col-12 col-md-10 col-lg-8 mx-auto">
-                    <h1 class=" mb-2 text-xl">ผู้ร่วมบริจาค</h1>
-                    <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
-                    <table v-else class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">ชื่อ/บริษัท</th>
-                            <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
-                            <th scope="col" style="width: 150px">สถานะ</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="user in donateUser" :key="user.id">
-                            <td v-if="user.company_name == ''||user.company_name == null">
-                                <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
-                            </td>
-                            <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
-                            <td>{{numberWithCommas(Math.floor(user.amount))}}</td>
-                            <td v-if="user.approve_status"><h1 class="text-green">ดำเนินการสำเร็จ</h1></td>
-                            <td v-else><h1 class="text-orange">กำลังดำเนินการ</h1></td>
-                        </tr>
-                        </tbody>
-                    </table>
+
+                    <div class="">
+                        <button @click="isViewDonate = !isViewDonate" class="btn bg-green text-white mb-3">
+                            ดูรายชื่อผู้บริจาค
+                        </button>
+                    </div>
+
+                    <div v-if="isViewDonate">
+                        <h1 class=" mb-2 text-xl">ผู้ร่วมบริจาค</h1>
+                        <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
+                        <table v-else class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">ชื่อ/บริษัท</th>
+                                <th scope="col" style="width: 110px">จำนวน(หน่วย)</th>
+                                <th scope="col" style="width: 150px">สถานะ</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="user in donateUser" :key="user.id">
+                                <td v-if="user.company_name == ''||user.company_name == null">
+                                    <i class="fas fa-user-alt"></i> {{user.first_name}} {{user.last_name}}
+                                </td>
+                                <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
+                                <td>{{numberWithCommas(Math.floor(user.amount))}}</td>
+                                <td v-if="user.approve_status"><h1 class="text-green">ดำเนินการสำเร็จ</h1></td>
+                                <td v-else><h1 class="text-orange">กำลังดำเนินการ</h1></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <AdminCheckObject v-else :id="$route.params.id"/>
+                <AdminCheckObject v-if="$store.state.authUser.email == dataPost.user.email" :id="$route.params.id"/>
             </div>
         </div>
         <Footer/>
@@ -114,7 +123,8 @@
         data() {
             return {
                 dataPost: {},
-                donateUser: []
+                donateUser: [],
+                isViewDonate: false
             }
         },
         created() {

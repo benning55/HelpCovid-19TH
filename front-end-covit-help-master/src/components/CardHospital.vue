@@ -1,6 +1,6 @@
 <template>
     <div class="shadow-lg h-full card" style="margin-bottom: 15px;border-radius: 10px;border: 0">
-        <img v-if="data.picture != null" class="card-img h-40 mx-auto object-cover" style="border-radius: 10px"
+        <img v-if="data.picture != null" class="card-img h-40 mx-auto object-contain" style="border-radius: 10px"
              :src="$store.state.host+ data.picture" :alt="data.name">
         <img v-else class="card-img h-40 mx-auto object-cover"
              style="border-radius: 10px"

@@ -1,9 +1,12 @@
 <template>
-    <div>
-        <div v-if="dataPost.length == 0" class="text-center my-5 text-gray">ยังไม่เปิดรับบริจาคสิ่งของ</div>
-        <div v-else class="row">
-            <div v-for="post in dataPost" :key="post.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <CardPost :data="post"/>
+    <div class="bg-light_green pt-3" :class="{'bg-white':dataPost.length == 0}">
+        <div class="container">
+
+            <div v-if="dataPost.length == 0" class="text-center my-5 text-gray">ยังไม่เปิดรับบริจาคสิ่งของ</div>
+            <div v-else class="row">
+                <div v-for="post in dataPost" :key="post.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <CardPost :data="post"/>
+                </div>
             </div>
         </div>
     </div>

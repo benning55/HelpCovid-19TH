@@ -87,44 +87,62 @@
                             Website เท่านั้น ซึ่งอาจจะไม่ตรงกับจำนวนเงินบริจาคที่อยู่ในบัญชีของสถาพยาบาล</p>
 
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <h1 class="ml-3 mt-5 mb-4 text-lg col-12 col-md-10 col-lg-8 mx-auto">
-                        สิ่งของที่ {{dataHospital.hospital.name}} ต้องการรับบริจาค</h1>
-                    <DashboardHospitalPost :id="$route.params.id"/>
+        <div v-if="$store.state.authUser.id != dataHospital.id">
+
+<!--            <div @click="isViewDonate = !isViewDonate" class="col-12 col-md-10 col-lg-8 mx-auto">ดูรายชื่อผู้บริจาค</div>-->
+            <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                <button @click="isViewDonate = !isViewDonate" class="btn bg-green text-white">ดูรายชื่อผู้บริจาค</button>
+            </div>
+
+
+            <div v-if="isViewDonate" class="col-12 col-md-10 col-lg-8 mx-auto">
+                <h1 class=" my-3 text-xl">ผู้ร่วมบริจาคเงิน
+                    <el-tooltip slot="i" class="item" effect="dark"
+                                content="ชื่อของผู้บริจาคจะแสดงก็ต่อเมื่อได้รับการยืนยันจากเจ้าหน้าที่ของสถานพยาบาลแล้ว"
+                                placement="right">
+                        <i class="fas fa-info-circle"></i>
+                    </el-tooltip>
+                </h1>
+                <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
+                <table v-else class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ชื่อ/บริษัท</th>
+                        <th scope="col" style="width: 110px">จำนวน(บาท)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <!--people case-->
+                    <tr v-for="user in donateUser" :key="user.id">
+                        <td v-if="user.company_name == ''||user.company_name == null"><i
+                                class="fas fa-user-alt"></i> {{user.first_name}}
+                            {{user.last_name}}
+                        </td>
+                        <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
+                        <td>{{numberWithCommas(user.amount)}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <h1 class="ml-0 lg:ml-3 mt-5 mb-4 text-lg col-12 col-md-10 col-lg-8 mx-auto">
+            สิ่งของที่ {{dataHospital.hospital.name}} ต้องการรับบริจาค</h1>
+
+        <DashboardHospitalPost :id="$route.params.id"/>
+        <div class="container">
+            <div class="container">
+                <div class="">
 
                     <a id="point"></a>
 
-                    <div v-if="$store.state.authUser.id != dataHospital.id" class="col-12 col-md-10 col-lg-8 mx-auto">
-                        <h1 class=" my-3 text-xl">ผู้ร่วมบริจาคเงิน
-                            <el-tooltip slot="i" class="item" effect="dark"
-                                        content="ชื่อของผู้บริจาคจะแสดงก็ต่อเมื่อได้รับการยืนยันจากเจ้าหน้าที่ของสถานพยาบาลแล้ว"
-                                        placement="right">
-                                <i class="fas fa-info-circle"></i>
-                            </el-tooltip>
-                        </h1>
-                        <p v-if="donateUser.length == 0" class="my-5 text-center">ยังไม่มีผู้บริจาคในขณะนี้</p>
-                        <table v-else class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">ชื่อ/บริษัท</th>
-                                <th scope="col" style="width: 110px">จำนวน(บาท)</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <!--people case-->
-                            <tr v-for="user in donateUser" :key="user.id">
-                                <td v-if="user.company_name == ''||user.company_name == null"><i
-                                        class="fas fa-user-alt"></i> {{user.first_name}}
-                                    {{user.last_name}}
-                                </td>
-                                <td v-else><i class="fas fa-building"></i> {{user.company_name}}</td>
-                                <td>{{numberWithCommas(user.amount)}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <AdminCheckMoney v-else @refresh="refresh"/>
+                    <AdminCheckMoney v-if="$store.state.authUser.id == dataHospital.id" @refresh="refresh"/>
                 </div>
             </div>
         </div>
@@ -156,7 +174,8 @@
                         first_name: 'x',
                         last_name: 'y',
                         amount: 15
-                    }]
+                    }],
+                isViewDonate:false
             }
         },
         created() {
