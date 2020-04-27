@@ -1,14 +1,35 @@
 import os
+import csv
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from django.contrib import admin, messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import path
 from core.management.commands.gentoken import token_generator
 from accounts.form import SuperUserForm
 from core import models
 # Register your models here.
+
+
+def add_spreadsheet(queryset):
+    scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
+             "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+
+    creds = ServiceAccountCredentials.from_json_keyfile_name("cred.json", scope)
+
+    client = gspread.authorize(creds)
+
+    sheet = client.open("Tokens Register").sheet1
+
+    register_token = queryset
+
+    for index, tokens in enumerate(queryset):
+        try:
+            insert_token = [tokens.token]
+        except:
+            insert_token = [tokens.token]
+        sheet.insert_row(insert_token, index + 2)
 
 
 class UserInLine(admin.StackedInline):
@@ -146,32 +167,53 @@ class RegisterTokenAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         my_urls = [
             path('look-token/', self.look_token),
-            path('add_token/', self.add_token)
+            path('add_token/', self.add_token),
+            path('look-yes/', self.look_yes),
+            path('look-no/', self.look_no)
         ]
         return my_urls + urls
 
     def look_token(self, request):
-
-        scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
-                 "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-
-        creds = ServiceAccountCredentials.from_json_keyfile_name("cred.json", scope)
-
-        client = gspread.authorize(creds)
-
-        sheet = client.open("Tokens Register").sheet1
-
+        """ Add all token to spreadsheet"""
         register_token = models.RegisterToken.objects.all()
+        response = HttpResponse(content_type='text/csv')
 
-        for index, tokens in enumerate(register_token):
-            try:
-                insert_token = [tokens.token, tokens.status, tokens.register.username]
-            except:
-                insert_token = [tokens.token, tokens.status, "None"]
-            sheet.insert_row(insert_token, index+2)
+        writer = csv.writer(response)
+        writer.writerow(['token', 'status', 'username'])
 
-        messages.success(request, 'token ทั้งหมดได้ถูกทำการ บันทึกเข้า Spreadsheet เรียบร้อย')
-        return HttpResponseRedirect("../")
+        for token in register_token.values_list('token', 'status', 'register__username'):
+            writer.writerow(token)
+
+        response['Content-Disposition'] = 'attachment; filename="token.csv"'
+        return response
+
+    def look_yes(self, request):
+        """ เพิ่มโทเคนที่ใช้ใน spreadsheet """
+        register_token = models.RegisterToken.objects.all().filter(status=True)
+        response = HttpResponse(content_type='text/csv')
+
+        writer = csv.writer(response)
+        writer.writerow(['token', 'status', 'username'])
+
+        for token in register_token.values_list('token', 'status', 'register__username'):
+            writer.writerow(token)
+
+        response['Content-Disposition'] = 'attachment; filename="token.csv"'
+        return response
+
+    def look_no(self, request):
+        """ เพิ่มโทเคนที่ไม่ใช้ใน spreadsheet """
+        register_token = models.RegisterToken.objects.all().filter(status=False)
+        response = HttpResponse(content_type='text/csv')
+
+        writer = csv.writer(response)
+        writer.writerow(['token', 'status', 'username'])
+
+        for token in register_token.values_list('token', 'status', 'register__username'):
+            writer.writerow(token)
+
+        response['Content-Disposition'] = 'attachment; filename="token.csv"'
+        return response
 
     def add_token(self, request):
         """ Take how many token that be generate """

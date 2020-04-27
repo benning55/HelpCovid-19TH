@@ -28,28 +28,73 @@
             padding: .375rem .75rem;
             font-size: 1rem;
             line-height: 1.5;
-            border-radius: .25rem;">อัปเดท token ลง spreadsheet
+            border-radius: .25rem;">อัปเดท token ทั้งหมด ลง CSV
             </button>
-            <span><button type="button" style="
-            display: inline-block;
-            color:white;
-            background-color: #1eb2a6;
-            font-weight: 400;
-            text-align: center;
-            vertical-align: middle;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            border: 1px solid transparent;
-            padding: .375rem .75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            border-radius: .25rem;">
-                <a style="color: white"
-                   href="https://docs.google.com/spreadsheets/d/1yxkzt_CDMf9-KqXLsX_8Mn-0J_srXw7C_nU6Lq4Qfks/edit?usp=sharing" target="_blank">ไปที่ spreadsheet</a></button></span>
+{#            <span><button type="button" style="#}
+{#            display: inline-block;#}
+{#            color:white;#}
+{#            background-color: #1eb2a6;#}
+{#            font-weight: 400;#}
+{#            text-align: center;#}
+{#            vertical-align: middle;#}
+{#            cursor: pointer;#}
+{#            -webkit-user-select: none;#}
+{#            -moz-user-select: none;#}
+{#            -ms-user-select: none;#}
+{#            user-select: none;#}
+{#            border: 1px solid transparent;#}
+{#            padding: .375rem .75rem;#}
+{#            font-size: 1rem;#}
+{#            line-height: 1.5;#}
+{#            border-radius: .25rem;">#}
+{#                <a style="color: white"#}
+{#                   href="https://docs.google.com/spreadsheets/d/1yxkzt_CDMf9-KqXLsX_8Mn-0J_srXw7C_nU6Lq4Qfks/edit?usp=sharing" target="_blank">ไปที่ spreadsheet</a></button></span>#}
         </form>
+        <br>
+        <div style="display: flex">
+            <form action="look-yes">
+                {% csrf_token %}
+
+                <button type="submit" style="display: inline-block;
+                color:black;
+                background-color: greenyellow;
+                font-weight: 400;
+                text-align: center;
+                vertical-align: middle;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                border: 1px solid transparent;
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: .25rem;">อัปเดท token ที่ใช้ ลง CSV
+                </button>
+            </form>
+            <form action="look-no" style="padding: 0 5px">
+                {% csrf_token %}
+
+                <button type="submit" style="display: inline-block;
+                color:whitesmoke;
+                background-color: orangered;
+                font-weight: 400;
+                text-align: center;
+                vertical-align: middle;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                border: 1px solid transparent;
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: .25rem;">อัปเดท token ที่ไม่ใช้ ลง CSV
+                </button>
+            </form>
+        </div>
         <hr style="margin: 10px 0 10px ">
         <form action="add_token/" method="post">
             {% csrf_token %}
