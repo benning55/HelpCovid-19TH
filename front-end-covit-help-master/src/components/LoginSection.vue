@@ -19,7 +19,7 @@
                     </el-alert>
 
                     <div style="margin-bottom: 25px" class="form-group">
-                        <label class="">ชื่อผู้ใช้งาน</label>
+                        <label class="">ชื่อบัญชีผู้ใช้ (username)</label>
                         <input v-model="username" type="text" class="form-control" placeholder="ใส่ชื่อผู้ใช้งาน"
                                :class="{'is-invalid':validation.firstError('username')}">
                         <div class="invalid-feedback">
@@ -39,7 +39,7 @@
 
                     <div style="margin-top:10px" class="form-group">
                         <div class="col-sm-12 text-center">
-                            <a @click="login" class="btn bg-green text-white w-32 mb-8 hover:bg-hover_blue">ลงทะเบียน</a>
+                            <a @click="login" class="btn bg-green text-white w-32 mb-8 hover:bg-hover_blue">ลงชื่อเข้าใช้</a>
                         </div>
                     </div>
                 </form>
