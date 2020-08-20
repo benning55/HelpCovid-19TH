@@ -3,7 +3,7 @@
         <div class="container">
             <div class="pad2up"></div>
             <div class="text-center">
-                <img src="https://scontent.fbkk2-7.fna.fbcdn.net/v/t1.0-9/93315091_236529851090631_2716085859987226624_n.jpg?_nc_cat=106&_nc_sid=e007fa&_nc_ohc=uQa9x-nPOpAAX8GerRp&_nc_ht=scontent.fbkk2-7.fna&oh=d1d7fe84207a2dd5e5e22f7790968761&oe=5EBF14D4"
+                <img src="../assets/cover.jpg"
                      alt="" style="border: 1px solid #42a0c5;border-radius: 20px;width: 100%">
             </div>
             <div class="pad2up"></div>
@@ -189,6 +189,12 @@
                         <img src="../assets/velobis.png"
                              alt="Velobis"
                              class="h-32 rounded-lg ml-5">
+                    </el-tooltip>
+
+                  <el-tooltip content="IT KMITL" placement="top">
+                        <img src="../assets/nav-thai.svg"
+                             alt="IT KMITL"
+                             class=" rounded-lg ml-5" style="width: 19rem">
                     </el-tooltip>
                 </div>
             </div>
