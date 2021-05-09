@@ -15,7 +15,7 @@ def token_generator(size=10, chars=string.ascii_uppercase + string.ascii_lowerca
 
 def get_position(name):
     """Get location"""
-    response = requests.get(f'https://maps.googleapis.com/maps/api/geocode/json?address={name}&key=AIzaSyCjsiYmer25q6yYO6SRMJZNJiMwMCp-BQ4')
+    response = requests.get(f'https://maps.googleapis.com/maps/api/geocode/json?address={name}&key=AIzaSyC96FC0TyU5DMfq_AeIyvYtVxOfkrd6hcc')
 
     result = response.json()
 
