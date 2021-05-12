@@ -21,9 +21,9 @@ services:
       - DB_USER=covid19
       - DB_PASS=postgres2562
       - SECRET_KEY=3thwz0c7yn)+n10s22i@c!n0)l@&82n#$$q6qk*9@nz-0y-$$0s7
-      - EMAIL_HOST=smtp.sendgrid.net
-      - EMAIL_HOST_USER=ben@covid19
-      - EMAIL_HOST_PASSWORD=benning43609
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_HOST_USER=cloud18April@helpital.org
+      - EMAIL_HOST_PASSWORD=MBroGlobal2021
       - EMAIL_PORT=587
       - EMAIL_USE_TLS=True
       - DEBUG=False
