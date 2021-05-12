@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from accounts.views import aboutme
+from django.conf import settings
 
 
 admin.site.site_header = 'Covid19th Super Admin Dashboard'
@@ -31,4 +33,4 @@ urlpatterns = [
     path('api/officer/', include('officer.urls')),
     path('api/about-me/', aboutme),
     path('api/util/', include('util.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

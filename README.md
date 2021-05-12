@@ -13,3 +13,6 @@ docker-compose exec django sh -c "python manage.py makemigrations && python mana
 # Add token
 ```docker-compose exec django sh -c "python manage.py gentoken"```
 then enter how much token you want
+
+# simple solution for permission img
+chown -R nginx /vol/web/media/

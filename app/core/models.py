@@ -128,7 +128,7 @@ class Hospital(models.Model):
                 user = User.objects.all().filter(hospital__name=self.name)[0]
                 user.is_active = True
                 user.save()
-                # mail_to_hospital(user)
+                mail_to_hospital(user)
             else:
                 user = User.objects.all().filter(hospital__name=self.name)[0]
                 user.is_active = False
