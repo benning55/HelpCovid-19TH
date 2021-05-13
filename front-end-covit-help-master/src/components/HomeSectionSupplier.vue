@@ -3,7 +3,7 @@
 
         <div class="container">
 
-            <h1 class="text-2xl mt-3 mb-3">ผู้ผลิต</h1>
+            <h1 class="text-2xl mt-3 mb-3">สถานที่ฉีดวัคซีน</h1>
 
             <div class="row">
                 <div v-for="hospital in dataHospital" :key="hospital.id" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
