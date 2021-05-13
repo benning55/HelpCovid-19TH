@@ -262,6 +262,13 @@ class LocationAdmin(admin.ModelAdmin):
     search_fields = ['hospital__name']
 
 
+class LocationMakerAdmin(admin.ModelAdmin):
+    list_display = ['maker_id', 'latitude', 'longitude']
+    list_per_page = 10
+
+    search_fields = ['maker__company']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Hospital, HospitalAdmin)
 admin.site.register(models.Need, NeedAdmin)
@@ -274,4 +281,5 @@ admin.site.register(models.AboutMe)
 admin.site.register(models.PopUp, PopUpAdmin)
 admin.site.register(models.ProductMaker, ProductMakerAdmin)
 admin.site.register(models.Location, LocationAdmin)
+admin.site.register(models.LocationMaker, LocationMakerAdmin)
 

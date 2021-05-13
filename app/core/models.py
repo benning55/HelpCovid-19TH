@@ -6,6 +6,22 @@ from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.template.loader import render_to_string
+import requests
+
+
+def get_position(name):
+    """Get location"""
+    response = requests.get(f'https://maps.googleapis.com/maps/api/geocode/json?address={name}&key=AIzaSyC96FC0TyU5DMfq_AeIyvYtVxOfkrd6hcc')
+
+    result = response.json()
+
+    if result['status'] == 'ZERO_RESULTS':
+        data = None
+    else:
+        locate = result['results'][0]['geometry']['location']
+
+        data = [locate['lat'], locate['lng']]
+    return data
 
 
 def mail_to_hospital(user):
@@ -305,12 +321,38 @@ class ProductMaker(models.Model):
     tel = models.CharField(max_length=10)
     email = models.EmailField(blank=True, null=True)
 
+    def save(self, *args, **kwargs):
+        """ Make admin able to approve"""
+        super(ProductMaker, self).save(*args, **kwargs)
+        if self.company is not None:
+            locate = get_position(self.company)
+            pro_make = ProductMaker.objects.get(company=self.company)
+            if locate is None:
+                pass
+            else:
+                print(pro_make.id)
+                LocationMaker.objects.update_or_create(
+                    maker_id=pro_make.id,
+                    latitude=locate[0],
+                    longitude=locate[1]
+                )
+
 
 class Location(models.Model):
     """ Get location by lat and lng """
     hospital = models.OneToOneField(
         Hospital,
         primary_key=True,
+        on_delete=models.CASCADE
+    )
+    latitude = models.CharField(max_length=255, blank=True, null=True)
+    longitude = models.CharField(max_length=255, blank=True, null=True)
+
+
+class LocationMaker(models.Model):
+    """ Get location by lat and lng """
+    maker = models.ForeignKey(
+        ProductMaker,
         on_delete=models.CASCADE
     )
     latitude = models.CharField(max_length=255, blank=True, null=True)

@@ -1,7 +1,7 @@
 import django.contrib.auth.password_validation as validators
 from django.core import exceptions
 from rest_framework import serializers
-from core.models import User, Hospital, AboutMe, Location
+from core.models import User, Hospital, AboutMe, Location, LocationMaker
 import requests
 
 
@@ -89,6 +89,21 @@ class getLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ('hospital_id', 'position')
+
+    def get_position(self, obj):
+        """Get location"""
+        data = {
+            'lat': float(obj.latitude),
+            'lng': float(obj.longitude)
+        }
+        return data
+
+class getLocationMakerSerializer(serializers.ModelSerializer):
+    position = serializers.SerializerMethodField(read_only=True, required=False)
+
+    class Meta:
+        model = LocationMaker
+        fields = ('maker_id', 'position')
 
     def get_position(self, obj):
         """Get location"""

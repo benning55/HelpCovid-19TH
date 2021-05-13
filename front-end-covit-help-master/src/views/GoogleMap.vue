@@ -36,9 +36,25 @@
                             if (map.getZoom() >= 18) {
                                 marker.setAnimation(google.maps.Animation.BOUNCE);
                                 this.$router.push({
+                                    name: 'DashboardSupplier',
+                                    params: {id: parseInt(marker.getCursor())}
+                                })
+
+                            } else {
+                                map.setZoom(18);
+                                marker.setAnimation(google.maps.Animation.BOUNCE);
+                                map.setCenter(marker.getPosition())
+                            }
+                        };
+
+                        const markerClickHandler2 = (marker) => {
+                            if (map.getZoom() >= 18) {
+                                marker.setAnimation(google.maps.Animation.BOUNCE);
+                                this.$router.push({
                                     name: 'DashboardHospital',
                                     params: {id: parseInt(marker.getCursor())}
                                 })
+
                             } else {
                                 map.setZoom(18);
                                 marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -49,18 +65,34 @@
                         const markers = this.positionHospital
                             .map((location) => {
                                 const marker = new google.maps.Marker({...location, map});
-                                const image = {
+                                if ('maker_id' in location){
+                                  const image = {
+                                    url: 'https://i.ibb.co/Yy8kYQ3/icon.png?fbclid=IwAR1x3G7n4hGAiBtq_esfJETK00JQCvgiAtGEjFhJEhZuxlSz99Dzhuget6I',
+                                    size: new google.maps.Size(35, 35),
+                                    scaledSize: new google.maps.Size(28, 35),
+                                    origin: new google.maps.Point(0, 0),
+                                    anchor: new google.maps.Point(14, 35)
+                                  };
+                                  marker.setIcon(image)
+                                  marker.setAnimation(google.maps.Animation.BOUNCE);
+                                  marker.setCursor(`${location.maker_id}`)
+
+                                  marker.addListener('click', () => markerClickHandler((marker)));
+                                }
+                                else {
+                                  const image = {
                                     url: 'https://i.imgur.com/s1l9Ogh.png',
                                     size: new google.maps.Size(35, 35),
                                     scaledSize: new google.maps.Size(28, 35),
                                     origin: new google.maps.Point(0, 0),
                                     anchor: new google.maps.Point(14, 35)
-                                };
-                                marker.setIcon(image)
-                                marker.setAnimation(google.maps.Animation.BOUNCE);
-                                marker.setCursor(`${location.hospital_id}`)
+                                  };
+                                  marker.setIcon(image)
+                                  marker.setAnimation(google.maps.Animation.BOUNCE);
+                                  marker.setCursor(`${location.hospital_id}`)
 
-                                marker.addListener('click', () => markerClickHandler((marker)));
+                                  marker.addListener('click', () => markerClickHandler2((marker)));
+                                }
                                 return marker
                             })
 

@@ -12,7 +12,7 @@ from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from core.management.commands.gentoken import get_position
-from core.models import User, Hospital, EmailStaff, RegisterToken, AboutMe, Location
+from core.models import User, Hospital, EmailStaff, RegisterToken, AboutMe, Location, LocationMaker
 
 from accounts import serializers
 
@@ -177,9 +177,12 @@ def get_location(request, *args, **kwargs):
     """Get admin basic information"""
     pk = kwargs.get('pk')
     queryset = Location.objects.all().filter(hospital__approve=True)
+    queryset2 = LocationMaker.objects.all()
     if pk is None:
         serializer = serializers.getLocationSerializer(queryset, many=True)
-        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+        serializer2 = serializers.getLocationMakerSerializer(queryset2, many=True)
+        result = serializer.data+serializer2.data
+        return Response({'data': result}, status=status.HTTP_200_OK)
     else:
         queryset = queryset.filter(pk=pk)
         serializer = serializers.getLocationSerializer(queryset, many=True)
