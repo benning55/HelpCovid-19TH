@@ -29,6 +29,15 @@
         <div class="bg-lighter_blue" style="overflow-x: auto">
             <div class="py-5">
                 <div style="display: -webkit-box">
+
+                  <div class="mx-3" style="width: 300px">
+                        <img src="../assets/team/ดร._เมธวิน_กิติคุณ_ผู้ก่อตั้ง.png"
+                             alt="ดร.เมธวิน กิติคุณ"
+                             class="h-40 mx-auto">
+                        <h1 class="text-white text-center my-2">ดร.เมธวิน กิติคุณ</h1>
+                        <h1 class="text-white text-center">ผู้ก่อตั้ง</h1>
+                    </div>
+
                     <div class="mx-3" style="width: 300px">
                         <img src="../assets/team/กิตติณัฐ_เล้า_ฝ่ายประชาสัมพันธ์.png"
                              alt="กิตติณัฐ เล้า"
@@ -43,14 +52,6 @@
                              class="h-40 mx-auto">
                         <h1 class="text-white text-center my-2">คมสัน สมานตระกูลชัย</h1>
                         <h1 class="text-white text-center">ที่ปรึกษาฝ่ายสื่อสารองค์กร</h1>
-                    </div>
-
-                    <div class="mx-3" style="width: 300px">
-                        <img src="../assets/team/ดร._เมธวิน_กิติคุณ_ผู้ก่อตั้ง.png"
-                             alt="ดร.เมธวิน กิติคุณ"
-                             class="h-40 mx-auto">
-                        <h1 class="text-white text-center my-2">ดร.เมธวิน กิติคุณ</h1>
-                        <h1 class="text-white text-center">ผู้ก่อตั้ง</h1>
                     </div>
 
                     <div class="mx-3" style="width: 300px">
@@ -98,6 +99,14 @@
                              alt="เอกลักษณ์ วิทยนันท์"
                              class="h-40 mx-auto">
                         <h1 class="text-white text-center my-2">เอกลักษณ์ วิทยนันท์</h1>
+                        <h1 class="text-white text-center">ผู้ประสานงานโรงพยาบาล</h1>
+                    </div>
+
+                  <div class="mx-3" style="width: 300px">
+                        <img src="../assets/team/piya.jpg"
+                             alt="ศราวุธ ฉิ่นไพศาล์"
+                             class="h-40 mx-auto">
+                        <h1 class="text-white text-center my-2">ศราวุธ ฉิ่นไพศาล</h1>
                         <h1 class="text-white text-center">ผู้ประสานงานโรงพยาบาล</h1>
                     </div>
 
