@@ -103,7 +103,7 @@
                     </div>
 
                   <div class="mx-3" style="width: 300px">
-                        <img src="../assets/team/piya.jpg"
+                        <img src="../assets/team/piya.png"
                              alt="ศราวุธ ฉิ่นไพศาล์"
                              class="h-40 mx-auto">
                         <h1 class="text-white text-center my-2">ศราวุธ ฉิ่นไพศาล</h1>
