@@ -147,11 +147,11 @@ AUTH_PASSWORD_VALIDATORS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = 'smsrnezhctbhetxa'
-EMAIL_PORT = os.environ.get('EMAIL_PORT')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'cloudjuly7@helpital.org'
+EMAIL_HOST_PASSWORD = 'hhkeinfuoaaggien'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'helpital@info.com'
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
