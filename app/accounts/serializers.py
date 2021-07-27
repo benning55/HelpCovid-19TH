@@ -1,16 +1,23 @@
 import django.contrib.auth.password_validation as validators
 from django.core import exceptions
 from rest_framework import serializers
-from core.models import User, Hospital, AboutMe, Location, LocationMaker
+from core.models import User, Hospital, AboutMe, Location, LocationMaker, MoneyDonate
 import requests
 
 
 class HospitalSerializer(serializers.ModelSerializer):
+    donated_money = serializers.SerializerMethodField()
 
     class Meta:
         model = Hospital
         fields = ('id', 'name', 'picture', 'address', 'donated_money', 'tel', 'bank_account_number', 'bank_account_name', 'bank_name')
 
+    def get_donated_money(self, obj):
+        total = 0
+        transactions = MoneyDonate.objects.filter(hospital_id=obj.id, approve_status=True)
+        for transaction in transactions:
+            total += transaction.amount
+        return total
 
 class UserSerializer(serializers.ModelSerializer):
     hospital = HospitalSerializer(read_only=True)

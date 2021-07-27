@@ -6,7 +6,7 @@
 
                     <div v-if="$store.state.authUser.id == dataHospital.id">
                         <div class="bg-light_green border-l-4 border-green text-black p-4" role="alert">
-                            <p>หากต้องการแก้ไขข้อมูล กรุณาติดต่อผู้ดูแลระบบ โดยส่งเมลล์มาที่ admin@covid19th.org</p>
+                            <p>หากต้องการแก้ไขข้อมูล กรุณาติดต่อผู้ดูแลระบบ โดยส่งเมลล์มาที่ info@helpital.org</p>
                         </div>
                     </div>
 

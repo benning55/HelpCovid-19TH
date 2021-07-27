@@ -267,15 +267,17 @@ class MoneyDonate(models.Model):
 
     def save(self, *args, **kwargs):
         """ Make admin able to approve"""
-        hospital = Hospital.objects.all().filter(id=self.hospital.id)[0]
-        print(hospital.donated_money)
+        hospital = Hospital.objects.get(id=self.hospital.id)
+        money_transaction = MoneyDonate.objects.filter(hospital_id=hospital.id, approve_status=True)
+        total = sum(transaction.amount for transaction in money_transaction)
         if self.approve_status:
-            hospital.donated_money += self.amount
-        elif not self.approve_status:
-            if hospital.donated_money == 0:
-                hospital.donated_money = 0
+            total += self.amount
+        else:
+            if total == 0:
+                total = 0
             else:
-                hospital.donated_money -= self.amount
+                total -= self.amount
+        hospital.donated_money = total
         hospital.save()
         super(MoneyDonate, self).save(*args, **kwargs)
 
